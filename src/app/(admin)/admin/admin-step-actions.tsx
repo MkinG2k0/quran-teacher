@@ -3,7 +3,10 @@
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 
+import { cn } from '@/shared/lib'
 import { Button } from '@/shared/ui/button'
+
+import { adminButtonDanger, adminButtonSecondary } from './admin-ui'
 
 export function AdminStepActions({ stepId }: { stepId: number }) {
 	const router = useRouter()
@@ -16,13 +19,23 @@ export function AdminStepActions({ stepId }: { stepId: number }) {
 
 	return (
 		<div className="flex justify-end gap-2">
-			<Link href={`/admin/steps/${stepId}`}>
-				<Button variant="outline" size="sm" type="button">
-					Edit
-				</Button>
-			</Link>
-			<Button variant="destructive" size="sm" onClick={handleDelete}>
-				Delete
+			<Button
+				render={<Link href={`/admin/steps/${stepId}`} />}
+				variant="outline"
+				size="sm"
+				type="button"
+				className={cn(adminButtonSecondary)}
+			>
+				Изменить
+			</Button>
+			<Button
+				variant="outline"
+				size="sm"
+				type="button"
+				onClick={handleDelete}
+				className={cn(adminButtonDanger)}
+			>
+				Удалить
 			</Button>
 		</div>
 	)

@@ -2,6 +2,7 @@ import Link from 'next/link'
 import { redirect } from 'next/navigation'
 
 import { auth } from '@/shared/lib/auth'
+import { cn } from '@/shared/lib'
 import { prisma } from '@/shared/lib/prisma'
 import { Button } from '@/shared/ui/button'
 import {
@@ -14,6 +15,7 @@ import {
 } from '@/shared/ui/table'
 
 import { AdminStepActions } from './admin-step-actions'
+import { adminButtonPrimary } from './admin-ui'
 
 export default async function AdminPage() {
 	const session = await auth()
@@ -31,11 +33,14 @@ export default async function AdminPage() {
 					<p className="text-xs uppercase tracking-widest text-[#4A4540]">Админ</p>
 					<h1 className="font-display text-2xl font-semibold">Шаги программы</h1>
 				</div>
-				<Link href="/admin/steps/new">
-					<Button type="button" variant="outline">
-						+ Новый шаг
-					</Button>
-				</Link>
+				<Button
+					render={<Link href="/admin/steps/new" />}
+					type="button"
+					variant="outline"
+					className={cn(adminButtonPrimary)}
+				>
+					+ Новый шаг
+				</Button>
 			</div>
 
 			<div className="overflow-hidden rounded-xl border border-[#222]">

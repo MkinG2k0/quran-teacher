@@ -3,6 +3,8 @@
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 
+import { adminField } from '../../admin-ui'
+import { cn } from '@/shared/lib/utils'
 import { Button } from '@/shared/ui/button'
 import { Input } from '@/shared/ui/input'
 import { Label } from '@/shared/ui/label'
@@ -40,7 +42,7 @@ export default function NewStepPage() {
 						value={title}
 						onChange={(e) => setTitle(e.target.value)}
 						required
-						className="mt-1 border-[#222] bg-[#111]"
+						className={cn(adminField, 'mt-1')}
 					/>
 				</div>
 				<div>
@@ -49,7 +51,7 @@ export default function NewStepPage() {
 						id="subtitle"
 						value={subtitle}
 						onChange={(e) => setSubtitle(e.target.value)}
-						className="mt-1 border-[#222] bg-[#111]"
+						className={cn(adminField, 'mt-1')}
 					/>
 				</div>
 				<Button type="submit" disabled={isPending} className="w-full">

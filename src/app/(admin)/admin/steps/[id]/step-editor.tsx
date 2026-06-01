@@ -3,7 +3,14 @@
 import { useRouter } from 'next/navigation'
 import { useState } from 'react'
 
+import {
+	adminButtonSecondary,
+	adminCard,
+	adminField,
+	adminSelectContent,
+} from '../../admin-ui'
 import { Button } from '@/shared/ui/button'
+import { cn } from '@/shared/lib/utils'
 import { Card, CardContent, CardHeader, CardTitle } from '@/shared/ui/card'
 import { Input } from '@/shared/ui/input'
 import { Label } from '@/shared/ui/label'
@@ -111,7 +118,7 @@ export function StepEditor({ step }: StepEditorProps) {
 
 	return (
 		<div className="space-y-6">
-			<Card className="border-[#222] bg-[#101010]">
+			<Card className={adminCard}>
 				<CardHeader>
 					<CardTitle className="font-display text-lg">Основное</CardTitle>
 				</CardHeader>
@@ -121,7 +128,7 @@ export function StepEditor({ step }: StepEditorProps) {
 						<Input
 							value={title}
 							onChange={(e) => setTitle(e.target.value)}
-							className="mt-1 border-[#222] bg-[#0D1117]"
+							className={cn(adminField, 'mt-1')}
 						/>
 					</div>
 					<div>
@@ -129,10 +136,10 @@ export function StepEditor({ step }: StepEditorProps) {
 						<Input
 							value={subtitle}
 							onChange={(e) => setSubtitle(e.target.value)}
-							className="mt-1 border-[#222] bg-[#0D1117]"
+							className={cn(adminField, 'mt-1')}
 						/>
 					</div>
-					<label className="flex items-center gap-2 text-sm">
+					<label className="flex items-center gap-2 text-sm text-[#E8E0D0]">
 						<input
 							type="checkbox"
 							checked={isPublished}
@@ -144,7 +151,7 @@ export function StepEditor({ step }: StepEditorProps) {
 			</Card>
 
 			{blocks.map((block, i) => (
-				<Card key={i} className="border-[#222] bg-[#101010]">
+				<Card key={i} className={adminCard}>
 					<CardHeader className="flex flex-row items-center justify-between">
 						<CardTitle className="text-sm">Блок {i + 1}</CardTitle>
 						<div className="flex gap-1">
@@ -173,10 +180,10 @@ export function StepEditor({ step }: StepEditorProps) {
 								updateBlock(i, { type: v as BlockDraft['type'] })
 							}
 						>
-							<SelectTrigger className="border-[#222] bg-[#0D1117]">
+							<SelectTrigger className={cn(adminField, 'w-full')}>
 								<SelectValue />
 							</SelectTrigger>
-							<SelectContent>
+							<SelectContent className={adminSelectContent}>
 								{BLOCK_TYPES.map((t) => (
 									<SelectItem key={t} value={t}>
 										{t}
@@ -192,7 +199,7 @@ export function StepEditor({ step }: StepEditorProps) {
 							<Textarea
 								value={block.value}
 								onChange={(e) => updateBlock(i, { value: e.target.value })}
-								className="border-[#222] bg-[#0D1117]"
+								className={adminField}
 							/>
 						)}
 
@@ -201,7 +208,7 @@ export function StepEditor({ step }: StepEditorProps) {
 								placeholder="Перевод"
 								value={block.translation}
 								onChange={(e) => updateBlock(i, { translation: e.target.value })}
-								className="border-[#222] bg-[#0D1117]"
+								className={adminField}
 							/>
 						)}
 
@@ -211,7 +218,7 @@ export function StepEditor({ step }: StepEditorProps) {
 									placeholder="URL изображения"
 									value={block.imageUrl}
 									onChange={(e) => updateBlock(i, { imageUrl: e.target.value })}
-									className="border-[#222] bg-[#0D1117]"
+									className={adminField}
 								/>
 								<Input
 									type="file"
@@ -225,7 +232,7 @@ export function StepEditor({ step }: StepEditorProps) {
 									placeholder="Подпись"
 									value={block.caption}
 									onChange={(e) => updateBlock(i, { caption: e.target.value })}
-									className="border-[#222] bg-[#0D1117]"
+									className={adminField}
 								/>
 							</>
 						)}
@@ -236,6 +243,7 @@ export function StepEditor({ step }: StepEditorProps) {
 			<Button
 				type="button"
 				variant="outline"
+				className={adminButtonSecondary}
 				onClick={() =>
 					setBlocks((prev) => [
 						...prev,
