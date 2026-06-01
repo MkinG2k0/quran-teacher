@@ -1,51 +1,62 @@
-import { NextResponse } from "next/server"
-import type { NextFetchEvent, NextRequest } from "next/server"
-import { auth } from "@/shared/lib/auth"
+import { NextResponse } from 'next/server'
+import type { NextFetchEvent, NextRequest } from 'next/server'
+
+import { auth } from '@/shared/lib/auth'
 
 type MiddlewareHandler = (
-  request: NextRequest,
-  event: NextFetchEvent
+	request: NextRequest,
+	event: NextFetchEvent
 ) => ReturnType<ReturnType<typeof auth>>
 
-const PROTECTED_ROUTES = ["/dashboard", "/booking"]
-const OWNER_ROUTES = ["/dashboard"]
-const AUTH_ROUTES = ["/login", "/register"]
+function getRoleHome(role: string) {
+	if (role === 'SUPER_ADMIN') return '/admin'
+	if (role === 'TEACHER') return '/teacher'
+	return '/'
+}
 
 const withAuth = auth((req) => {
-  const { pathname } = req.nextUrl
-  const isLoggedIn = !!req.auth?.user
-  const userRole = (req.auth?.user as { role?: string } | undefined)?.role
+	const { pathname } = req.nextUrl
+	const session = req.auth
 
-  const isAuthRoute = AUTH_ROUTES.some((r) => pathname.startsWith(r))
-  if (isAuthRoute && isLoggedIn) {
-    return NextResponse.redirect(new URL("/", req.url))
-  }
+	if (pathname === '/login' || pathname === '/login/teacher') {
+		if (session?.user) {
+			return NextResponse.redirect(new URL(getRoleHome(session.user.role), req.url))
+		}
+		return NextResponse.next()
+	}
 
-  const isProtected = PROTECTED_ROUTES.some((r) => pathname.startsWith(r))
-  if (isProtected && !isLoggedIn) {
-    const callbackUrl = encodeURIComponent(pathname)
-    return NextResponse.redirect(
-      new URL(`/login?callbackUrl=${callbackUrl}`, req.url)
-    )
-  }
+	if (!session) {
+		return NextResponse.redirect(new URL('/login', req.url))
+	}
 
-  const isOwnerRoute = OWNER_ROUTES.some((r) => pathname.startsWith(r))
-  if (isOwnerRoute && userRole !== "OWNER" && userRole !== "ADMIN") {
-    return NextResponse.redirect(new URL("/", req.url))
-  }
+	const role = session.user.role
 
-  return NextResponse.next()
+	if (pathname.startsWith('/admin') && role !== 'SUPER_ADMIN') {
+		return NextResponse.redirect(new URL(getRoleHome(role), req.url))
+	}
+
+	if (pathname.startsWith('/teacher') && role !== 'TEACHER') {
+		return NextResponse.redirect(new URL(getRoleHome(role), req.url))
+	}
+
+	if (
+		(pathname === '/' ||
+			pathname.startsWith('/step') ||
+			pathname === '/profile') &&
+		role !== 'STUDENT'
+	) {
+		return NextResponse.redirect(new URL(getRoleHome(role), req.url))
+	}
+
+	return NextResponse.next()
 })
 
 export function proxy(request: NextRequest, event: NextFetchEvent) {
-  return (withAuth as unknown as MiddlewareHandler)(request, event)
+	return (withAuth as unknown as MiddlewareHandler)(request, event)
 }
 
 export const config = {
-  matcher: [
-    "/dashboard/:path*",
-    "/booking/:path*",
-    "/login",
-    "/register",
-  ],
+	matcher: [
+		'/((?!api|_next|icons|uploads|manifest.json|sw.js|favicon.ico|robots.txt).*)',
+	],
 }

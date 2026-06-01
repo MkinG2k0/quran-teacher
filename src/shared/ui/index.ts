@@ -34,8 +34,6 @@ export {
 } from "./pagination"
 export { PhoneInput } from "./phone-input"
 export { Popover, PopoverContent, PopoverTrigger } from "./popover"
-export { PostLoginIntentSync } from "./post-login-intent-sync"
-export { PostRegisterRoleSync } from "./post-register-role-sync"
 export {
   Select,
   SelectContent,

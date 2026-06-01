@@ -1,5 +1,5 @@
-'use client'
+import { AccessCodeLogin } from '@/features/auth-access-code'
 
 export default function LoginPage() {
-	return <div>log</div>
+	return <AccessCodeLogin />
 }

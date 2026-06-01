@@ -1,5 +1,5 @@
+import { redirect } from 'next/navigation'
+
 export default function RegisterPage() {
-	return (
-		<div>reg</div>
-	)
+	redirect('/login')
 }

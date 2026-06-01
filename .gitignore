@@ -45,3 +45,7 @@ next-env.d.ts
 # локальный дамп БД (ПДн) — не коммитить
 /db-export/
 .idea
+
+# SQLite
+/prisma/*.sqlite
+/prisma/*.sqlite-journal

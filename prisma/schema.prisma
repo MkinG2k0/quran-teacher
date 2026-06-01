@@ -1,8 +1,73 @@
 generator client {
-	provider = "prisma-client"
-	output   = "../generated/prisma"
+  provider = "prisma-client"
+  output   = "../generated/prisma"
 }
 
 datasource db {
-	provider = "sqlitini"
+  provider = "sqlite"
+}
+
+enum Role {
+  SUPER_ADMIN
+  TEACHER
+  STUDENT
+}
+
+enum BlockType {
+  TEXT
+  HEADING
+  IMAGE
+  ARABIC
+  HIGHLIGHT
+}
+
+model User {
+  id         Int      @id @default(autoincrement())
+  name       String
+  age        Int?
+  accessCode String   @unique
+  role       Role     @default(STUDENT)
+  createdAt  DateTime @default(now())
+
+  teacherId Int?
+  teacher   User?  @relation("TeacherStudents", fields: [teacherId], references: [id])
+  students  User[] @relation("TeacherStudents")
+
+  progress Progress[]
+}
+
+model Step {
+  id          Int      @id @default(autoincrement())
+  order       Int      @unique
+  title       String
+  subtitle    String?
+  isPublished Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  blocks   Block[]
+  progress Progress[]
+}
+
+model Block {
+  id          Int       @id @default(autoincrement())
+  stepId      Int
+  step        Step      @relation(fields: [stepId], references: [id], onDelete: Cascade)
+  order       Int
+  type        BlockType
+  value       String?
+  imageUrl    String?
+  caption     String?
+  translation String?
+}
+
+model Progress {
+  id          Int      @id @default(autoincrement())
+  studentId   Int
+  student     User     @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  stepId      Int
+  step        Step     @relation(fields: [stepId], references: [id], onDelete: Cascade)
+  completedAt DateTime @default(now())
+
+  @@unique([studentId, stepId])
 }
