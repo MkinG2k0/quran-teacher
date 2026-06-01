@@ -186,7 +186,7 @@ export function StudentHome({ userName, steps, totalPublished }: StudentHomeProp
 					</div>
 					<p
 						className="font-body"
-						style={{ fontSize: 11, color: '#3A3530', marginTop: 8 }}
+						style={{ fontSize: 11, color: 'var(--quran-fg-subtle)', marginTop: 8 }}
 					>
 						{totalPublished - completedCount} шагов до завершения программы
 					</p>
@@ -253,7 +253,7 @@ export function StudentHome({ userName, steps, totalPublished }: StudentHomeProp
 						className="font-body"
 						style={{
 							fontSize: 10,
-							color: '#4A4540',
+							color: 'var(--quran-fg-secondary)',
 							letterSpacing: 2,
 							textTransform: 'uppercase',
 							marginBottom: 12,
@@ -321,7 +321,7 @@ export function StudentHome({ userName, steps, totalPublished }: StudentHomeProp
 												? '#6ABB40'
 												: isCurrent
 													? '#C9A84C'
-													: '#3A3530',
+													: 'var(--quran-fg-subtle)',
 										}}
 									>
 										{isCompleted ? '✓' : isLocked ? '🔒' : step.order}
@@ -337,7 +337,7 @@ export function StudentHome({ userName, steps, totalPublished }: StudentHomeProp
 													? '#7A7060'
 													: isCurrent
 														? '#E8E0D0'
-														: '#4A4540',
+														: 'var(--quran-fg-secondary)',
 												whiteSpace: 'nowrap',
 												overflow: 'hidden',
 												textOverflow: 'ellipsis',
@@ -351,10 +351,10 @@ export function StudentHome({ userName, steps, totalPublished }: StudentHomeProp
 												style={{
 													fontSize: 11,
 													color: isCompleted
-														? '#3A3530'
+														? 'var(--quran-fg-subtle)'
 														: isCurrent
 															? '#8A7A60'
-															: '#2A2520',
+															: 'var(--quran-fg-muted)',
 													marginTop: 1,
 												}}
 											>
@@ -365,7 +365,7 @@ export function StudentHome({ userName, steps, totalPublished }: StudentHomeProp
 
 									<span
 										className="font-body"
-										style={{ fontSize: 10, color: '#2A2520', flexShrink: 0 }}
+										style={{ fontSize: 10, color: 'var(--quran-fg-muted)', flexShrink: 0 }}
 									>
 										{step.order}
 									</span>
@@ -379,7 +379,7 @@ export function StudentHome({ userName, steps, totalPublished }: StudentHomeProp
 								style={{
 									textAlign: 'center',
 									padding: 16,
-									color: '#2A2520',
+									color: 'var(--quran-fg-muted)',
 									fontSize: 12,
 								}}
 							>

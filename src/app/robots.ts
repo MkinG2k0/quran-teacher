@@ -1,6 +1,6 @@
-import type { MetadataRoute } from "next"
+import type { MetadataRoute } from "next";
 
-const BASE_URL = process.env.NEXTAUTH_URL ?? "https://toykhana.ru"
+const BASE_URL = process.env.NEXTAUTH_URL ?? "https://toykhana.ru";
 
 export default function robots(): MetadataRoute.Robots {
   return {
@@ -12,5 +12,5 @@ export default function robots(): MetadataRoute.Robots {
       },
     ],
     sitemap: `${BASE_URL}/sitemap.xml`,
-  }
+  };
 }

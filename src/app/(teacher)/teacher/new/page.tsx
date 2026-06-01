@@ -60,7 +60,7 @@ export default function NewStudentPage() {
 					<p className="font-display text-4xl tracking-[0.3em] text-[#C9A84C]">
 						{accessCode}
 					</p>
-					<p className="mt-4 text-xs text-[#4A4540]">
+					<p className="mt-4 text-xs text-[var(--quran-fg-secondary)]">
 						Передайте код ученику для входа в приложение
 					</p>
 					<Button

@@ -30,7 +30,7 @@ export default async function AdminPage() {
 		<div className="font-body mx-auto max-w-4xl p-6">
 			<div className="mb-6 flex items-center justify-between">
 				<div>
-					<p className="text-xs uppercase tracking-widest text-[#4A4540]">Админ</p>
+					<p className="text-xs uppercase tracking-widest text-[var(--quran-fg-secondary)]">Админ</p>
 					<h1 className="font-display text-2xl font-semibold">Шаги программы</h1>
 				</div>
 				<Button

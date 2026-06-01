@@ -1,3 +1,25 @@
+:root {
+	--quran-bg: #0d1117;
+	--quran-fg: #e8e0d0;
+	--quran-fg-secondary: #6b6555;
+	--quran-fg-subtle: #5a5548;
+	--quran-fg-muted: #4a4540;
+	--quran-surface: #2a2520;
+	--quran-accent: #c9a84c;
+}
+
+.text-quran-secondary {
+	color: var(--quran-fg-secondary);
+}
+
+.text-quran-subtle {
+	color: var(--quran-fg-subtle);
+}
+
+.text-quran-muted {
+	color: var(--quran-fg-muted);
+}
+
 @keyframes quran-shake {
 	0%,
 	100% {

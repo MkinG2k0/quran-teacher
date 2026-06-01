@@ -135,7 +135,7 @@ export function StepReader({ step, nextStepId }: StepReaderProps) {
 							className="font-body"
 							style={{
 								fontSize: 10,
-								color: '#4A4540',
+								color: 'var(--quran-fg-secondary)',
 								letterSpacing: 2,
 								textTransform: 'uppercase',
 								marginBottom: 2,
@@ -268,7 +268,7 @@ export function StepReader({ step, nextStepId }: StepReaderProps) {
 											className="font-body"
 											style={{
 												fontSize: 11,
-												color: '#4A4540',
+												color: 'var(--quran-fg-secondary)',
 												textAlign: 'center',
 												padding: '8px 16px 12px',
 												borderTop: '1px solid #1A1A1A',
@@ -375,7 +375,7 @@ export function StepReader({ step, nextStepId }: StepReaderProps) {
 							className="font-body"
 							style={{
 								fontSize: 10,
-								color: '#3A3530',
+								color: 'var(--quran-fg-subtle)',
 								textAlign: 'center',
 								marginBottom: 12,
 								letterSpacing: 1,
@@ -393,7 +393,7 @@ export function StepReader({ step, nextStepId }: StepReaderProps) {
 							padding: 16,
 							border: canComplete ? 'none' : '1px solid #1E1E1E',
 							borderRadius: 12,
-							color: canComplete ? '#0D1117' : '#2A2520',
+							color: canComplete ? '#0D1117' : 'var(--quran-fg-muted)',
 							background: canComplete
 								? 'linear-gradient(135deg, #8B6914, #C9A84C)'
 								: '#141414',

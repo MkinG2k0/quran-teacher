@@ -18,7 +18,7 @@ export default async function ProfilePage() {
 				← На главную
 			</Link>
 			<div>
-				<p className="text-xs uppercase tracking-widest text-[#4A4540]">Профиль</p>
+				<p className="text-xs uppercase tracking-widest text-[var(--quran-fg-secondary)]">Профиль</p>
 				<h1 className="font-display text-2xl font-semibold">{session.user.name}</h1>
 			</div>
 			<form

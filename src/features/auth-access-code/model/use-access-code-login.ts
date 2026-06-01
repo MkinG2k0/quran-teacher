@@ -25,21 +25,23 @@ export function useAccessCodeLogin() {
 			redirect: false,
 		})
 
-		if (result?.ok) {
-			setStatus('success')
-			router.refresh()
-			router.push('/')
+		// При redirect: false `ok` — статус HTTP (часто 200), ошибка — в `error`
+		if (!result || result.error) {
+			setStatus('error')
+			setShake(true)
+			setTimeout(() => {
+				setShake(false)
+				setDigits(['', '', '', '', '', ''])
+				setStatus('idle')
+				inputsRef.current[0]?.focus()
+			}, 600)
 			return
 		}
 
-		setStatus('error')
-		setShake(true)
-		setTimeout(() => {
-			setShake(false)
-			setDigits(['', '', '', '', '', ''])
-			setStatus('idle')
-			inputsRef.current[0]?.focus()
-		}, 600)
+		setStatus('success')
+		router.refresh()
+		router.push('/')
+		return
 	}, [code, filled, router, status])
 
 	useEffect(() => {

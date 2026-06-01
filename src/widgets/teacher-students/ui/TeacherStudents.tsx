@@ -128,7 +128,7 @@ export function TeacherStudents({ students, totalPublished }: TeacherStudentsPro
 							className="font-body"
 							style={{
 								fontSize: 10,
-								color: '#4A4540',
+								color: 'var(--quran-fg-secondary)',
 								letterSpacing: 2,
 								textTransform: 'uppercase',
 								marginBottom: 3,
@@ -194,7 +194,7 @@ export function TeacherStudents({ students, totalPublished }: TeacherStudentsPro
 								className="font-body"
 								style={{
 									fontSize: 9,
-									color: '#3A3530',
+									color: 'var(--quran-fg-subtle)',
 									marginTop: 3,
 									letterSpacing: 1,
 								}}
@@ -212,7 +212,7 @@ export function TeacherStudents({ students, totalPublished }: TeacherStudentsPro
 							left: 12,
 							top: '50%',
 							transform: 'translateY(-50%)',
-							color: '#3A3530',
+							color: 'var(--quran-fg-subtle)',
 							fontSize: 13,
 							pointerEvents: 'none',
 						}}
@@ -261,7 +261,7 @@ export function TeacherStudents({ students, totalPublished }: TeacherStudentsPro
 										filter === f
 											? 'linear-gradient(135deg, #8B6914, #C9A84C)'
 											: '#111',
-									color: filter === f ? '#0D1117' : '#4A4540',
+									color: filter === f ? '#0D1117' : 'var(--quran-fg-secondary)',
 									fontWeight: filter === f ? 600 : 400,
 									cursor: 'pointer',
 									whiteSpace: 'nowrap',
@@ -297,7 +297,7 @@ export function TeacherStudents({ students, totalPublished }: TeacherStudentsPro
 				{filtered.length === 0 ? (
 					<div
 						className="font-body"
-						style={{ textAlign: 'center', padding: '60px 20px', color: '#2A2520' }}
+						style={{ textAlign: 'center', padding: '60px 20px', color: 'var(--quran-fg-muted)' }}
 					>
 						Нет учеников по фильтру
 					</div>
@@ -378,7 +378,7 @@ export function TeacherStudents({ students, totalPublished }: TeacherStudentsPro
 													style={{ fontSize: 11, color: '#C9A84C' }}
 												>
 													Шаг {s.currentStepOrder}
-													<span style={{ color: '#3A3530' }}>
+													<span style={{ color: 'var(--quran-fg-subtle)' }}>
 														{' '}
 														/ {totalPublished}
 													</span>
@@ -387,7 +387,7 @@ export function TeacherStudents({ students, totalPublished }: TeacherStudentsPro
 													className="font-body"
 													style={{
 														fontSize: 11,
-														color: '#3A3530',
+														color: 'var(--quran-fg-subtle)',
 														marginLeft: 'auto',
 													}}
 												>
@@ -417,7 +417,7 @@ export function TeacherStudents({ students, totalPublished }: TeacherStudentsPro
 												className="font-body"
 												style={{
 													fontSize: 9,
-													color: '#2A2520',
+													color: 'var(--quran-fg-muted)',
 													marginTop: 2,
 												}}
 											>

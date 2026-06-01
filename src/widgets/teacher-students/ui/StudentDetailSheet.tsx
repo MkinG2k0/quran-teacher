@@ -86,7 +86,7 @@ export function StudentDetailSheet({
 						width: 36,
 						height: 4,
 						borderRadius: 2,
-						background: '#2A2520',
+						background: 'var(--quran-surface)',
 						margin: '0 auto 20px',
 					}}
 				/>
@@ -126,7 +126,7 @@ export function StudentDetailSheet({
 							<span className="font-body" style={{ fontSize: 12, color: '#6B6555' }}>
 								{statusLabel[student.status]}
 								{student.age != null && (
-									<span style={{ color: '#3A3530' }}> · {student.age} лет</span>
+									<span style={{ color: 'var(--quran-fg-subtle)' }}> · {student.age} лет</span>
 								)}
 							</span>
 						</div>
@@ -166,7 +166,7 @@ export function StudentDetailSheet({
 						className="font-body"
 						style={{
 							fontSize: 10,
-							color: '#4A4540',
+							color: 'var(--quran-fg-secondary)',
 							letterSpacing: 2,
 							textTransform: 'uppercase',
 							marginBottom: 8,
@@ -186,7 +186,7 @@ export function StudentDetailSheet({
 					>
 						{student.accessCode}
 					</p>
-					<p className="font-body" style={{ fontSize: 11, color: '#3A3530', marginTop: 10 }}>
+					<p className="font-body" style={{ fontSize: 11, color: 'var(--quran-fg-subtle)', marginTop: 10 }}>
 						Передайте код ученику для входа в приложение
 					</p>
 					<button
@@ -254,7 +254,7 @@ export function StudentDetailSheet({
 								className="font-body"
 								style={{
 									fontSize: 9,
-									color: '#3A3530',
+									color: 'var(--quran-fg-subtle)',
 									letterSpacing: 1,
 									textTransform: 'uppercase',
 									marginBottom: 4,
@@ -273,7 +273,7 @@ export function StudentDetailSheet({
 							>
 								{item.value}
 							</p>
-							<p className="font-body" style={{ fontSize: 10, color: '#4A4540', marginTop: 3 }}>
+							<p className="font-body" style={{ fontSize: 10, color: 'var(--quran-fg-secondary)', marginTop: 3 }}>
 								{item.sub}
 							</p>
 						</div>
