@@ -7,6 +7,8 @@ import { formatRelativeActivity } from '@/shared/lib/format-relative'
 import { GeomPattern } from '@/shared/ui/geom-pattern'
 import { StudentAvatar } from '@/shared/ui/student-avatar'
 
+import { StudentDetailSheet } from './StudentDetailSheet'
+
 export interface TeacherStudentRow {
 	id: number
 	name: string
@@ -60,6 +62,9 @@ export function TeacherStudents({ students, totalPublished }: TeacherStudentsPro
 	const [filter, setFilter] = useState<(typeof FILTERS)[number]>('Все')
 	const [search, setSearch] = useState('')
 	const [sort, setSort] = useState('step_desc')
+	const [selectedStudent, setSelectedStudent] = useState<TeacherStudentRow | null>(
+		null
+	)
 
 	const filtered = useMemo(() => {
 		return students
@@ -305,15 +310,20 @@ export function TeacherStudents({ students, totalPublished }: TeacherStudentsPro
 									: 0
 
 							return (
-								<div
+								<button
 									key={s.id}
+									type="button"
 									className="quran-card-enter"
+									onClick={() => setSelectedStudent(s)}
 									style={{
 										background: '#101010',
 										border: '1px solid #181818',
 										borderRadius: 12,
 										padding: 14,
 										animationDelay: `${i * 0.04}s`,
+										width: '100%',
+										textAlign: 'left',
+										cursor: 'pointer',
 									}}
 								>
 									<div style={{ display: 'flex', gap: 12, alignItems: 'center' }}>
@@ -415,7 +425,7 @@ export function TeacherStudents({ students, totalPublished }: TeacherStudentsPro
 											</p>
 										</div>
 									</div>
-								</div>
+								</button>
 							)
 						})}
 					</div>
@@ -436,6 +446,14 @@ export function TeacherStudents({ students, totalPublished }: TeacherStudentsPro
 					</p>
 				)}
 			</main>
+
+			{selectedStudent && (
+				<StudentDetailSheet
+					student={selectedStudent}
+					totalPublished={totalPublished}
+					onClose={() => setSelectedStudent(null)}
+				/>
+			)}
 		</div>
 	)
 }
