@@ -1,6 +1,5 @@
 'use client'
 
-import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 
 import type { StepListItem } from '@/entities/step'
@@ -79,24 +78,6 @@ export function StudentHome({ userName, steps, totalPublished }: StudentHomeProp
 						{userName}
 					</h1>
 				</div>
-				<Link
-					href="/profile"
-					style={{
-						width: 40,
-						height: 40,
-						borderRadius: '50%',
-						background: 'linear-gradient(135deg, #1E1A14, #2A2418)',
-						border: '1px solid #2A2418',
-						display: 'flex',
-						alignItems: 'center',
-						justifyContent: 'center',
-						color: '#C9A84C',
-						fontSize: 15,
-						textDecoration: 'none',
-					}}
-				>
-					ا
-				</Link>
 			</header>
 
 			<div

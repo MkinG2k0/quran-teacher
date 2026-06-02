@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 
 import { Button } from '@/shared/ui/button'
 import { Input } from '@/shared/ui/input'
@@ -10,6 +10,11 @@ import { Label } from '@/shared/ui/label'
 
 export default function NewStudentPage() {
 	const router = useRouter()
+
+	useEffect(() => {
+		router.replace('/')
+	}, [router])
+
 	const [name, setName] = useState('')
 	const [age, setAge] = useState('')
 	const [accessCode, setAccessCode] = useState<string | null>(null)

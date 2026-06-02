@@ -1,6 +1,5 @@
-import { notFound, redirect } from 'next/navigation'
+import { notFound } from 'next/navigation'
 
-import { auth } from '@/shared/lib/auth'
 import { prisma } from '@/shared/lib/prisma'
 import { StepReader } from '@/widgets/step-reader'
 
@@ -9,9 +8,6 @@ interface PageProps {
 }
 
 export default async function StepPage({ params }: PageProps) {
-	const session = await auth()
-	if (!session || session.user.role !== 'STUDENT') redirect('/login')
-
 	const { id } = await params
 	const stepId = Number(id)
 	if (Number.isNaN(stepId)) notFound()

@@ -1,24 +1,12 @@
 "use client";
 
-import Link from "next/link";
-
 import { GeomPattern } from "@/shared/ui/geom-pattern";
 
-import { useAccessCodeLogin } from "../model/use-access-code-login";
+import { useAdminLogin } from "../model/use-admin-login";
 
 export function AccessCodeLogin() {
-  const {
-    digits,
-    status,
-    shake,
-    inputsRef,
-    filled,
-    handleDigit,
-    handleKeyDown,
-    handlePaste,
-    borderColor,
-    bgColor,
-  } = useAccessCodeLogin();
+  const { password, status, shake, handleSubmit, handlePasswordChange } =
+    useAdminLogin();
 
   return (
     <div
@@ -80,13 +68,20 @@ export function AccessCodeLogin() {
           </h2>
           <p
             className="font-body"
-            style={{ fontSize: "13px", color: "var(--quran-fg-secondary)", lineHeight: 1.7 }}
+            style={{
+              fontSize: "13px",
+              color: "var(--quran-fg-secondary)",
+              lineHeight: 1.7,
+            }}
           >
-            Переходим в личный кабинет...
+            Переходим в панель администратора...
           </p>
         </div>
       ) : (
-        <div style={{ width: "100%", maxWidth: "360px", textAlign: "center" }}>
+        <form
+          onSubmit={handleSubmit}
+          style={{ width: "100%", maxWidth: "360px", textAlign: "center" }}
+        >
           <div
             className="font-display quran-fade-up"
             style={{
@@ -109,7 +104,7 @@ export function AccessCodeLogin() {
               marginBottom: "8px",
             }}
           >
-            Введите код входа
+            Вход администратора
           </h1>
           <p
             className="font-body quran-fade-up"
@@ -120,49 +115,30 @@ export function AccessCodeLogin() {
               marginBottom: "36px",
             }}
           >
-            Шестизначный код выдаёт ваш учитель
+            Введите пароль для доступа к управлению материалами
           </p>
 
-          <div
-            className={shake ? "quran-shake" : ""}
-            style={{
-              display: "flex",
-              gap: "8px",
-              justifyContent: "center",
-              marginBottom: "12px",
-            }}
-            onPaste={handlePaste}
-          >
-            {digits.map((d, i) => (
-              <input
-                key={i}
-                ref={(el) => {
-                  inputsRef.current[i] = el;
-                }}
-                className="quran-fade-up font-display"
-                type="text"
-                inputMode="numeric"
-                maxLength={1}
-                value={d}
-                onChange={(e) => handleDigit(i, e.target.value)}
-                onKeyDown={(e) => handleKeyDown(i, e)}
-                style={{
-                  width: 46,
-                  height: 58,
-                  textAlign: "center",
-                  fontSize: 22,
-                  fontWeight: 600,
-                  color: "#E8E0D0",
-                  borderRadius: 12,
-                  outline: "none",
-                  caretColor: "#C9A84C",
-                  background: bgColor(i),
-                  border: `1px solid ${borderColor(i)}`,
-                  animationDelay: `${0.18 + i * 0.05}s`,
-                }}
-                autoFocus={i === 0}
-              />
-            ))}
+          <div className={shake ? "quran-shake" : ""}>
+            <input
+              className="quran-fade-up font-body"
+              type="password"
+              value={password}
+              onChange={(e) => handlePasswordChange(e.target.value)}
+              placeholder="Пароль"
+              autoComplete="current-password"
+              style={{
+                width: "100%",
+                padding: "14px 16px",
+                fontSize: 15,
+                color: "#E8E0D0",
+                borderRadius: 12,
+                outline: "none",
+                caretColor: "#C9A84C",
+                background: "#0F0F0F",
+                border: `1px solid ${status === "error" ? "#8B2020" : "#1E1E1E"}`,
+                marginBottom: 16,
+              }}
+            />
           </div>
 
           <div
@@ -171,7 +147,7 @@ export function AccessCodeLogin() {
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
-              marginBottom: 28,
+              marginBottom: 20,
             }}
           >
             {status === "checking" && <span className="quran-spinner" />}
@@ -180,26 +156,34 @@ export function AccessCodeLogin() {
                 className="font-body"
                 style={{ fontSize: 12, color: "#8B2020", letterSpacing: 1 }}
               >
-                Неверный код. Попробуйте снова.
-              </p>
-            )}
-            {status === "idle" && filled && (
-              <p
-                className="font-body"
-                style={{ fontSize: 12, color: "var(--quran-fg-subtle)" }}
-              >
-                Проверяем...
+                Неверный пароль. Попробуйте снова.
               </p>
             )}
           </div>
 
-          <p
+          <button
+            type="submit"
+            disabled={!password.trim() || status === "checking"}
             className="font-body quran-fade-up"
-            style={{ fontSize: 11, color: "var(--quran-fg-muted)", lineHeight: 1.7 }}
+            style={{
+              width: "100%",
+              padding: "14px 20px",
+              border: "none",
+              borderRadius: 12,
+              cursor: password.trim() ? "pointer" : "not-allowed",
+              fontSize: 14,
+              fontWeight: 600,
+              color: "#0D1117",
+              background:
+                password.trim() && status !== "checking"
+                  ? "linear-gradient(135deg, #8B6914, #C9A84C)"
+                  : "#2A2418",
+              opacity: password.trim() && status !== "checking" ? 1 : 0.5,
+            }}
           >
-            Нет кода? Обратитесь к своему учителю.
-          </p>
-        </div>
+            {status === "checking" ? "Проверяем..." : "Войти"}
+          </button>
+        </form>
       )}
     </div>
   );

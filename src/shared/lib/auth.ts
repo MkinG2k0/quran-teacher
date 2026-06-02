@@ -1,11 +1,22 @@
+import { timingSafeEqual } from "crypto";
+
 import NextAuth from "next-auth";
 import Credentials from "next-auth/providers/credentials";
 
 import type { UserRole } from "@/entities/user";
 
-import { prisma } from "./prisma";
-
 const authSecret = process.env.AUTH_SECRET ?? process.env.NEXTAUTH_SECRET;
+
+function verifyAdminPassword(input: string): boolean {
+  const expected = process.env.ADMIN_PASSWORD;
+  if (!expected) return false;
+
+  const inputBuf = Buffer.from(input);
+  const expectedBuf = Buffer.from(expected);
+  if (inputBuf.length !== expectedBuf.length) return false;
+
+  return timingSafeEqual(inputBuf, expectedBuf);
+}
 
 export const { handlers, auth, signIn, signOut } = NextAuth({
   secret: authSecret,
@@ -15,22 +26,17 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
   providers: [
     Credentials({
       id: "credentials",
-      name: "Access Code",
-      credentials: { code: { type: "text" } },
+      name: "Admin Password",
+      credentials: { password: { type: "password" } },
       async authorize(credentials) {
-        const code = (credentials?.code as string | undefined)?.trim();
-        if (!code || code.length !== 6) return null;
-
-        const user = await prisma.user.findUnique({
-          where: { accessCode: code },
-        });
-        if (!user) return null;
+        const password = credentials?.password as string | undefined;
+        if (!password || !verifyAdminPassword(password)) return null;
 
         return {
-          id: String(user.id),
-          name: user.name,
-          role: user.role as UserRole,
-          teacherId: user.teacherId ?? null,
+          id: "super-admin",
+          name: "Администратор",
+          role: "SUPER_ADMIN" as UserRole,
+          teacherId: null,
         };
       },
     }),
