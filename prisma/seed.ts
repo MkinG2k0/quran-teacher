@@ -8,6 +8,8 @@ const url = process.env.DATABASE_URL ?? 'file:./prisma/db.sqlite'
 const adapter = new PrismaBetterSqlite3({ url })
 const prisma = new PrismaClient({ adapter })
 
+const STEPS_COUNT = 555
+
 async function main() {
 	await prisma.user.upsert({
 		where: { accessCode: '000000' },
@@ -49,7 +51,7 @@ async function main() {
 		})
 	}
 
-	for (let i = 1; i <= 10; i++) {
+	for (let i = 1; i <= STEPS_COUNT; i++) {
 		const step = await prisma.step.upsert({
 			where: { order: i },
 			update: {},

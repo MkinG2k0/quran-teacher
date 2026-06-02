@@ -1,35 +1,60 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 
-import type { StepListItem } from '@/entities/step'
 import {
-	applyProgressToSteps,
+	getCompletedStepIds,
 	subscribeProgress,
-	type StepMeta,
 } from '@/shared/lib/student-progress-storage'
 
+import { STEPS_PER_SECTION } from '../lib/step-sections'
+import {
+	useCurrentProgramStep,
+	useProgramStepsPage,
+} from '../model/use-program-steps-page'
 import { StudentHome } from './StudentHome'
 
 interface StudentHomeWithProgressProps {
-	stepsMeta: StepMeta[]
 	totalPublished: number
 }
 
 export function StudentHomeWithProgress({
-	stepsMeta,
 	totalPublished,
 }: StudentHomeWithProgressProps) {
-	const [steps, setSteps] = useState<StepListItem[]>(() => applyProgressToSteps(stepsMeta))
+	const [completedIds, setCompletedIds] = useState(getCompletedStepIds)
+	const [page, setPage] = useState(1)
+	const initialPageSet = useRef(false)
 
 	useEffect(() => {
-		setSteps(applyProgressToSteps(stepsMeta))
 		return subscribeProgress(() => {
-			setSteps(applyProgressToSteps(stepsMeta))
+			setCompletedIds(getCompletedStepIds())
 		})
-	}, [stepsMeta])
+	}, [])
+
+	const { data: currentStep } = useCurrentProgramStep(completedIds)
+	const { data: stepsPage, isLoading } = useProgramStepsPage(page, currentStep?.id)
+
+	useEffect(() => {
+		if (!currentStep || initialPageSet.current) return
+		initialPageSet.current = true
+		setPage(Math.ceil(currentStep.order / STEPS_PER_SECTION))
+	}, [currentStep])
+
+	const handlePageChange = (nextPage: number) => {
+		setPage(nextPage)
+	}
 
 	return (
-		<StudentHome userName="Ученик" steps={steps} totalPublished={totalPublished} />
+		<StudentHome
+			userName="Ученик"
+			totalPublished={totalPublished}
+			completedCount={completedIds.length}
+			currentStep={currentStep ?? null}
+			steps={stepsPage?.steps ?? []}
+			page={stepsPage?.page ?? page}
+			totalPages={stepsPage?.totalPages ?? 1}
+			isLoadingSteps={isLoading}
+			onPageChange={handlePageChange}
+		/>
 	)
 }

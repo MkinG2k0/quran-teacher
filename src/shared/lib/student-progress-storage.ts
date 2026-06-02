@@ -53,16 +53,22 @@ export function markStepComplete(stepId: number) {
 
 export type StepMeta = Pick<StepListItem, 'id' | 'order' | 'title' | 'subtitle'>
 
-export function applyProgressToSteps(stepsRaw: StepMeta[]): StepListItem[] {
+interface ApplyProgressOptions {
+	currentStepId?: number
+}
+
+export function applyProgressToSteps(
+	stepsRaw: StepMeta[],
+	options: ApplyProgressOptions = {},
+): StepListItem[] {
 	const completedIds = new Set(getCompletedStepIds())
-	let foundCurrent = false
+	const { currentStepId } = options
 
 	return stepsRaw.map((step) => {
 		if (completedIds.has(step.id)) {
 			return { ...step, status: 'completed' as const }
 		}
-		if (!foundCurrent) {
-			foundCurrent = true
+		if (currentStepId === step.id) {
 			return { ...step, status: 'current' as const }
 		}
 		return { ...step }

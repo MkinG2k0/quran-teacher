@@ -1,0 +1,100 @@
+import { formatSectionRange, STEPS_PER_SECTION } from '../lib/step-sections'
+
+interface ProgramStepPaginationProps {
+	page: number
+	totalPages: number
+	stepsOnPage: number
+	onPageChange: (page: number) => void
+}
+
+export function ProgramStepPagination({
+	page,
+	totalPages,
+	stepsOnPage,
+	onPageChange,
+}: ProgramStepPaginationProps) {
+	const rangeLabel = formatSectionRange(page - 1, STEPS_PER_SECTION, stepsOnPage)
+	const canGoPrev = page > 1
+	const canGoNext = page < totalPages
+
+	const handlePrev = () => {
+		if (canGoPrev) onPageChange(page - 1)
+	}
+
+	const handleNext = () => {
+		if (canGoNext) onPageChange(page + 1)
+	}
+
+	return (
+		<div
+			style={{
+				display: 'flex',
+				alignItems: 'center',
+				justifyContent: 'space-between',
+				gap: 12,
+				marginBottom: 12,
+				padding: '10px 12px',
+				borderRadius: 12,
+				border: '1px solid #1A1A1A',
+				background: '#0A0A0A',
+			}}
+		>
+			<button
+				type="button"
+				onClick={handlePrev}
+				disabled={!canGoPrev}
+				aria-label="Предыдущий блок"
+				style={{
+					border: '1px solid #2A2418',
+					background: canGoPrev ? '#131A10' : 'transparent',
+					color: canGoPrev ? '#C9A84C' : '#3A3530',
+					borderRadius: 8,
+					width: 36,
+					height: 36,
+					cursor: canGoPrev ? 'pointer' : 'default',
+					fontSize: 16,
+				}}
+			>
+				←
+			</button>
+
+			<div style={{ textAlign: 'center', minWidth: 0 }}>
+				<p
+					className="font-body"
+					style={{ fontSize: 12, fontWeight: 600, color: '#E8E0D0' }}
+				>
+					{rangeLabel}
+				</p>
+				<p
+					className="font-body"
+					style={{
+						fontSize: 10,
+						color: 'var(--quran-fg-muted)',
+						marginTop: 2,
+					}}
+				>
+					Блок {page} из {totalPages}
+				</p>
+			</div>
+
+			<button
+				type="button"
+				onClick={handleNext}
+				disabled={!canGoNext}
+				aria-label="Следующий блок"
+				style={{
+					border: '1px solid #2A2418',
+					background: canGoNext ? '#131A10' : 'transparent',
+					color: canGoNext ? '#C9A84C' : '#3A3530',
+					borderRadius: 8,
+					width: 36,
+					height: 36,
+					cursor: canGoNext ? 'pointer' : 'default',
+					fontSize: 16,
+				}}
+			>
+				→
+			</button>
+		</div>
+	)
+}

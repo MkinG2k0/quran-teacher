@@ -1,43 +1,35 @@
-import { NextResponse } from 'next/server'
+import { NextRequest, NextResponse } from 'next/server'
 
 import { auth } from '@/shared/lib/auth'
 import { prisma } from '@/shared/lib/prisma'
 
-export async function GET() {
-	const session = await auth()
-	if (!session) {
-		return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
-	}
+export async function GET(req: NextRequest) {
+	const searchParams = req.nextUrl.searchParams
+	const page = Math.max(1, Number(searchParams.get('page')) || 1)
+	const limit = Math.min(50, Math.max(1, Number(searchParams.get('limit')) || 50))
+	const skip = (page - 1) * limit
+	const where = { isPublished: true }
 
-	const totalPublished = await prisma.step.count({ where: { isPublished: true } })
+	const [steps, totalPublished] = await Promise.all([
+		prisma.step.findMany({
+			where,
+			orderBy: { order: 'asc' },
+			skip,
+			take: limit,
+			select: { id: true, order: true, title: true, subtitle: true },
+		}),
+		prisma.step.count({ where }),
+	])
 
-	const steps = await prisma.step.findMany({
-		where: { isPublished: true },
-		orderBy: { order: 'asc' },
-		select: { id: true, order: true, title: true, subtitle: true },
+	const totalPages = Math.max(1, Math.ceil(totalPublished / limit))
+
+	return NextResponse.json({
+		steps,
+		totalPublished,
+		page,
+		limit,
+		totalPages,
 	})
-
-	if (session.user.role !== 'STUDENT') {
-		return NextResponse.json({ steps, totalPublished })
-	}
-
-	const progress = await prisma.progress.findMany({
-		where: { studentId: Number(session.user.id) },
-		select: { stepId: true },
-	})
-	const completedIds = new Set(progress.map((p) => p.stepId))
-
-	let foundCurrent = false
-	const result = steps.map((step) => {
-		if (completedIds.has(step.id)) return { ...step, status: 'completed' as const }
-		if (!foundCurrent) {
-			foundCurrent = true
-			return { ...step, status: 'current' as const }
-		}
-		return { ...step }
-	})
-
-	return NextResponse.json({ steps: result, totalPublished })
 }
 
 export async function POST(req: Request) {
