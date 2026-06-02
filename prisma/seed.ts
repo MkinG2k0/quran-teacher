@@ -1,12 +1,9 @@
 import 'dotenv/config'
 
-import { PrismaBetterSqlite3 } from '@prisma/adapter-better-sqlite3'
-
 import { PrismaClient, Role } from '../generated/prisma/client'
+import { createPrismaClient } from '../src/shared/lib/create-prisma-client'
 
-const url = process.env.DATABASE_URL ?? 'file:./prisma/db.sqlite'
-const adapter = new PrismaBetterSqlite3({ url })
-const prisma = new PrismaClient({ adapter })
+const prisma: PrismaClient = createPrismaClient()
 
 const STEPS_COUNT = 555
 
