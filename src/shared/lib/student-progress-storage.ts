@@ -55,14 +55,15 @@ export type StepMeta = Pick<StepListItem, 'id' | 'order' | 'title' | 'subtitle'>
 
 interface ApplyProgressOptions {
 	currentStepId?: number
+	completedStepIds?: number[]
 }
 
 export function applyProgressToSteps(
 	stepsRaw: StepMeta[],
 	options: ApplyProgressOptions = {},
 ): StepListItem[] {
-	const completedIds = new Set(getCompletedStepIds())
-	const { currentStepId } = options
+	const { currentStepId, completedStepIds = getCompletedStepIds() } = options
+	const completedIds = new Set(completedStepIds)
 
 	return stepsRaw.map((step) => {
 		if (completedIds.has(step.id)) {

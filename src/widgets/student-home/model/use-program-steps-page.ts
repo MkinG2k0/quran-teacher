@@ -19,13 +19,20 @@ export function useCurrentProgramStep(completedIds: number[]) {
 	})
 }
 
-export function useProgramStepsPage(page: number, currentStepId?: number) {
+export function useProgramStepsPage(
+	page: number,
+	completedIds: number[],
+	currentStepId?: number,
+) {
 	return useQuery({
 		queryKey: stepKeys.page(page, STEPS_PER_SECTION),
 		queryFn: () => fetchStepsPage(page, STEPS_PER_SECTION),
 		select: (data) => ({
 			...data,
-			steps: applyProgressToSteps(data.steps, { currentStepId }),
+			steps: applyProgressToSteps(data.steps, {
+				currentStepId,
+				completedStepIds: completedIds,
+			}),
 		}),
 	})
 }

@@ -21,18 +21,23 @@ interface StudentHomeWithProgressProps {
 export function StudentHomeWithProgress({
 	totalPublished,
 }: StudentHomeWithProgressProps) {
-	const [completedIds, setCompletedIds] = useState(getCompletedStepIds)
+	const [completedIds, setCompletedIds] = useState<number[]>([])
 	const [page, setPage] = useState(1)
 	const initialPageSet = useRef(false)
 
 	useEffect(() => {
+		setCompletedIds(getCompletedStepIds())
 		return subscribeProgress(() => {
 			setCompletedIds(getCompletedStepIds())
 		})
 	}, [])
 
 	const { data: currentStep } = useCurrentProgramStep(completedIds)
-	const { data: stepsPage, isLoading } = useProgramStepsPage(page, currentStep?.id)
+	const { data: stepsPage, isLoading } = useProgramStepsPage(
+		page,
+		completedIds,
+		currentStep?.id,
+	)
 
 	useEffect(() => {
 		if (!currentStep || initialPageSet.current) return
