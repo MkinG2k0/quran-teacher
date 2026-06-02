@@ -6,6 +6,7 @@ import { useEffect, useRef, useState } from "react";
 
 import type { StepDetail } from "@/entities/step";
 import { useCompleteStep } from "@/features/step-complete/model/use-complete-step";
+import { useStepContentScroll } from "@/shared/lib/use-persisted-scroll";
 import { GeomPattern } from "@/shared/ui/geom-pattern";
 
 interface StepReaderProps {
@@ -27,6 +28,8 @@ export function StepReader({ step, nextStepId }: StepReaderProps) {
   const { completeStep, isPending } = useCompleteStep();
 
   const total = step.totalPublished ?? step.order;
+
+  useStepContentScroll(contentRef, step.id);
 
   useEffect(() => {
     const el = contentRef.current;

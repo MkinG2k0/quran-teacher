@@ -6,6 +6,12 @@ import {
 	getCompletedStepIds,
 	subscribeProgress,
 } from '@/shared/lib/student-progress-storage'
+import {
+	getSavedHomePage,
+	setHomeScroll,
+	setSavedHomePage,
+} from '@/shared/lib/student-ui-state-storage'
+import { useHomeWindowScroll } from '@/shared/lib/use-persisted-scroll'
 
 import { STEPS_PER_SECTION } from '../lib/step-sections'
 import {
@@ -22,8 +28,8 @@ export function StudentHomeWithProgress({
 	totalPublished,
 }: StudentHomeWithProgressProps) {
 	const [completedIds, setCompletedIds] = useState<number[]>([])
-	const [page, setPage] = useState(1)
-	const initialPageSet = useRef(false)
+	const [page, setPage] = useState(() => getSavedHomePage() ?? 1)
+	const initialPageSet = useRef(getSavedHomePage() != null)
 
 	useEffect(() => {
 		setCompletedIds(getCompletedStepIds())
@@ -42,10 +48,16 @@ export function StudentHomeWithProgress({
 	useEffect(() => {
 		if (!currentStep || initialPageSet.current) return
 		initialPageSet.current = true
-		setPage(Math.ceil(currentStep.order / STEPS_PER_SECTION))
+		const stepPage = Math.ceil(currentStep.order / STEPS_PER_SECTION)
+		setPage(stepPage)
+		setSavedHomePage(stepPage)
 	}, [currentStep])
 
+	useHomeWindowScroll(page, !isLoading)
+
 	const handlePageChange = (nextPage: number) => {
+		setHomeScroll(page, window.scrollY)
+		setSavedHomePage(nextPage)
 		setPage(nextPage)
 	}
 
