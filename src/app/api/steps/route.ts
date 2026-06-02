@@ -34,7 +34,7 @@ export async function GET() {
 			foundCurrent = true
 			return { ...step, status: 'current' as const }
 		}
-		return { ...step, status: 'locked' as const }
+		return { ...step }
 	})
 
 	return NextResponse.json({ steps: result, totalPublished })

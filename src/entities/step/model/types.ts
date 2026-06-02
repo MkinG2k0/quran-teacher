@@ -1,4 +1,4 @@
-export type StepStatus = 'completed' | 'current' | 'locked'
+export type StepStatus = 'completed' | 'current'
 
 export interface StepListItem {
 	id: number

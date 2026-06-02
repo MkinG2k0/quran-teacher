@@ -16,15 +16,11 @@ interface StudentHomeWithProgressProps {
 	totalPublished: number
 }
 
-function getLockedSteps(stepsMeta: StepMeta[]): StepListItem[] {
-	return stepsMeta.map((step) => ({ ...step, status: 'locked' as const }))
-}
-
 export function StudentHomeWithProgress({
 	stepsMeta,
 	totalPublished,
 }: StudentHomeWithProgressProps) {
-	const [steps, setSteps] = useState<StepListItem[]>(() => getLockedSteps(stepsMeta))
+	const [steps, setSteps] = useState<StepListItem[]>(() => applyProgressToSteps(stepsMeta))
 
 	useEffect(() => {
 		setSteps(applyProgressToSteps(stepsMeta))

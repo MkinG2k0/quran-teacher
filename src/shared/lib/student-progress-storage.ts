@@ -1,4 +1,4 @@
-import type { StepListItem, StepStatus } from '@/entities/step'
+import type { StepListItem } from '@/entities/step'
 
 const STORAGE_KEY = 'quran-student-progress'
 
@@ -58,16 +58,14 @@ export function applyProgressToSteps(stepsRaw: StepMeta[]): StepListItem[] {
 	let foundCurrent = false
 
 	return stepsRaw.map((step) => {
-		let status: StepStatus
 		if (completedIds.has(step.id)) {
-			status = 'completed'
-		} else if (!foundCurrent) {
-			foundCurrent = true
-			status = 'current'
-		} else {
-			status = 'locked'
+			return { ...step, status: 'completed' as const }
 		}
-		return { ...step, status }
+		if (!foundCurrent) {
+			foundCurrent = true
+			return { ...step, status: 'current' as const }
+		}
+		return { ...step }
 	})
 }
 
