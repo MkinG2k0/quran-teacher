@@ -107,17 +107,6 @@ export function ProgramStepRow({ step, onSelect }: ProgramStepRowProps) {
 					</p>
 				)}
 			</div>
-
-			<span
-				className="font-body"
-				style={{
-					fontSize: px(10),
-					color: 'var(--quran-fg-muted)',
-					flexShrink: 0,
-				}}
-			>
-				{step.order}
-			</span>
 		</div>
 	)
 }

@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState, type RefObject } from "react";
 
 import type { StepDetail } from "@/entities/step";
-import { FontSizePicker, useFontSettings } from "@/features/font-settings";
+import { useFontSettings } from "@/features/font-settings";
 import { useCompleteStep } from "@/features/step-complete/model/use-complete-step";
 import { isStepCompleted } from "@/shared/lib/student-progress-storage";
 import { useStepWindowScroll } from "@/shared/lib/use-persisted-scroll";
@@ -150,8 +150,6 @@ export function StepReader({
               {step.title}
             </h1>
           </div>
-
-          <FontSizePicker variant="compact" />
         </div>
 
         <div
