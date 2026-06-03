@@ -55,7 +55,7 @@ export function ProgramStepRow({ step, onSelect }: ProgramStepRowProps) {
 						? 'linear-gradient(135deg, #2A3A20, #3A5228)'
 						: isCurrent
 							? 'linear-gradient(135deg, #2A2010, #3A2E10)'
-							: '#181818',
+							: 'var(--quran-elevated)',
 					border: isCompleted
 						? '1px solid #4A7A30'
 						: isCurrent

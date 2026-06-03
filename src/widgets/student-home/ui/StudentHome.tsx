@@ -209,7 +209,7 @@ export function StudentHome({
           </div>
           <div
             style={{
-              background: "var(--quran-bg)",
+              background: "var(--quran-progress-track)",
               borderRadius: 4,
               height: 6,
               overflow: "hidden",

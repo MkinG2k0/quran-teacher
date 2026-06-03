@@ -5,28 +5,28 @@
 /* Токены темы — на оболочке ученика (.quran-student-shell) */
 .quran-student-shell {
 	--quran-bg: #0d1117;
-	--quran-fg: #e8e0d0;
-	--quran-fg-secondary: #6b6555;
-	--quran-fg-subtle: #5a5548;
-	--quran-fg-muted: #4a4540;
+	--quran-fg: #f0e8d8;
+	--quran-fg-secondary: #8a8375;
+	--quran-fg-subtle: #726c60;
+	--quran-fg-muted: #635e56;
 	--quran-surface: #2a2520;
 	--quran-accent: #c9a84c;
 	--quran-on-accent: #0d1117;
-	--quran-border: #181818;
-	--quran-border-strong: #222222;
-	--quran-elevated: #141414;
+	--quran-border: #252220;
+	--quran-border-strong: #302c28;
+	--quran-elevated: #1a1816;
 	--quran-header-bg: rgba(13, 17, 23, 0.95);
-	--quran-body-text: #c0b8a8;
-	--quran-progress-track: #1a1a1a;
-	--quran-panel-border: #2a2418;
-	--quran-card-bg: linear-gradient(135deg, #131a10, #1a1208);
-	--quran-card-border: #2a2418;
+	--quran-body-text: #d0c8b8;
+	--quran-progress-track: #242018;
+	--quran-panel-border: #342e24;
+	--quran-card-bg: linear-gradient(135deg, #161c12, #1e1610);
+	--quran-card-border: #342e24;
 	--quran-picker-active-bg: linear-gradient(135deg, #1a1208, #201808);
-	--quran-row-bg: #101010;
+	--quran-row-bg: #161412;
 	--quran-row-current-bg: linear-gradient(135deg, #131a10, #1a1e10);
-	--quran-row-border: #181818;
-	--quran-row-current-border: rgba(201, 168, 76, 0.35);
-	--quran-pagination-bg: #0a0a0a;
+	--quran-row-border: #252220;
+	--quran-row-current-border: rgba(201, 168, 76, 0.45);
+	--quran-pagination-bg: #12100e;
 	--quran-arabic-bg: linear-gradient(135deg, #0f140a, #141a0e);
 	--quran-arabic-border: #2a3420;
 	--quran-arabic-divider: #2a3420;
@@ -41,7 +41,7 @@
 	--quran-gradient-accent: linear-gradient(135deg, #8b6914, #c9a84c);
 	--quran-gradient-progress: linear-gradient(90deg, #4a7a30, #c9a84c);
 	--quran-geom-opacity: 0.04;
-	--quran-fg-disabled: #3a3530;
+	--quran-fg-disabled: #4f4a42;
 	--quran-pagination-active-bg: #131a10;
 }
 
