@@ -12,6 +12,18 @@ function getOfflineProgramRevision(): string | null {
 
 const offlineProgramRevision = getOfflineProgramRevision()
 
+const additionalManifestEntries: Array<{ url: string; revision: string | null }> = [
+	{ url: '/profile', revision: null },
+	{ url: '/manifest.json', revision: null },
+	{ url: '/icons/icon-192.png', revision: null },
+]
+if (offlineProgramRevision) {
+	additionalManifestEntries.unshift({
+		url: '/offline/program.json',
+		revision: offlineProgramRevision,
+	})
+}
+
 const withPWAConfig = withPWA({
 	dest: 'public',
 	// В dev PWA + webpack → бесконечная пересборка; офлайн-тест: pnpm build && pnpm start
@@ -31,9 +43,7 @@ const withPWAConfig = withPWA({
 		clientsClaim: true,
 		navigateFallback: '/',
 		navigateFallbackDenylist: [/^\/api\//, /^\/admin/, /^\/login/, /^\/teacher/],
-		additionalManifestEntries: offlineProgramRevision
-			? [{ url: '/offline/program.json', revision: offlineProgramRevision }]
-			: [],
+		additionalManifestEntries,
 		runtimeCaching: [
 			{
 				urlPattern: /^\/offline\/program\.json$/,
@@ -45,11 +55,19 @@ const withPWAConfig = withPWA({
 			},
 			{
 				urlPattern: ({ request }) => request.headers.get('RSC') === '1',
-				handler: 'NetworkFirst',
+				handler: 'StaleWhileRevalidate',
 				options: {
 					cacheName: 'next-rsc',
-					networkTimeoutSeconds: 2,
 					expiration: { maxEntries: 128, maxAgeSeconds: 60 * 60 * 24 },
+				},
+			},
+			{
+				urlPattern: ({ request, url }) =>
+					request.mode === 'navigate' && url.pathname === '/profile',
+				handler: 'CacheFirst',
+				options: {
+					cacheName: 'pages-profile',
+					expiration: { maxEntries: 1 },
 				},
 			},
 			{

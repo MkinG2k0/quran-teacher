@@ -62,6 +62,7 @@ export function StudentHome({
       >
         <Link
           href="/profile"
+          prefetch
           className="font-body"
           aria-label="Профиль и настройки"
           style={{
