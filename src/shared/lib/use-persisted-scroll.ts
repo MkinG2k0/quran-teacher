@@ -1,6 +1,6 @@
 'use client'
 
-import { type RefObject, useEffect, useLayoutEffect, useRef } from 'react'
+import { useEffect, useLayoutEffect, useRef } from 'react'
 
 import {
 	getHomeScroll,
@@ -37,34 +37,26 @@ export function useHomeWindowScroll(page: number, ready: boolean) {
 	}, [page])
 }
 
-export function useStepContentScroll(
-	contentRef: RefObject<HTMLDivElement | null>,
-	stepId: number,
-) {
+export function useStepWindowScroll(stepId: number) {
 	useLayoutEffect(() => {
-		const el = contentRef.current
-		if (!el) return
 		const saved = getStepScroll(stepId)
-		if (saved > 0) el.scrollTop = saved
-	}, [contentRef, stepId])
+		if (saved > 0) window.scrollTo(0, saved)
+	}, [stepId])
 
 	useEffect(() => {
-		const el = contentRef.current
-		if (!el) return
-
 		let raf = 0
 		const onScroll = () => {
 			cancelAnimationFrame(raf)
 			raf = requestAnimationFrame(() => {
-				setStepScroll(stepId, el.scrollTop)
+				setStepScroll(stepId, window.scrollY)
 			})
 		}
 
-		el.addEventListener('scroll', onScroll, { passive: true })
+		window.addEventListener('scroll', onScroll, { passive: true })
 		return () => {
 			cancelAnimationFrame(raf)
-			el.removeEventListener('scroll', onScroll)
-			setStepScroll(stepId, el.scrollTop)
+			window.removeEventListener('scroll', onScroll)
+			setStepScroll(stepId, window.scrollY)
 		}
-	}, [contentRef, stepId])
+	}, [stepId])
 }

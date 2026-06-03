@@ -18,14 +18,17 @@ const withPWAConfig = withPWA({
 	disable: process.env.NODE_ENV === 'development',
 	register: true,
 	cacheStartUrl: true,
+	// Главная всегда один и тот же HTML → кладём / в precache (иначе офлайн = ERR_INTERNET_DISCONNECTED)
+	dynamicStartUrl: false,
+	cacheOnFrontEndNav: true,
 	reloadOnOnline: true,
+	extendDefaultRuntimeCaching: true,
 	fallbacks: {
 		document: '/',
 	},
 	workboxOptions: {
 		skipWaiting: true,
 		clientsClaim: true,
-		// Кэшированная главная, не /~offline (иначе router.replace → цикл ?_rsc)
 		navigateFallback: '/',
 		navigateFallbackDenylist: [/^\/api\//, /^\/admin/, /^\/login/, /^\/teacher/],
 		additionalManifestEntries: offlineProgramRevision
@@ -41,24 +44,13 @@ const withPWAConfig = withPWA({
 				},
 			},
 			{
-				urlPattern: /^\/api\/offline\/program/,
-				handler: 'StaleWhileRevalidate',
-				options: {
-					cacheName: 'api-offline-program',
-					expiration: { maxEntries: 2 },
-				},
-			},
-			{
-				urlPattern: /^\/$/,
+				urlPattern: ({ request }) => request.headers.get('RSC') === '1',
 				handler: 'NetworkFirst',
 				options: {
-					cacheName: 'student-home',
+					cacheName: 'next-rsc',
 					networkTimeoutSeconds: 2,
+					expiration: { maxEntries: 32, maxAgeSeconds: 60 * 60 * 24 },
 				},
-			},
-			{
-				urlPattern: /^\/api\/auth\/session/,
-				handler: 'NetworkOnly',
 			},
 			{
 				urlPattern: /\/uploads\/.+/,

@@ -42,6 +42,15 @@ next-env.d.ts
 
 /generated
 
+# PWA / Workbox (@ducanh2912/next-pwa, генерируются при next build)
+/public/sw.js
+/public/workbox-*.js
+/public/swe-worker-*.js
+/public/fallback-*.js
+
+# Офлайн-бандл (pnpm offline:bundle перед build)
+/public/offline/program.json
+
 # локальный дамп БД (ПДн) — не коммитить
 /db-export/
 .idea

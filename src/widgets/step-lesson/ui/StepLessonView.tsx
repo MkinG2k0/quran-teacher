@@ -62,9 +62,7 @@ function StepLoadState({
 		<div
 			className="font-body"
 			style={{
-				position: 'fixed',
-				inset: 0,
-				zIndex: 50,
+				minHeight: '100vh',
 				display: 'flex',
 				flexDirection: 'column',
 				alignItems: 'center',
@@ -73,6 +71,8 @@ function StepLoadState({
 				textAlign: 'center',
 				color: '#8A8070',
 				background: '#0D1117',
+				maxWidth: 480,
+				margin: '0 auto',
 			}}
 		>
 			<p style={{ marginBottom: 16 }}>{message}</p>

@@ -1,25 +1,19 @@
 'use client'
 
-import { use, useEffect } from 'react'
-import { useRouter } from 'next/navigation'
+import { useParams, useRouter } from 'next/navigation'
 
-interface PageProps {
-	params: Promise<{ id: string }>
-}
+import { StepLessonView } from '@/widgets/step-lesson'
 
-/** Старые ссылки /step/[id] → главная с ?step= */
-export default function StepRedirectPage({ params }: PageProps) {
+export default function StepPage() {
 	const router = useRouter()
-	const { id } = use(params)
+	const { id } = useParams<{ id: string }>()
+	const stepId = Number(id)
 
-	useEffect(() => {
-		const stepId = Number(id)
-		if (Number.isInteger(stepId) && stepId > 0) {
-			router.replace(`/?step=${stepId}`)
-			return
-		}
-		router.replace('/')
-	}, [id, router])
-
-	return null
+	return (
+		<StepLessonView
+			stepId={stepId}
+			onClose={() => router.push('/')}
+			onOpenStep={(nextId) => router.push(`/step/${nextId}`)}
+		/>
+	)
 }

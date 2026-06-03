@@ -2,18 +2,17 @@
 
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 
 import type { StepDetail } from "@/entities/step";
 import { useCompleteStep } from "@/features/step-complete/model/use-complete-step";
 import { isStepCompleted } from "@/shared/lib/student-progress-storage";
-import { useStepContentScroll } from "@/shared/lib/use-persisted-scroll";
+import { useStepWindowScroll } from "@/shared/lib/use-persisted-scroll";
 import { GeomPattern } from "@/shared/ui/geom-pattern";
 
 interface StepReaderProps {
   step: StepDetail;
   nextStepId: number | null;
-  /** Без Next Router — для офлайн-оверлея на главной */
   onClose?: () => void;
   onOpenStep?: (stepId: number) => void;
 }
@@ -44,43 +43,22 @@ export function StepReader({
       handleClose();
     }
   };
-  const contentRef = useRef<HTMLDivElement>(null);
-  const [scrollPct, setScrollPct] = useState(0);
+
   const [completed, setCompleted] = useState(false);
-  const [canComplete, setCanComplete] = useState(false);
   const [showDone, setShowDone] = useState(false);
   const { completeStep, isPending } = useCompleteStep();
 
   const total = step.totalPublished ?? step.order;
 
-  useStepContentScroll(contentRef, step.id);
+  useStepWindowScroll(step.id);
 
   useEffect(() => {
     setShowDone(false);
     setCompleted(isStepCompleted(step.id));
-    setCanComplete(false);
-  }, [step.id]);
-
-  useEffect(() => {
-    const el = contentRef.current;
-    if (!el) return;
-
-    const onScroll = () => {
-      const { scrollTop, scrollHeight, clientHeight } = el;
-      const max = scrollHeight - clientHeight;
-      const pct =
-        max > 0 ? Math.min(100, Math.round((scrollTop / max) * 100)) : 100;
-      setScrollPct(pct);
-      if (pct >= 85) setCanComplete(true);
-    };
-
-    el.addEventListener("scroll", onScroll);
-    onScroll();
-    return () => el.removeEventListener("scroll", onScroll);
   }, [step.id]);
 
   const handleComplete = async () => {
-    if (!canComplete || isPending) return;
+    if (isPending) return;
     const ok = await completeStep(step.id);
     if (!ok) return;
     setCompleted(true);
@@ -90,49 +68,25 @@ export function StepReader({
   return (
     <div
       style={{
-        height: "100vh",
-        display: "flex",
-        flexDirection: "column",
+        minHeight: "100vh",
         background: "#0D1117",
         color: "#E8E0D0",
         position: "relative",
-        overflow: "hidden",
         maxWidth: 480,
         margin: "0 auto",
       }}
     >
       <GeomPattern opacity={0.035} />
 
-      <div
-        style={{
-          position: "absolute",
-          top: 0,
-          left: 0,
-          right: 0,
-          height: 2,
-          background: "#181818",
-          zIndex: 10,
-        }}
-      >
-        <div
-          style={{
-            width: `${scrollPct}%`,
-            height: "100%",
-            background: "linear-gradient(90deg, #8B6914, #C9A84C)",
-            transition: "width 0.2s ease",
-          }}
-        />
-      </div>
-
       <header
         style={{
+          position: "sticky",
+          top: 0,
           padding: "20px 20px 14px",
-          flexShrink: 0,
           borderBottom: "1px solid #181818",
           background: "rgba(13,17,23,0.95)",
           backdropFilter: "blur(8px)",
-          position: "relative",
-          zIndex: 5,
+          zIndex: 20,
         }}
       >
         <div
@@ -212,18 +166,14 @@ export function StepReader({
         </div>
       </header>
 
-      <div
-        ref={contentRef}
-        className="read-scroll"
+      <main
         style={{
-          flex: 1,
-          overflowY: "auto",
           padding: "24px 20px 8px",
           position: "relative",
           zIndex: 1,
         }}
       >
-        <div
+        {/* <div
           className="font-display quran-fade-up"
           style={{
             textAlign: "center",
@@ -235,7 +185,7 @@ export function StepReader({
           }}
         >
           ـ ﴾ ﴿ ـ
-        </div>
+        </div> */}
 
         <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
           {step.blocks.map((block, i) => (
@@ -404,34 +354,18 @@ export function StepReader({
         <div style={{ height: 1, background: "#181818", margin: "28px 0" }} />
 
         <div style={{ paddingBottom: 32 }}>
-          {!canComplete && (
-            <p
-              className="font-body"
-              style={{
-                fontSize: 10,
-                color: "var(--quran-fg-subtle)",
-                textAlign: "center",
-                marginBottom: 12,
-                letterSpacing: 1,
-              }}
-            >
-              ↑ прокрутите до конца чтобы завершить
-            </p>
-          )}
           <button
             type="button"
-            disabled={!canComplete || isPending}
+            disabled={isPending}
             onClick={handleComplete}
             style={{
               width: "100%",
               padding: 16,
-              border: canComplete ? "none" : "1px solid #1E1E1E",
+              border: "none",
               borderRadius: 12,
-              color: canComplete ? "#0D1117" : "var(--quran-fg-muted)",
-              background: canComplete
-                ? "linear-gradient(135deg, #8B6914, #C9A84C)"
-                : "#141414",
-              cursor: canComplete ? "pointer" : "default",
+              color: "#0D1117",
+              background: "linear-gradient(135deg, #8B6914, #C9A84C)",
+              cursor: isPending ? "default" : "pointer",
             }}
           >
             <span
@@ -442,19 +376,20 @@ export function StepReader({
             </span>
           </button>
         </div>
-      </div>
+      </main>
 
       {showDone && (
         <div
           style={{
-            position: "absolute",
+            position: "fixed",
             inset: 0,
-            zIndex: 20,
+            zIndex: 40,
             background: "rgba(13,17,23,0.92)",
             backdropFilter: "blur(12px)",
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
+            padding: 24,
           }}
         >
           <div
@@ -465,7 +400,8 @@ export function StepReader({
               borderRadius: 20,
               padding: "36px 32px",
               textAlign: "center",
-              maxWidth: 500,
+              maxWidth: 400,
+              width: "100%",
               boxShadow: "0 0 60px rgba(201,168,76,0.15)",
             }}
           >

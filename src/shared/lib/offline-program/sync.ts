@@ -1,59 +1,38 @@
+import { OFFLINE_PROGRAM_JSON_URL } from './program-paths'
+import { getProgramBundleSync, setProgramBundle } from './bundle-cache'
 import type { OfflineProgramBundle } from './types'
-import { getOfflineBundleSync, saveOfflineBundle } from './storage'
 
-const BUNDLE_URLS = ['/offline/program.json', '/api/offline/program'] as const
+let loadPromise: Promise<OfflineProgramBundle | null> | null = null
 
-let hydratePromise: Promise<OfflineProgramBundle | null> | null = null
-
-async function fetchBundle(url: string): Promise<OfflineProgramBundle | null> {
-	try {
-		const res = await fetch(url)
-		if (!res.ok) return null
-		return (await res.json()) as OfflineProgramBundle
-	} catch {
-		return null
-	}
+function isValidBundle(
+	bundle: OfflineProgramBundle | null,
+): bundle is OfflineProgramBundle {
+	return !!bundle?.steps?.length
 }
 
-export function ensureOfflineProgramHydrated(): Promise<OfflineProgramBundle | null> {
-	const cached = getOfflineBundleSync()
-	if (cached) return Promise.resolve(cached)
+/** Загружает программу из статического JSON в памяти (один раз за сессию). */
+export function loadProgramBundle(): Promise<OfflineProgramBundle | null> {
+	const existing = getProgramBundleSync()
+	if (existing) return Promise.resolve(existing)
 
-	if (hydratePromise) return hydratePromise
+	if (loadPromise) return loadPromise
 
-	hydratePromise = (async () => {
-		for (const url of BUNDLE_URLS) {
-			const bundle = await fetchBundle(url)
-			if (bundle?.steps.length) {
-				saveOfflineBundle(bundle)
-				return bundle
-			}
+	loadPromise = (async () => {
+		try {
+			const res = await fetch(OFFLINE_PROGRAM_JSON_URL)
+			if (!res.ok) return null
+			const bundle = (await res.json()) as OfflineProgramBundle
+			if (!isValidBundle(bundle)) return null
+			setProgramBundle(bundle)
+			return bundle
+		} catch {
+			return null
 		}
-
-		return getOfflineBundleSync()
 	})().finally(() => {
-		hydratePromise = null
+		loadPromise = null
 	})
 
-	return hydratePromise
-}
-
-export async function refreshOfflineProgramInBackground(): Promise<void> {
-	if (typeof navigator !== 'undefined' && !navigator.onLine) return
-
-	const cached = getOfflineBundleSync()
-	const bundle = await fetchBundle('/api/offline/program')
-	if (!bundle?.steps.length) return
-
-	if (
-		cached &&
-		cached.version === bundle.version &&
-		cached.totalPublished === bundle.totalPublished
-	) {
-		return
-	}
-
-	saveOfflineBundle(bundle)
+	return loadPromise
 }
 
 export async function prefetchOfflineAssets(urls: string[]): Promise<void> {

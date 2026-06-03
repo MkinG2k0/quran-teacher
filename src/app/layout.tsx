@@ -2,7 +2,6 @@ import { Cormorant_Garamond, Mulish } from 'next/font/google'
 import type { Metadata, Viewport } from 'next'
 
 import { Toaster } from '@/shared/ui/sonner'
-import { OfflineProgramBootstrap } from '@/shared/ui/offline-program-bootstrap'
 import { UnregisterSwInDev } from '@/shared/ui/unregister-sw-in-dev'
 import { Providers } from '@/shared/providers'
 
@@ -51,7 +50,6 @@ export default function RootLayout({
 				className="font-body antialiased"
 				style={{ background: '#0D1117', color: '#E8E0D0' }}
 			>
-				<OfflineProgramBootstrap />
 				<UnregisterSwInDev />
 				<Providers>
 					{children}
