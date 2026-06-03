@@ -1,13 +1,13 @@
 'use client'
 
-import { useEffect, useLayoutEffect, useRef } from 'react'
-
 import {
-	getHomeScroll,
-	getStepScroll,
-	setHomeScroll,
-	setStepScroll,
-} from './student-ui-state-storage'
+	useEffect,
+	useLayoutEffect,
+	useRef,
+	type RefObject,
+} from 'react'
+
+import { getHomeScroll, setHomeScroll, setStepScroll } from './student-ui-state-storage'
 
 export function useHomeWindowScroll(page: number, ready: boolean) {
 	const pageRef = useRef(page)
@@ -37,19 +37,43 @@ export function useHomeWindowScroll(page: number, ready: boolean) {
 	}, [page])
 }
 
-export function useStepWindowScroll(stepId: number) {
+function getScrollTop(scrollRef?: RefObject<HTMLElement | null>): number {
+	const el = scrollRef?.current
+	return el ? el.scrollTop : window.scrollY
+}
+
+function scrollToTop(scrollRef?: RefObject<HTMLElement | null>) {
+	const el = scrollRef?.current
+	if (el) el.scrollTop = 0
+	else window.scrollTo(0, 0)
+}
+
+export function useStepWindowScroll(
+	stepId: number,
+	scrollRef?: RefObject<HTMLElement | null>,
+) {
 	useLayoutEffect(() => {
-		const saved = getStepScroll(stepId)
-		if (saved > 0) window.scrollTo(0, saved)
-	}, [stepId])
+		scrollToTop(scrollRef)
+		setStepScroll(stepId, 0)
+	}, [stepId, scrollRef])
 
 	useEffect(() => {
+		const el = scrollRef?.current
 		let raf = 0
 		const onScroll = () => {
 			cancelAnimationFrame(raf)
 			raf = requestAnimationFrame(() => {
-				setStepScroll(stepId, window.scrollY)
+				setStepScroll(stepId, getScrollTop(scrollRef))
 			})
+		}
+
+		if (el) {
+			el.addEventListener('scroll', onScroll, { passive: true })
+			return () => {
+				cancelAnimationFrame(raf)
+				el.removeEventListener('scroll', onScroll)
+				setStepScroll(stepId, el.scrollTop)
+			}
 		}
 
 		window.addEventListener('scroll', onScroll, { passive: true })
@@ -58,5 +82,5 @@ export function useStepWindowScroll(stepId: number) {
 			window.removeEventListener('scroll', onScroll)
 			setStepScroll(stepId, window.scrollY)
 		}
-	}, [stepId])
+	}, [stepId, scrollRef])
 }

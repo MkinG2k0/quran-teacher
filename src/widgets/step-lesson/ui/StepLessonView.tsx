@@ -1,18 +1,21 @@
 'use client'
 
 import { useQuery } from '@tanstack/react-query'
+import type { RefObject } from 'react'
 
 import { fetchStepDetail } from '@/entities/step'
 import { StepReader } from '@/widgets/step-reader'
 
 interface StepLessonViewProps {
 	stepId: number
+	scrollContainerRef?: RefObject<HTMLElement | null>
 	onClose: () => void
 	onOpenStep: (stepId: number) => void
 }
 
 export function StepLessonView({
 	stepId,
+	scrollContainerRef,
 	onClose,
 	onOpenStep,
 }: StepLessonViewProps) {
@@ -45,6 +48,7 @@ export function StepLessonView({
 		<StepReader
 			step={data.step}
 			nextStepId={data.nextStepId}
+			scrollContainerRef={scrollContainerRef}
 			onClose={onClose}
 			onOpenStep={onOpenStep}
 		/>

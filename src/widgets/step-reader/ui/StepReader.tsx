@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useState, type RefObject } from "react";
 
 import type { StepDetail } from "@/entities/step";
 import { useCompleteStep } from "@/features/step-complete/model/use-complete-step";
@@ -13,6 +13,7 @@ import { GeomPattern } from "@/shared/ui/geom-pattern";
 interface StepReaderProps {
   step: StepDetail;
   nextStepId: number | null;
+  scrollContainerRef?: RefObject<HTMLElement | null>;
   onClose?: () => void;
   onOpenStep?: (stepId: number) => void;
 }
@@ -24,6 +25,7 @@ function blockImageSrc(block: StepDetail["blocks"][number]) {
 export function StepReader({
   step,
   nextStepId,
+  scrollContainerRef,
   onClose,
   onOpenStep,
 }: StepReaderProps) {
@@ -50,7 +52,7 @@ export function StepReader({
 
   const total = step.totalPublished ?? step.order;
 
-  useStepWindowScroll(step.id);
+  useStepWindowScroll(step.id, scrollContainerRef);
 
   useEffect(() => {
     setShowDone(false);

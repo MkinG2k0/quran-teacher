@@ -33,7 +33,19 @@ const withAuth = auth((req) => {
   return NextResponse.next();
 });
 
+function rewriteStepToHome(request: NextRequest): NextResponse | null {
+  const match = request.nextUrl.pathname.match(/^\/step\/(\d+)\/?$/);
+  if (!match) return null;
+
+  const url = request.nextUrl.clone();
+  url.pathname = "/";
+  return NextResponse.rewrite(url);
+}
+
 export function proxy(request: NextRequest, event: NextFetchEvent) {
+  const stepRewrite = rewriteStepToHome(request);
+  if (stepRewrite) return stepRewrite;
+
   return (withAuth as unknown as MiddlewareHandler)(request, event);
 }
 

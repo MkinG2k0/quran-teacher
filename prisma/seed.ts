@@ -2,10 +2,12 @@ import "dotenv/config";
 
 import { PrismaClient, Role } from "../generated/prisma/client";
 import { createPrismaClient } from "../src/shared/lib/create-prisma-client";
+import { lessonForStepOrder } from "./seed-lessons";
 
 const prisma: PrismaClient = createPrismaClient();
 
-const STEPS_COUNT = 10;
+const STEPS_COUNT = 555;
+const SEED_BATCH_SIZE = 25;
 
 async function main() {
   await prisma.user.upsert({
@@ -56,44 +58,44 @@ async function main() {
     });
   }
 
-  for (let i = 1; i <= STEPS_COUNT; i++) {
-    const step = await prisma.step.upsert({
-      where: { order: i },
-      update: {},
-      create: {
-        order: i,
-        title: `Шаг ${i} — тестовый`,
-        subtitle: "Тестовый подзаголовок",
-        isPublished: true,
-      },
-    });
+  console.log(`Создание ${STEPS_COUNT} уроков (10 шаблонов по кругу)...`);
 
-    await prisma.block.deleteMany({ where: { stepId: step.id } });
-    await prisma.block.createMany({
-      data: [
-        { stepId: step.id, order: 1, type: "HEADING", value: `Тема шага ${i}` },
-        {
-          stepId: step.id,
-          order: 2,
-          type: "TEXT",
-          value:
-            "Это учебный текст шага. Здесь будет размещено основное содержание урока.",
+  for (let start = 1; start <= STEPS_COUNT; start += SEED_BATCH_SIZE) {
+    const end = Math.min(start + SEED_BATCH_SIZE - 1, STEPS_COUNT);
+
+    for (let order = start; order <= end; order++) {
+      const lesson = lessonForStepOrder(order);
+
+      const step = await prisma.step.upsert({
+        where: { order },
+        update: {
+          title: lesson.title,
+          subtitle: lesson.subtitle,
+          isPublished: true,
         },
-        {
-          stepId: step.id,
-          order: 3,
-          type: "ARABIC",
-          value: "بِسْمِ اللَّهِ",
-          translation: "Бисмиллях",
+        create: {
+          order,
+          title: lesson.title,
+          subtitle: lesson.subtitle,
+          isPublished: true,
         },
-        {
+      });
+
+      await prisma.block.deleteMany({ where: { stepId: step.id } });
+      await prisma.block.createMany({
+        data: lesson.blocks.map((block, index) => ({
           stepId: step.id,
-          order: 4,
-          type: "HIGHLIGHT",
-          value: "Важно запомнить: это ключевое правило данного шага.",
-        },
-      ],
-    });
+          order: index + 1,
+          type: block.type,
+          value: block.value ?? null,
+          imageUrl: block.imageUrl ?? null,
+          caption: block.caption ?? null,
+          translation: block.translation ?? null,
+        })),
+      });
+    }
+
+    console.log(`  шаги ${start}–${end} готовы`);
   }
 
   console.log("Seed завершён");

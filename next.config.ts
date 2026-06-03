@@ -49,7 +49,7 @@ const withPWAConfig = withPWA({
 				options: {
 					cacheName: 'next-rsc',
 					networkTimeoutSeconds: 2,
-					expiration: { maxEntries: 32, maxAgeSeconds: 60 * 60 * 24 },
+					expiration: { maxEntries: 128, maxAgeSeconds: 60 * 60 * 24 },
 				},
 			},
 			{

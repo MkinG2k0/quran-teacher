@@ -1,8 +1,8 @@
 'use client'
 
-import { useRouter } from 'next/navigation'
 import { useCallback, useEffect, useRef, useState } from 'react'
 
+import { useStepNav } from '@/features/step-navigation'
 import { getProgramBundleSync } from '@/shared/lib/offline-program'
 import {
 	getCompletedStepIds,
@@ -23,7 +23,7 @@ import {
 import { StudentHome } from './StudentHome'
 
 export function StudentHomeWithProgress() {
-	const router = useRouter()
+	const { openStep } = useStepNav()
 	const [completedIds, setCompletedIds] = useState<number[]>([])
 	const [page, setPage] = useState(() => getSavedHomePage() ?? 1)
 	const initialPageSet = useRef(getSavedHomePage() != null)
@@ -40,9 +40,9 @@ export function StudentHomeWithProgress() {
 		if (!fromQuery) return
 		const id = Number(fromQuery)
 		if (Number.isInteger(id) && id > 0) {
-			router.replace(`/step/${id}`)
+			openStep(id)
 		}
-	}, [router])
+	}, [openStep])
 
 	const { data: currentStep } = useCurrentProgramStep(completedIds)
 	const { data: stepsPage, isLoading } = useProgramStepsPage(
@@ -74,9 +74,9 @@ export function StudentHomeWithProgress() {
 
 	const handleOpenStep = useCallback(
 		(stepId: number) => {
-			router.push(`/step/${stepId}`)
+			openStep(stepId)
 		},
-		[router],
+		[openStep],
 	)
 
 	return (

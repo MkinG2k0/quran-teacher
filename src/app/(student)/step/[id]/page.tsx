@@ -1,19 +1,7 @@
-'use client'
-
-import { useParams, useRouter } from 'next/navigation'
-
-import { StepLessonView } from '@/widgets/step-lesson'
-
+/**
+ * UI урока — в StepNavOverlay (history.pushState + /step/:id в адресной строке).
+ * Страница нужна только для маршрута; proxy переписывает запрос на /.
+ */
 export default function StepPage() {
-	const router = useRouter()
-	const { id } = useParams<{ id: string }>()
-	const stepId = Number(id)
-
-	return (
-		<StepLessonView
-			stepId={stepId}
-			onClose={() => router.push('/')}
-			onOpenStep={(nextId) => router.push(`/step/${nextId}`)}
-		/>
-	)
+	return null
 }
