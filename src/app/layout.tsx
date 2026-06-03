@@ -6,7 +6,6 @@ import { UnregisterSwInDev } from '@/shared/ui/unregister-sw-in-dev'
 import { Providers } from '@/shared/providers'
 
 import './globals.css'
-import './quran-animations.css'
 
 const mulish = Mulish({
 	variable: '--font-body',
@@ -46,10 +45,7 @@ export default function RootLayout({
 			className={`${mulish.variable} ${cormorant.variable}`}
 			suppressHydrationWarning
 		>
-			<body
-				className="font-body antialiased"
-				style={{ background: '#0D1117', color: '#E8E0D0' }}
-			>
+			<body className="font-body bg-[#0D1117] text-[#E8E0D0] antialiased">
 				<UnregisterSwInDev />
 				<Providers>
 					{children}

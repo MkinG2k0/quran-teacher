@@ -1,6 +1,7 @@
 "use client";
 
-import { useFontSettings } from "@/features/font-settings";
+import { qColors, qText } from "@/shared/lib/quran-tailwind";
+import { cn } from "@/shared/lib/utils";
 
 import { formatSectionRange, STEPS_PER_SECTION } from "../lib/step-sections";
 
@@ -17,7 +18,6 @@ export function ProgramStepPagination({
   totalPublished,
   onPageChange,
 }: ProgramStepPaginationProps) {
-  const { px } = useFontSettings();
   const rangeLabel = formatSectionRange(
     page - 1,
     STEPS_PER_SECTION,
@@ -34,60 +34,32 @@ export function ProgramStepPagination({
     if (canGoNext) onPageChange(page + 1);
   };
 
+  const navBtnClass = (enabled: boolean) =>
+    cn(
+      "size-9 rounded-lg border border-[var(--quran-panel-border)]",
+      qText(16),
+      enabled
+        ? "cursor-pointer bg-[var(--quran-pagination-active-bg)] text-[var(--quran-accent)]"
+        : cn("cursor-default bg-transparent", qColors.fgDisabled),
+    );
+
   return (
-    <div
-      style={{
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "space-between",
-        gap: 12,
-        marginBottom: 12,
-        padding: "10px 12px",
-        borderRadius: 12,
-        border: "1px solid var(--quran-border)",
-        background: "var(--quran-pagination-bg)",
-      }}
-    >
+    <div className="mb-3 flex items-center justify-between gap-3 rounded-xl border border-[var(--quran-border)] bg-[var(--quran-pagination-bg)] px-3 py-2.5">
       <button
         type="button"
         onClick={handlePrev}
         disabled={!canGoPrev}
         aria-label="Предыдущий блок"
-        style={{
-          border: "1px solid var(--quran-panel-border)",
-          background: canGoPrev
-            ? "var(--quran-pagination-active-bg)"
-            : "transparent",
-          color: canGoPrev ? "var(--quran-accent)" : "var(--quran-fg-disabled)",
-          borderRadius: 8,
-          width: 36,
-          height: 36,
-          cursor: canGoPrev ? "pointer" : "default",
-          fontSize: px(16),
-        }}
+        className={navBtnClass(canGoPrev)}
       >
         ←
       </button>
 
-      <div style={{ textAlign: "center", minWidth: 0 }}>
-        <p
-          className="font-body"
-          style={{
-            fontSize: px(12),
-            fontWeight: 600,
-            color: "var(--quran-fg)",
-          }}
-        >
+      <div className="min-w-0 text-center">
+        <p className={cn("font-body font-semibold", qText(12), qColors.fg)}>
           {rangeLabel}
         </p>
-        <p
-          className="font-body"
-          style={{
-            fontSize: px(10),
-            color: "var(--quran-fg-muted)",
-            marginTop: 2,
-          }}
-        >
+        <p className={cn("font-body mt-0.5", qText(10), qColors.fgMuted)}>
           Блок {page} из {totalPages}
         </p>
       </div>
@@ -97,18 +69,7 @@ export function ProgramStepPagination({
         onClick={handleNext}
         disabled={!canGoNext}
         aria-label="Следующий блок"
-        style={{
-          border: "1px solid var(--quran-panel-border)",
-          background: canGoNext
-            ? "var(--quran-pagination-active-bg)"
-            : "transparent",
-          color: canGoNext ? "var(--quran-accent)" : "var(--quran-fg-disabled)",
-          borderRadius: 8,
-          width: 36,
-          height: 36,
-          cursor: canGoNext ? "pointer" : "default",
-          fontSize: px(16),
-        }}
+        className={navBtnClass(canGoNext)}
       >
         →
       </button>

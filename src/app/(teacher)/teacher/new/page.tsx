@@ -46,10 +46,7 @@ export default function NewStudentPage() {
 	}
 
 	return (
-		<div
-			className="font-body mx-auto min-h-screen max-w-md p-6"
-			style={{ background: '#0D1117', color: '#E8E0D0' }}
-		>
+		<div className="font-body mx-auto min-h-screen max-w-md bg-[#0D1117] p-6 text-[#E8E0D0]">
 			<Link href="/teacher" className="mb-6 inline-block text-sm text-[#6B6555]">
 				← К списку
 			</Link>
@@ -57,10 +54,7 @@ export default function NewStudentPage() {
 			<h1 className="font-display mb-6 text-2xl font-semibold">Новый ученик</h1>
 
 			{accessCode ? (
-				<div
-					className="rounded-xl border border-[#2A2418] p-6 text-center"
-					style={{ background: '#101010' }}
-				>
+				<div className="rounded-xl border border-[#2A2418] bg-[#101010] p-6 text-center">
 					<p className="mb-2 text-sm text-[#6B6555]">Код доступа</p>
 					<p className="font-display text-4xl tracking-[0.3em] text-[#C9A84C]">
 						{accessCode}

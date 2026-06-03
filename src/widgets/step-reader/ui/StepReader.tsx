@@ -6,10 +6,18 @@ import { useEffect, useState, type RefObject } from "react";
 
 import type { StepDetail } from "@/entities/step";
 import { AddStepBookmarkButton } from "@/features/step-bookmarks";
-import { useFontSettings } from "@/features/font-settings";
 import { useCompleteStep } from "@/features/step-complete/model/use-complete-step";
 import { isStepCompleted } from "@/shared/lib/student-progress-storage";
+import {
+  headerIconButtonClass,
+  qColors,
+  qGradientAccent,
+  qProgressTrack,
+  qShell,
+  qText,
+} from "@/shared/lib/quran-tailwind";
 import { useStepWindowScroll } from "@/shared/lib/use-persisted-scroll";
+import { cn } from "@/shared/lib/utils";
 import { GeomPattern } from "@/shared/ui/geom-pattern";
 
 interface StepReaderProps {
@@ -32,7 +40,6 @@ export function StepReader({
   onOpenStep,
 }: StepReaderProps) {
   const router = useRouter();
-  const { px } = useFontSettings();
 
   const handleClose = () => {
     if (onClose) onClose();
@@ -70,79 +77,30 @@ export function StepReader({
     setShowDone(true);
   };
 
+  const progressPct = (step.order / total) * 100;
+
   return (
-    <div
-      style={{
-        minHeight: "100vh",
-        background: "var(--quran-bg)",
-        color: "var(--quran-fg)",
-        position: "relative",
-        maxWidth: 480,
-        margin: "0 auto",
-      }}
-    >
+    <div className={cn(qShell, "mx-auto max-w-[480px]")}>
       <GeomPattern opacity={0.035} />
 
-      <header
-        style={{
-          position: "sticky",
-          top: 0,
-          padding: "20px 20px 14px",
-          borderBottom: "1px solid var(--quran-border)",
-          background: "var(--quran-header-bg)",
-          backdropFilter: "blur(8px)",
-          zIndex: 20,
-        }}
-      >
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            gap: 12,
-            marginBottom: 10,
-          }}
-        >
+      <header className="sticky top-0 z-20 border-b border-[var(--quran-border)] bg-[var(--quran-header-bg)] px-5 pt-5 pb-3.5 backdrop-blur-[8px]">
+        <div className="mb-2.5 flex items-center gap-3">
           <button
             type="button"
             onClick={handleClose}
-            style={{
-              width: 34,
-              height: 34,
-              borderRadius: "50%",
-              background: "var(--quran-elevated)",
-              border: "1px solid var(--quran-border-strong)",
-              color: "var(--quran-fg-secondary)",
-              cursor: "pointer",
-              fontSize: px(14),
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              flexShrink: 0,
-            }}
+            className={cn(headerIconButtonClass(), qText(14))}
           >
             ←
           </button>
 
-          <div style={{ flex: 1, minWidth: 0 }}>
-            <div
-              style={{
-                display: "flex",
-                alignItems: "center",
-                gap: 8,
-                marginBottom: 2,
-              }}
-            >
+          <div className="min-w-0 flex-1">
+            <div className="mb-0.5 flex items-center gap-2">
               <p
-                className="font-body"
-                style={{
-                  fontSize: px(10),
-                  color: "var(--quran-fg-secondary)",
-                  letterSpacing: 2,
-                  textTransform: "uppercase",
-                  margin: 0,
-                  flex: 1,
-                  minWidth: 0,
-                }}
+                className={cn(
+                  "font-body m-0 min-w-0 flex-1 tracking-[2px] uppercase",
+                  qText(10),
+                  qColors.fgSecondary,
+                )}
               >
                 Шаг {step.order} из {total}
               </p>
@@ -153,47 +111,26 @@ export function StepReader({
               />
             </div>
             <h1
-              className="font-display"
-              style={{
-                fontSize: px(18),
-                fontWeight: 600,
-                color: "var(--quran-fg)",
-                lineHeight: 1.2,
-                whiteSpace: "nowrap",
-                overflow: "hidden",
-                textOverflow: "ellipsis",
-              }}
+              className={cn(
+                "font-display truncate font-semibold leading-tight",
+                qText(18),
+                qColors.fg,
+              )}
             >
               {step.title}
             </h1>
           </div>
         </div>
 
-        <div
-          style={{
-            height: 3,
-            borderRadius: 2,
-            background: "var(--quran-progress-track)",
-            overflow: "hidden",
-          }}
-        >
+        <div className={cn(qProgressTrack, "h-[3px] rounded-sm")}>
           <div
-            style={{
-              height: "100%",
-              width: `${(step.order / total) * 100}%`,
-              background: "var(--quran-gradient-progress)",
-            }}
+            className="h-full bg-[image:var(--quran-gradient-progress)]"
+            style={{ width: `${progressPct}%` }}
           />
         </div>
       </header>
 
-      <main
-        style={{
-          padding: "24px 20px 8px",
-          position: "relative",
-          zIndex: 1,
-        }}
-      >
+      <main className="relative z-1 px-5 pt-6 pb-2">
         {/* <div
           className="font-display quran-fade-up"
           style={{
@@ -208,7 +145,7 @@ export function StepReader({
           ـ ﴾ ﴿ ـ
         </div> */}
 
-        <div style={{ display: "flex", flexDirection: "column", gap: 20 }}>
+        <div className="flex flex-col gap-5">
           {step.blocks.map((block, i) => (
             <div
               key={block.id ?? i}
@@ -217,13 +154,11 @@ export function StepReader({
             >
               {block.type === "TEXT" && (
                 <p
-                  className="font-body"
-                  style={{
-                    fontSize: px(15),
-                    lineHeight: 1.75,
-                    color: "var(--quran-body-text)",
-                    fontWeight: 300,
-                  }}
+                  className={cn(
+                    "font-body font-light leading-[1.75]",
+                    qText(15),
+                    qColors.body,
+                  )}
                 >
                   {block.value}
                 </p>
@@ -231,54 +166,33 @@ export function StepReader({
 
               {block.type === "HEADING" && (
                 <h2
-                  className="font-display"
-                  style={{
-                    fontSize: px(20),
-                    fontWeight: 600,
-                    color: "var(--quran-fg)",
-                    marginTop: 4,
-                    paddingLeft: 12,
-                    borderLeft: "2px solid var(--quran-accent)",
-                  }}
+                  className={cn(
+                    "font-display mt-1 border-l-2 border-[var(--quran-accent)] pl-3 font-semibold",
+                    qText(20),
+                    qColors.fg,
+                  )}
                 >
                   {block.value}
                 </h2>
               )}
 
               {block.type === "IMAGE" && blockImageSrc(block) && (
-                <div
-                  style={{
-                    borderRadius: 10,
-                    overflow: "hidden",
-                    border: "1px solid var(--quran-border)",
-                    background: "var(--quran-image-frame-bg)",
-                  }}
-                >
+                <div className="overflow-hidden rounded-[10px] border border-[var(--quran-border)] bg-[var(--quran-image-frame-bg)]">
                   <Image
                     src={blockImageSrc(block)}
                     alt={block.caption ?? ""}
                     width={400}
                     height={200}
                     unoptimized
-                    style={{
-                      width: "100%",
-                      display: "block",
-                      maxHeight: 200,
-                      objectFit: "contain",
-                      padding: 20,
-                    }}
+                    className="block w-full max-h-[200px] object-contain p-5"
                   />
                   {block.caption && (
                     <p
-                      className="font-body"
-                      style={{
-                        fontSize: px(11),
-                        color: "var(--quran-fg-secondary)",
-                        textAlign: "center",
-                        padding: "8px 16px 12px",
-                        borderTop: "1px solid var(--quran-border)",
-                        background: "var(--quran-image-caption-bg)",
-                      }}
+                      className={cn(
+                        "font-body border-t border-[var(--quran-border)] bg-[var(--quran-image-caption-bg)] px-4 pt-2 pb-3 text-center",
+                        qText(11),
+                        qColors.fgSecondary,
+                      )}
                     >
                       {block.caption}
                     </p>
@@ -287,45 +201,24 @@ export function StepReader({
               )}
 
               {block.type === "ARABIC" && (
-                <div
-                  style={{
-                    background: "var(--quran-arabic-bg)",
-                    border: "1px solid var(--quran-arabic-border)",
-                    borderRadius: 12,
-                    padding: 20,
-                    textAlign: "center",
-                  }}
-                >
+                <div className="rounded-xl border border-[var(--quran-arabic-border)] bg-[image:var(--quran-arabic-bg)] p-5 text-center">
                   <p
-                    className="font-display"
-                    style={{
-                      fontSize: px(32),
-                      color: "var(--quran-accent)",
-                      letterSpacing: 12,
-                      marginBottom: 10,
-                      direction: "rtl",
-                      lineHeight: 1.6,
-                    }}
+                    className={cn(
+                      "font-display mb-2.5 leading-[1.6] tracking-[12px] [direction:rtl]",
+                      qText(32),
+                      qColors.accent,
+                    )}
                   >
                     {block.value}
                   </p>
                   {block.translation && (
                     <>
-                      <div
-                        style={{
-                          width: 40,
-                          height: 1,
-                          background: "var(--quran-arabic-divider)",
-                          margin: "0 auto 10px",
-                        }}
-                      />
+                      <div className="mx-auto mb-2.5 h-px w-10 bg-[var(--quran-arabic-divider)]" />
                       <p
-                        className="font-body"
-                        style={{
-                          fontSize: px(13),
-                          color: "var(--quran-arabic-translation)",
-                          letterSpacing: 4,
-                        }}
+                        className={cn(
+                          "font-body tracking-[4px] text-[var(--quran-arabic-translation)]",
+                          qText(13),
+                        )}
                       >
                         {block.translation}
                       </p>
@@ -335,34 +228,13 @@ export function StepReader({
               )}
 
               {block.type === "HIGHLIGHT" && (
-                <div
-                  style={{
-                    background: "var(--quran-highlight-bg)",
-                    border: "1px solid var(--quran-highlight-border)",
-                    borderRadius: 10,
-                    padding: "16px 16px 16px 14px",
-                    display: "flex",
-                    gap: 12,
-                    alignItems: "flex-start",
-                  }}
-                >
-                  <div
-                    style={{
-                      width: 3,
-                      borderRadius: 2,
-                      flexShrink: 0,
-                      background: "var(--quran-gradient-accent)",
-                      alignSelf: "stretch",
-                      minHeight: 40,
-                    }}
-                  />
+                <div className="flex items-start gap-3 rounded-[10px] border border-[var(--quran-highlight-border)] bg-[image:var(--quran-highlight-bg)] py-4 pr-4 pl-3.5">
+                  <div className="min-h-10 w-[3px] shrink-0 self-stretch rounded-sm bg-[image:var(--quran-gradient-accent)]" />
                   <p
-                    className="font-body"
-                    style={{
-                      fontSize: px(13),
-                      lineHeight: 1.65,
-                      color: "var(--quran-highlight-text)",
-                    }}
+                    className={cn(
+                      "font-body leading-[1.65] text-[var(--quran-highlight-text)]",
+                      qText(13),
+                    )}
                   >
                     {block.value}
                   </p>
@@ -372,33 +244,21 @@ export function StepReader({
           ))}
         </div>
 
-        <div
-          style={{
-            height: 1,
-            background: "var(--quran-border)",
-            margin: "28px 0",
-          }}
-        />
+        <div className="my-7 h-px bg-[var(--quran-border)]" />
 
-        <div style={{ paddingBottom: 32 }}>
+        <div className="pb-8">
           <button
             type="button"
             disabled={isPending}
             onClick={handleComplete}
-            style={{
-              width: "100%",
-              padding: 16,
-              border: "none",
-              borderRadius: 12,
-              color: "var(--quran-on-accent)",
-              background: "var(--quran-gradient-accent)",
-              cursor: isPending ? "default" : "pointer",
-            }}
+            className={cn(
+              "w-full cursor-pointer rounded-xl border-none p-4",
+              qGradientAccent,
+              qColors.onAccent,
+              isPending && "cursor-default",
+            )}
           >
-            <span
-              className="font-display"
-              style={{ fontSize: px(16), fontWeight: 700 }}
-            >
+            <span className={cn("font-display font-bold", qText(16))}>
               {completed ? "✓ Шаг завершён" : "Завершить шаг"}
             </span>
           </button>
@@ -406,99 +266,60 @@ export function StepReader({
       </main>
 
       {showDone && (
-        <div
-          style={{
-            position: "fixed",
-            inset: 0,
-            zIndex: 40,
-            background: "var(--quran-modal-overlay)",
-            backdropFilter: "blur(12px)",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            padding: 24,
-          }}
-        >
+        <div className="fixed inset-0 z-40 flex items-center justify-center bg-[var(--quran-modal-overlay)] p-6 backdrop-blur-md">
           <div
-            className="quran-success-pop"
-            style={{
-              background: "var(--quran-modal-bg)",
-              border: "1px solid var(--quran-row-current-border)",
-              borderRadius: 20,
-              padding: "36px 32px",
-              textAlign: "center",
-              maxWidth: 400,
-              width: "100%",
-              boxShadow: "0 0 60px rgba(201,168,76,0.15)",
-            }}
+            className={cn(
+              "quran-success-pop w-full max-w-[400px] rounded-[20px] border border-[var(--quran-row-current-border)] bg-[image:var(--quran-modal-bg)] px-8 py-9 text-center shadow-[0_0_60px_rgba(201,168,76,0.15)]",
+            )}
           >
             <div
-              className="font-display"
-              style={{
-                fontSize: px(48),
-                color: "var(--quran-accent)",
-                marginBottom: 4,
-              }}
+              className={cn("font-display mb-1", qText(48), qColors.accent)}
             >
               ✓
             </div>
             <h2
-              className="font-display"
-              style={{
-                fontSize: px(26),
-                fontWeight: 600,
-                color: "var(--quran-fg)",
-                marginBottom: 8,
-              }}
+              className={cn(
+                "font-display mb-2 font-semibold",
+                qText(26),
+                qColors.fg,
+              )}
             >
               Шаг пройден!
             </h2>
             <p
-              className="font-body"
-              style={{
-                fontSize: px(13),
-                color: "var(--quran-fg-secondary)",
-                marginBottom: 24,
-                lineHeight: 1.6,
-              }}
+              className={cn(
+                "font-body mb-6 leading-[1.6]",
+                qText(13),
+                qColors.fgSecondary,
+              )}
             >
               Вы завершили шаг {step.order}.
               <br />
               Следующий шаг уже разблокирован.
             </p>
-            <div style={{ display: "flex", gap: 8 }}>
+            <div className="flex gap-2">
               <button
                 type="button"
                 onClick={() => setShowDone(false)}
-                className="font-body"
-                style={{
-                  flex: 1,
-                  padding: 11,
-                  background: "var(--quran-elevated)",
-                  border: "1px solid var(--quran-border-strong)",
-                  borderRadius: 10,
-                  color: "var(--quran-fg-secondary)",
-                  cursor: "pointer",
-                  fontSize: px(13),
-                }}
+                className={cn(
+                  "font-body flex-1 cursor-pointer rounded-[10px] border px-[11px] py-[11px]",
+                  qColors.borderStrong,
+                  qColors.elevated,
+                  qColors.fgSecondary,
+                  qText(13),
+                )}
               >
                 ← Назад
               </button>
               <button
                 type="button"
                 onClick={handleGoNext}
-                className="font-display"
-                style={{
-                  flex: 2,
-                  padding: 11,
-                  background: "var(--quran-gradient-accent)",
-                  border: "none",
-                  borderRadius: 10,
-                  color: "var(--quran-on-accent)",
-                  cursor: "pointer",
-                  fontWeight: 700,
-                  fontSize: px(14),
-                }}
+                className={cn(
+                  "font-display flex-[2] cursor-pointer rounded-[10px] border-none px-[11px] py-[11px] font-bold",
+                  qGradientAccent,
+                  qColors.onAccent,
+                  qText(14),
+                )}
               >
                 {nextStepId ? "Следующий шаг →" : "На главную →"}
               </button>

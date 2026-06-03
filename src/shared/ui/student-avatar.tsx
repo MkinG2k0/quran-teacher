@@ -1,4 +1,5 @@
 import { FONT_BASE_OFFSET } from '@/features/font-settings/lib/constants'
+import { cn } from '@/shared/lib/utils'
 
 interface StudentAvatarProps {
 	name: string
@@ -12,24 +13,15 @@ export function StudentAvatar({ name, size = 38 }: StudentAvatarProps) {
 		.slice(0, 2)
 		.join('')
 	const hue = name.charCodeAt(0) * 17 % 360
+	const fontSize = size * 0.35 + FONT_BASE_OFFSET
 
 	return (
 		<div
-			style={{
-				width: size,
-				height: size,
-				borderRadius: '50%',
-				flexShrink: 0,
-				background: `hsl(${hue}, 25%, 18%)`,
-				border: `1px solid hsl(${hue}, 30%, 25%)`,
-				display: 'flex',
-				alignItems: 'center',
-				justifyContent: 'center',
-				fontSize: size * 0.35 + FONT_BASE_OFFSET,
-				color: `hsl(${hue}, 50%, 65%)`,
-				fontFamily: 'var(--font-display), Georgia, serif',
-				fontWeight: 600,
-			}}
+			className={cn(
+				'flex shrink-0 items-center justify-center rounded-full font-display font-semibold',
+				`bg-[hsl(${hue}_25%_18%)] border border-[hsl(${hue}_30%_25%)] text-[hsl(${hue}_50%_65%)]`,
+			)}
+			style={{ width: size, height: size, fontSize }}
 		>
 			{initials}
 		</div>

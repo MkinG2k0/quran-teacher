@@ -3,9 +3,9 @@
 import { Bookmark, BookmarkCheck } from 'lucide-react'
 
 import { useFontSettings } from '@/features/font-settings'
+import { headerIconButtonClass } from '@/shared/lib/quran-tailwind'
 
 import { useStepBookmarks } from '../model/use-step-bookmarks'
-import { headerIconButtonStyle } from './header-icon-button-styles'
 
 interface AddStepBookmarkButtonProps {
 	stepId: number
@@ -32,7 +32,7 @@ export function AddStepBookmarkButton({
 			onClick={handleToggle}
 			aria-label={saved ? 'Убрать закладку' : 'Добавить закладку'}
 			title={saved ? 'Убрать закладку' : 'Добавить закладку'}
-			style={headerIconButtonStyle(px, saved)}
+			className={headerIconButtonClass(saved)}
 		>
 			{saved ? (
 				<BookmarkCheck size={px(16)} strokeWidth={1.75} />

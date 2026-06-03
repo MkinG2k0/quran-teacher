@@ -1,7 +1,8 @@
 'use client'
 
 import type { StepListItem } from '@/entities/step'
-import { useFontSettings } from '@/features/font-settings'
+import { qColors, qText } from '@/shared/lib/quran-tailwind'
+import { cn } from '@/shared/lib/utils'
 
 interface ProgramStepRowProps {
 	step: StepListItem
@@ -9,7 +10,6 @@ interface ProgramStepRowProps {
 }
 
 export function ProgramStepRow({ step, onSelect }: ProgramStepRowProps) {
-	const { px } = useFontSettings()
 	const isCurrent = step.status === 'current'
 	const isCompleted = step.status === 'completed'
 
@@ -25,83 +25,52 @@ export function ProgramStepRow({ step, onSelect }: ProgramStepRowProps) {
 			tabIndex={0}
 			onClick={handleClick}
 			onKeyDown={handleKeyDown}
-			style={{
-				display: 'flex',
-				alignItems: 'center',
-				gap: 14,
-				padding: '12px 14px',
-				borderRadius: 10,
-				background: isCurrent
-					? 'var(--quran-row-current-bg)'
-					: 'var(--quran-row-bg)',
-				border: isCurrent
-					? '1px solid var(--quran-row-current-border)'
-					: '1px solid var(--quran-row-border)',
-				cursor: 'pointer',
-				boxShadow: isCurrent ? '0 0 16px rgba(201,168,76,0.12)' : undefined,
-			}}
+			className={cn(
+				'flex cursor-pointer items-center gap-3.5 rounded-[10px] px-3.5 py-3',
+				isCurrent
+					? 'border border-[var(--quran-row-current-border)] bg-[image:var(--quran-row-current-bg)] shadow-[0_0_16px_rgba(201,168,76,0.12)]'
+					: 'border border-[var(--quran-row-border)] bg-[var(--quran-row-bg)]',
+			)}
 		>
 			<div
-				className={isCurrent ? 'quran-badge-current' : ''}
-				style={{
-					width: 32,
-					height: 32,
-					borderRadius: '50%',
-					flexShrink: 0,
-					display: 'flex',
-					alignItems: 'center',
-					justifyContent: 'center',
-					background: isCompleted
-						? 'linear-gradient(135deg, #2A3A20, #3A5228)'
-						: isCurrent
-							? 'linear-gradient(135deg, #2A2010, #3A2E10)'
-							: 'var(--quran-elevated)',
-					border: isCompleted
-						? '1px solid #4A7A30'
-						: isCurrent
-							? '1px solid var(--quran-accent)'
-							: '1px solid var(--quran-border-strong)',
-					fontSize: px(11),
-					color: isCompleted
-						? '#6ABB40'
-						: isCurrent
-							? 'var(--quran-accent)'
-							: 'var(--quran-fg-subtle)',
-				}}
+				className={cn(
+					'flex size-8 shrink-0 items-center justify-center rounded-full',
+					qText(11),
+					isCurrent && 'quran-badge-current',
+					isCompleted &&
+						'border border-[#4A7A30] bg-[linear-gradient(135deg,#2A3A20,#3A5228)] text-[#6ABB40]',
+					isCurrent &&
+						!isCompleted &&
+						'border border-[var(--quran-accent)] bg-[linear-gradient(135deg,#2A2010,#3A2E10)] text-[var(--quran-accent)]',
+					!isCompleted &&
+						!isCurrent &&
+						cn('border', qColors.borderStrong, qColors.elevated, qColors.fgSubtle),
+				)}
 			>
 				{isCompleted ? '✓' : step.order}
 			</div>
 
-			<div style={{ flex: 1, minWidth: 0 }}>
+			<div className="min-w-0 flex-1">
 				<p
-					className="font-body"
-					style={{
-						fontSize: px(13),
-						fontWeight: 600,
-						color: isCompleted
-							? 'var(--quran-fg-secondary)'
-							: isCurrent
-								? 'var(--quran-fg)'
-								: 'var(--quran-fg-secondary)',
-						whiteSpace: 'nowrap',
-						overflow: 'hidden',
-						textOverflow: 'ellipsis',
-					}}
+					className={cn(
+						'font-body truncate font-semibold',
+						qText(13),
+						isCompleted && qColors.fgSecondary,
+						isCurrent && qColors.fg,
+						!isCompleted && !isCurrent && qColors.fgSecondary,
+					)}
 				>
 					{step.title}
 				</p>
 				{step.subtitle && (
 					<p
-						className="font-body"
-						style={{
-							fontSize: px(11),
-							color: isCompleted
-								? 'var(--quran-fg-subtle)'
-								: isCurrent
-									? 'var(--quran-fg-subtle)'
-									: 'var(--quran-fg-muted)',
-							marginTop: 1,
-						}}
+						className={cn(
+							'font-body mt-px',
+							qText(11),
+							isCompleted && qColors.fgSubtle,
+							isCurrent && qColors.fgSubtle,
+							!isCompleted && !isCurrent && qColors.fgMuted,
+						)}
 					>
 						{step.subtitle}
 					</p>

@@ -2,22 +2,24 @@
 
 import Link from 'next/link'
 
-import { FontSizePicker, useFontSettings } from '@/features/font-settings'
+import { FontSizePicker } from '@/features/font-settings'
 import { ThemePicker } from '@/features/theme-settings'
+import { qColors, qText } from '@/shared/lib/quran-tailwind'
+import { cn } from '@/shared/lib/utils'
 
 export function ProfileView() {
-	const { px } = useFontSettings()
 	return (
 		<div className="font-body mx-auto flex min-h-screen max-w-md flex-col gap-6 p-6">
-			<Link
-				href="/"
-				className="text-sm"
-				style={{ color: 'var(--quran-fg-secondary)' }}
-			>
+			<Link href="/" className={cn('text-sm', qColors.fgSecondary)}>
 				← На главную
 			</Link>
 			<div>
-				<p className="text-xs uppercase tracking-widest text-[var(--quran-fg-secondary)]">
+				<p
+					className={cn(
+						'text-xs uppercase tracking-widest',
+						qColors.fgSecondary,
+					)}
+				>
 					Настройки
 				</p>
 				<h1 className="font-display text-2xl font-semibold">Чтение</h1>
@@ -25,32 +27,30 @@ export function ProfileView() {
 
 			<section>
 				<p
-					className="font-body mb-3 text-xs uppercase tracking-widest"
-					style={{ color: 'var(--quran-fg-secondary)' }}
+					className={cn(
+						'font-body mb-3 text-xs uppercase tracking-widest',
+						qColors.fgSecondary,
+					)}
 				>
 					Размер шрифта
 				</p>
 				<FontSizePicker />
-				<p
-					className="font-body mt-2"
-					style={{ fontSize: px(11), color: 'var(--quran-fg-muted)' }}
-				>
+				<p className={cn('font-body mt-2', qText(11), qColors.fgMuted)}>
 					Применяется к урокам и списку шагов на этом устройстве
 				</p>
 			</section>
 
 			<section>
 				<p
-					className="font-body mb-3 text-xs uppercase tracking-widest"
-					style={{ color: 'var(--quran-fg-secondary)' }}
+					className={cn(
+						'font-body mb-3 text-xs uppercase tracking-widest',
+						qColors.fgSecondary,
+					)}
 				>
 					Тема оформления
 				</p>
 				<ThemePicker />
-				<p
-					className="font-body mt-2"
-					style={{ fontSize: px(11), color: 'var(--quran-fg-muted)' }}
-				>
+				<p className={cn('font-body mt-2', qText(11), qColors.fgMuted)}>
 					Тёмная, светлая или сепия — для комфортного чтения
 				</p>
 			</section>

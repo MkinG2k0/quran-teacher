@@ -1,7 +1,8 @@
 "use client";
 
 import type { StepListItem } from "@/entities/step";
-import { useFontSettings } from "@/features/font-settings";
+import { qColors, qText } from "@/shared/lib/quran-tailwind";
+import { cn } from "@/shared/lib/utils";
 
 import { ProgramStepPagination } from "./ProgramStepPagination";
 import { ProgramStepRow } from "./ProgramStepRow";
@@ -25,18 +26,14 @@ export function ProgramStepList({
   onPageChange,
   onSelectStep,
 }: ProgramStepListProps) {
-  const { px } = useFontSettings();
-
   if (!isLoading && steps.length === 0 && totalPages <= 1) {
     return (
       <p
-        className="font-body"
-        style={{
-          textAlign: "center",
-          padding: 16,
-          color: "var(--quran-fg-muted)",
-          fontSize: px(12),
-        }}
+        className={cn(
+          "font-body p-4 text-center",
+          qText(12),
+          qColors.fgMuted,
+        )}
       >
         Шаги программы пока не опубликованы
       </p>
@@ -48,7 +45,7 @@ export function ProgramStepList({
   ).length;
 
   return (
-    <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+    <div className="flex flex-col gap-2">
       {totalPages > 1 && (
         <ProgramStepPagination
           page={page}
@@ -60,31 +57,22 @@ export function ProgramStepList({
 
       {isLoading ? (
         <p
-          className="font-body"
-          style={{
-            textAlign: "center",
-            padding: 24,
-            color: "var(--quran-fg-muted)",
-            fontSize: px(12),
-          }}
+          className={cn(
+            "font-body p-6 text-center",
+            qText(12),
+            qColors.fgMuted,
+          )}
         >
           Загрузка шагов...
         </p>
       ) : (
         <>
           {steps.length > 0 && (
-            <p
-              className="font-body"
-              style={{
-                fontSize: px(10),
-                color: "var(--quran-fg-muted)",
-                marginBottom: 4,
-              }}
-            >
+            <p className={cn("font-body mb-1", qText(10), qColors.fgMuted)}>
               {completedOnPage} из {steps.length} пройдено в этом блоке
             </p>
           )}
-          <div style={{ display: "flex", flexDirection: "column", gap: 6 }}>
+          <div className="flex flex-col gap-1.5">
             {steps.map((step) => (
               <ProgramStepRow
                 key={step.id}

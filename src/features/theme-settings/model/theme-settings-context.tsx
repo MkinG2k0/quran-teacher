@@ -44,12 +44,8 @@ export function ThemeSettingsProvider({ children }: { children: ReactNode }) {
 	return (
 		<ThemeSettingsContext.Provider value={value}>
 			<div
-				className="quran-student-shell min-h-screen"
+				className="quran-student-shell min-h-screen bg-[var(--quran-bg)] text-[var(--quran-fg)]"
 				data-quran-theme={theme}
-				style={{
-					background: 'var(--quran-bg)',
-					color: 'var(--quran-fg)',
-				}}
 			>
 				{children}
 			</div>

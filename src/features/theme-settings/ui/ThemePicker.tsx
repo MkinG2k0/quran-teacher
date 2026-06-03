@@ -1,19 +1,15 @@
 'use client'
 
-import { fontPx } from '@/features/font-settings/lib/constants'
-
 import { QURAN_THEME_OPTIONS } from '../lib/constants'
 import { useThemeSettings } from '../model/theme-settings-context'
+import { pickerOptionClass, themeSwatchClass } from '@/shared/lib/quran-tailwind'
+import { cn } from '@/shared/lib/utils'
 
 export function ThemePicker() {
 	const { theme, setTheme } = useThemeSettings()
 
 	return (
-		<div
-			role="group"
-			aria-label="Тема оформления"
-			style={{ display: 'flex', flexDirection: 'column', gap: 8 }}
-		>
+		<div role="group" aria-label="Тема оформления" className="flex flex-col gap-2">
 			{QURAN_THEME_OPTIONS.map((opt) => {
 				const selected = theme === opt.id
 				return (
@@ -22,32 +18,9 @@ export function ThemePicker() {
 						type="button"
 						aria-pressed={selected}
 						onClick={() => setTheme(opt.id)}
-						className="font-body"
-						style={{
-							display: 'flex',
-							alignItems: 'center',
-							gap: 12,
-							width: '100%',
-							padding: '12px 14px',
-							borderRadius: 10,
-							border: selected
-								? '1px solid var(--quran-accent)'
-								: '1px solid var(--quran-panel-border)',
-							background: selected
-								? 'var(--quran-picker-active-bg)'
-								: 'var(--quran-elevated)',
-							color: selected ? 'var(--quran-accent)' : 'var(--quran-fg-secondary)',
-							cursor: 'pointer',
-							fontSize: fontPx(13),
-							fontWeight: selected ? 600 : 400,
-							textAlign: 'left',
-						}}
+						className={cn(pickerOptionClass(selected), 'flex items-center gap-3')}
 					>
-						<span
-							aria-hidden
-							data-theme-preview={opt.id}
-							className="quran-theme-swatch"
-						/>
+						<span aria-hidden className={themeSwatchClass(opt.id)} />
 						{opt.label}
 					</button>
 				)

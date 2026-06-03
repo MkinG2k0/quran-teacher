@@ -3,7 +3,8 @@
 import Link from 'next/link'
 import { useMemo, useState } from 'react'
 
-import { fontPx } from '@/features/font-settings/lib/constants'
+import { qColors, qGradientAccent, qText } from '@/shared/lib/quran-tailwind'
+import { cn } from '@/shared/lib/utils'
 import { formatRelativeActivity } from '@/shared/lib/format-relative'
 import { GeomPattern } from '@/shared/ui/geom-pattern'
 import { StudentAvatar } from '@/shared/ui/student-avatar'
@@ -33,27 +34,15 @@ const statusLabel = { active: 'Активен', idle: 'Неактивен', lost
 
 function MiniBar({ pct }: { pct: number }) {
 	return (
-		<div
-			style={{
-				height: 3,
-				background: '#1A1A1A',
-				borderRadius: 2,
-				overflow: 'hidden',
-				width: '100%',
-			}}
-		>
+		<div className="h-[3px] w-full overflow-hidden rounded-sm bg-[#1A1A1A]">
 			<div
-				style={{
-					height: '100%',
-					borderRadius: 2,
-					width: `${pct}%`,
-					background:
-						pct > 30
-							? 'linear-gradient(90deg, #4A7A30, #78C040)'
-							: pct > 10
-								? 'linear-gradient(90deg, #8B6914, #C9A84C)'
-								: '#3A2020',
-				}}
+				className={cn(
+					'h-full rounded-sm',
+					pct > 30 && 'bg-[linear-gradient(90deg,#4A7A30,#78C040)]',
+					pct > 10 && pct <= 30 && 'bg-[linear-gradient(90deg,#8B6914,#C9A84C)]',
+					pct <= 10 && 'bg-[#3A2020]',
+				)}
+				style={{ width: `${pct}%` }}
 			/>
 		</div>
 	)
@@ -93,77 +82,43 @@ export function TeacherStudents({ students, totalPublished }: TeacherStudentsPro
 			: 0
 
 	return (
-		<div
-			style={{
-				minHeight: '100vh',
-				background: '#0D1117',
-				color: '#E8E0D0',
-				position: 'relative',
-				maxWidth: 520,
-				margin: '0 auto',
-			}}
-		>
+		<div className="relative mx-auto min-h-screen max-w-[520px] bg-[#0D1117] text-[#E8E0D0]">
 			<GeomPattern opacity={0.03} />
 
-			<header
-				style={{
-					padding: '20px 20px 16px',
-					position: 'sticky',
-					top: 0,
-					zIndex: 10,
-					background: 'rgba(13,17,23,0.97)',
-					backdropFilter: 'blur(10px)',
-					borderBottom: '1px solid #181818',
-				}}
-			>
-				<div
-					style={{
-						display: 'flex',
-						justifyContent: 'space-between',
-						alignItems: 'flex-start',
-						marginBottom: 16,
-					}}
-				>
+			<header className="sticky top-0 z-10 border-b border-[#181818] bg-[rgba(13,17,23,0.97)] px-5 pt-5 pb-4 backdrop-blur-md">
+				<div className="mb-4 flex items-start justify-between">
 					<div>
 						<p
-							className="font-body"
-							style={{
-								fontSize: fontPx(10),
-								color: 'var(--quran-fg-secondary)',
-								letterSpacing: 2,
-								textTransform: 'uppercase',
-								marginBottom: 3,
-							}}
+							className={cn(
+								'font-body mb-0.5 tracking-[0.2em] uppercase',
+								qText(10),
+								qColors.fgSecondary,
+							)}
 						>
 							Кабинет учителя
 						</p>
 						<h1
-							className="font-display"
-							style={{ fontSize: fontPx(24), fontWeight: 600, color: '#E8E0D0' }}
+							className={cn(
+								'font-display font-semibold text-[#E8E0D0]',
+								qText(24),
+							)}
 						>
 							Мои ученики
 						</h1>
 					</div>
 					<Link
 						href="/teacher/new"
-						className="font-body"
-						style={{
-							background: 'linear-gradient(135deg, #8B6914, #C9A84C)',
-							border: 'none',
-							borderRadius: 10,
-							padding: '10px 16px',
-							color: '#0D1117',
-							fontSize: fontPx(12),
-							fontWeight: 600,
-							textDecoration: 'none',
-							whiteSpace: 'nowrap',
-						}}
+						className={cn(
+							'font-body whitespace-nowrap rounded-[10px] px-4 py-2.5 font-semibold text-[#0D1117] no-underline',
+							qGradientAccent,
+							qText(12),
+						)}
 					>
 						+ Добавить
 					</Link>
 				</div>
 
-				<div style={{ display: 'flex', gap: 10, marginBottom: 14 }}>
+				<div className="mb-3.5 flex gap-2.5">
 					{[
 						{ label: 'Всего', value: students.length },
 						{ label: 'Активны сегодня', value: activeCount, accent: true },
@@ -171,34 +126,28 @@ export function TeacherStudents({ students, totalPublished }: TeacherStudentsPro
 					].map((stat) => (
 						<div
 							key={stat.label}
-							style={{
-								flex: 1,
-								background: '#0F0F0F',
-								border: `1px solid ${stat.accent ? 'rgba(120,192,64,0.2)' : '#181818'}`,
-								borderRadius: 10,
-								padding: '10px 12px',
-								textAlign: 'center',
-							}}
+							className={cn(
+								'flex-1 rounded-[10px] bg-[#0F0F0F] px-3 py-2.5 text-center',
+								stat.accent
+									? 'border border-[rgba(120,192,64,0.2)]'
+									: 'border border-[#181818]',
+							)}
 						>
 							<p
-								className="font-display"
-								style={{
-									fontSize: fontPx(22),
-									fontWeight: 600,
-									color: stat.accent ? '#78C040' : '#C9A84C',
-									lineHeight: 1,
-								}}
+								className={cn(
+									'font-display leading-none font-semibold',
+									qText(22),
+									stat.accent ? 'text-[#78C040]' : 'text-[#C9A84C]',
+								)}
 							>
 								{stat.value}
 							</p>
 							<p
-								className="font-body"
-								style={{
-									fontSize: fontPx(9),
-									color: 'var(--quran-fg-subtle)',
-									marginTop: 3,
-									letterSpacing: 1,
-								}}
+								className={cn(
+									'font-body mt-0.5 tracking-wide uppercase',
+									qText(9),
+									qColors.fgSubtle,
+								)}
 							>
 								{stat.label.toUpperCase()}
 							</p>
@@ -206,86 +155,53 @@ export function TeacherStudents({ students, totalPublished }: TeacherStudentsPro
 					))}
 				</div>
 
-				<div style={{ position: 'relative', marginBottom: 12 }}>
+				<div className="relative mb-3">
 					<span
-						style={{
-							position: 'absolute',
-							left: 12,
-							top: '50%',
-							transform: 'translateY(-50%)',
-							color: 'var(--quran-fg-subtle)',
-							fontSize: fontPx(13),
-							pointerEvents: 'none',
-						}}
+						className={cn(
+							'pointer-events-none absolute top-1/2 left-3 -translate-y-1/2',
+							qText(13),
+							qColors.fgSubtle,
+						)}
 					>
 						⌕
 					</span>
 					<input
-						className="font-body"
+						className={cn(
+							'font-body w-full rounded-[10px] border border-[#1E1E1E] bg-[#111] py-2.5 pr-3.5 pl-9 text-[#E8E0D0] outline-none',
+							qText(13),
+						)}
 						placeholder="Поиск по имени..."
 						value={search}
 						onChange={(e) => setSearch(e.target.value)}
-						style={{
-							background: '#111',
-							border: '1px solid #1E1E1E',
-							color: '#E8E0D0',
-							borderRadius: 10,
-							padding: '10px 14px 10px 36px',
-							fontSize: fontPx(13),
-							width: '100%',
-							outline: 'none',
-						}}
 					/>
 				</div>
 
-				<div
-					style={{
-						display: 'flex',
-						gap: 8,
-						alignItems: 'center',
-						overflowX: 'auto',
-					}}
-				>
-					<div style={{ display: 'flex', gap: 6, flex: 1 }}>
+				<div className="flex items-center gap-2 overflow-x-auto">
+					<div className="flex flex-1 gap-1.5">
 						{FILTERS.map((f) => (
 							<button
 								key={f}
 								type="button"
-								className="font-body"
+								className={cn(
+									'font-body cursor-pointer rounded-full px-3 py-1.5 whitespace-nowrap',
+									qText(11),
+									filter === f
+										? cn('border-none font-semibold text-[#0D1117]', qGradientAccent)
+										: cn('border border-[#222] bg-[#111] font-normal', qColors.fgSecondary),
+								)}
 								onClick={() => setFilter(f)}
-								style={{
-									padding: '5px 12px',
-									borderRadius: 20,
-									fontSize: fontPx(11),
-									border: filter === f ? 'none' : '1px solid #222',
-									background:
-										filter === f
-											? 'linear-gradient(135deg, #8B6914, #C9A84C)'
-											: '#111',
-									color: filter === f ? '#0D1117' : 'var(--quran-fg-secondary)',
-									fontWeight: filter === f ? 600 : 400,
-									cursor: 'pointer',
-									whiteSpace: 'nowrap',
-								}}
 							>
 								{f}
 							</button>
 						))}
 					</div>
 					<select
-						className="font-body"
+						className={cn(
+							'font-body cursor-pointer rounded-lg border border-[#222] bg-[#141414] px-2.5 py-1.5 text-[#6B6555] outline-none',
+							qText(11),
+						)}
 						value={sort}
 						onChange={(e) => setSort(e.target.value)}
-						style={{
-							background: '#141414',
-							border: '1px solid #222',
-							color: '#6B6555',
-							borderRadius: 8,
-							padding: '6px 10px',
-							fontSize: fontPx(11),
-							cursor: 'pointer',
-							outline: 'none',
-						}}
 					>
 						<option value="step_desc">По прогрессу ↓</option>
 						<option value="step_asc">По прогрессу ↑</option>
@@ -294,16 +210,18 @@ export function TeacherStudents({ students, totalPublished }: TeacherStudentsPro
 				</div>
 			</header>
 
-			<main style={{ padding: '12px 16px 32px' }}>
+			<main className="px-4 pt-3 pb-8">
 				{filtered.length === 0 ? (
 					<div
-						className="font-body"
-						style={{ textAlign: 'center', padding: '60px 20px', color: 'var(--quran-fg-muted)' }}
+						className={cn(
+							'font-body px-5 py-[60px] text-center',
+							qColors.fgMuted,
+						)}
 					>
 						Нет учеников по фильтру
 					</div>
 				) : (
-					<div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+					<div className="flex flex-col gap-1.5">
 						{filtered.map((s, i) => {
 							const pct =
 								totalPublished > 0
@@ -314,50 +232,26 @@ export function TeacherStudents({ students, totalPublished }: TeacherStudentsPro
 								<button
 									key={s.id}
 									type="button"
-									className="quran-card-enter"
+									className="quran-card-enter w-full cursor-pointer rounded-xl border border-[#181818] bg-[#101010] p-3.5 text-left"
+									style={{ animationDelay: `${i * 0.04}s` }}
 									onClick={() => setSelectedStudent(s)}
-									style={{
-										background: '#101010',
-										border: '1px solid #181818',
-										borderRadius: 12,
-										padding: 14,
-										animationDelay: `${i * 0.04}s`,
-										width: '100%',
-										textAlign: 'left',
-										cursor: 'pointer',
-									}}
 								>
-									<div style={{ display: 'flex', gap: 12, alignItems: 'center' }}>
+									<div className="flex items-center gap-3">
 										<StudentAvatar name={s.name} />
 
-										<div style={{ flex: 1, minWidth: 0 }}>
-											<div
-												style={{
-													display: 'flex',
-													alignItems: 'center',
-													gap: 8,
-													marginBottom: 4,
-												}}
-											>
+										<div className="min-w-0 flex-1">
+											<div className="mb-1 flex items-center gap-2">
 												<p
-													className="font-body"
-													style={{
-														fontSize: fontPx(13),
-														fontWeight: 600,
-														color: '#D8D0C0',
-														whiteSpace: 'nowrap',
-														overflow: 'hidden',
-														textOverflow: 'ellipsis',
-													}}
+													className={cn(
+														'font-body truncate font-semibold text-[#D8D0C0]',
+														qText(13),
+													)}
 												>
 													{s.name}
 												</p>
 												<span
+													className="size-1.5 shrink-0 rounded-full"
 													style={{
-														width: 6,
-														height: 6,
-														borderRadius: '50%',
-														flexShrink: 0,
 														background: statusColor[s.status],
 														boxShadow: `0 0 6px ${statusColor[s.status]}66`,
 													}}
@@ -366,61 +260,46 @@ export function TeacherStudents({ students, totalPublished }: TeacherStudentsPro
 
 											<MiniBar pct={pct} />
 
-											<div
-												style={{
-													display: 'flex',
-													gap: 12,
-													marginTop: 6,
-													alignItems: 'center',
-												}}
-											>
-												<span
-													className="font-body"
-													style={{ fontSize: fontPx(11), color: '#C9A84C' }}
-												>
+											<div className="mt-1.5 flex items-center gap-3">
+												<span className={cn('font-body text-[#C9A84C]', qText(11))}>
 													Шаг {s.currentStepOrder}
-													<span style={{ color: 'var(--quran-fg-subtle)' }}>
+													<span className={qColors.fgSubtle}>
 														{' '}
 														/ {totalPublished}
 													</span>
 												</span>
 												<span
-													className="font-body"
-													style={{
-														fontSize: fontPx(11),
-														color: 'var(--quran-fg-subtle)',
-														marginLeft: 'auto',
-													}}
+													className={cn(
+														'font-body ml-auto',
+														qText(11),
+														qColors.fgSubtle,
+													)}
 												>
 													{formatRelativeActivity(s.lastActivity)}
 												</span>
 											</div>
 										</div>
 
-										<div style={{ textAlign: 'right', flexShrink: 0 }}>
+										<div className="shrink-0 text-right">
 											<p
-												className="font-display"
-												style={{
-													fontSize: fontPx(20),
-													fontWeight: 600,
-													color:
-														pct > 30
-															? '#78C040'
-															: pct > 10
-																? '#C9A84C'
-																: '#5A3A3A',
-													lineHeight: 1,
-												}}
+												className={cn(
+													'font-display leading-none font-semibold',
+													qText(20),
+													pct > 30
+														? 'text-[#78C040]'
+														: pct > 10
+															? 'text-[#C9A84C]'
+															: 'text-[#5A3A3A]',
+												)}
 											>
 												{pct}%
 											</p>
 											<p
-												className="font-body"
-												style={{
-													fontSize: fontPx(9),
-													color: 'var(--quran-fg-muted)',
-													marginTop: 2,
-												}}
+												className={cn(
+													'font-body mt-0.5 uppercase',
+													qText(9),
+													qColors.fgMuted,
+												)}
 											>
 												{statusLabel[s.status].toUpperCase()}
 											</p>
@@ -434,14 +313,10 @@ export function TeacherStudents({ students, totalPublished }: TeacherStudentsPro
 
 				{filtered.length > 0 && (
 					<p
-						className="font-body"
-						style={{
-							textAlign: 'center',
-							fontSize: fontPx(10),
-							color: '#1E1E1E',
-							marginTop: 20,
-							letterSpacing: 1,
-						}}
+						className={cn(
+							'font-body mt-5 text-center tracking-wide text-[#1E1E1E]',
+							qText(10),
+						)}
 					>
 						{filtered.length} из {students.length} учеников
 					</p>

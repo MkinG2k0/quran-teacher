@@ -1,7 +1,8 @@
 "use client";
 
-import { fontPx } from '@/features/font-settings/lib/constants'
 import { GeomPattern } from "@/shared/ui/geom-pattern";
+import { qText } from "@/shared/lib/quran-tailwind";
+import { cn } from "@/shared/lib/utils";
 
 import { useAdminLogin } from "../model/use-admin-login";
 
@@ -10,70 +11,37 @@ export function AccessCodeLogin() {
     useAdminLogin();
 
   return (
-    <div
-      style={{
-        minHeight: "100vh",
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        justifyContent: "center",
-        background: "#0D1117",
-        position: "relative",
-        overflow: "hidden",
-        padding: "24px",
-      }}
-    >
+    <div className="relative flex min-h-screen flex-col items-center justify-center overflow-hidden bg-[#0D1117] p-6">
       <GeomPattern />
 
       <div
-        style={{
-          position: "absolute",
-          top: "20%",
-          left: "50%",
-          transform: "translateX(-50%)",
-          width: "400px",
-          height: "400px",
-          borderRadius: "50%",
-          background:
-            "radial-gradient(circle, rgba(201,168,76,0.04) 0%, transparent 70%)",
-          pointerEvents: "none",
-        }}
+        className="pointer-events-none absolute top-[20%] left-1/2 size-[400px] -translate-x-1/2 rounded-full bg-[radial-gradient(circle,rgba(201,168,76,0.04)_0%,transparent_70%)]"
+        aria-hidden
       />
 
       {status === "success" ? (
-        <div
-          className="quran-success-pop"
-          style={{ textAlign: "center", maxWidth: "300px" }}
-        >
+        <div className="quran-success-pop max-w-[300px] text-center">
           <div
-            className="font-display"
-            style={{
-              fontSize: fontPx(64),
-              color: "#78C040",
-              marginBottom: "8px",
-              lineHeight: 1,
-            }}
+            className={cn(
+              "font-display mb-2 leading-none text-[#78C040]",
+              qText(64),
+            )}
           >
             ✓
           </div>
           <h2
-            className="font-display"
-            style={{
-              fontSize: fontPx(30),
-              fontWeight: 600,
-              color: "#E8E0D0",
-              marginBottom: "8px",
-            }}
+            className={cn(
+              "font-display mb-2 font-semibold text-[#E8E0D0]",
+              qText(30),
+            )}
           >
             Добро пожаловать!
           </h2>
           <p
-            className="font-body"
-            style={{
-              fontSize: fontPx(13),
-              color: "var(--quran-fg-secondary)",
-              lineHeight: 1.7,
-            }}
+            className={cn(
+              "font-body leading-relaxed text-[var(--quran-fg-secondary)]",
+              qText(13),
+            )}
           >
             Переходим в панель администратора...
           </p>
@@ -81,81 +49,59 @@ export function AccessCodeLogin() {
       ) : (
         <form
           onSubmit={handleSubmit}
-          style={{ width: "100%", maxWidth: "360px", textAlign: "center" }}
+          className="w-full max-w-[360px] text-center"
         >
           <div
-            className="font-display quran-fade-up"
-            style={{
-              fontSize: fontPx(36),
-              color: "#C9A84C",
-              opacity: 0.5,
-              letterSpacing: "8px",
-              marginBottom: "28px",
-            }}
+            className={cn(
+              "font-display quran-fade-up mb-7 tracking-[0.5em] text-[#C9A84C] opacity-50",
+              qText(36),
+            )}
           >
             ﷽
           </div>
 
           <h1
-            className="font-display quran-fade-up"
-            style={{
-              fontSize: fontPx(32),
-              fontWeight: 600,
-              color: "#E8E0D0",
-              marginBottom: "8px",
-            }}
+            className={cn(
+              "font-display quran-fade-up mb-2 font-semibold text-[#E8E0D0]",
+              qText(32),
+            )}
           >
             Вход администратора
           </h1>
           <p
-            className="font-body quran-fade-up"
-            style={{
-              fontSize: fontPx(13),
-              color: "var(--quran-fg-secondary)",
-              lineHeight: 1.6,
-              marginBottom: "36px",
-            }}
+            className={cn(
+              "font-body quran-fade-up mb-9 leading-relaxed text-[var(--quran-fg-secondary)]",
+              qText(13),
+            )}
           >
             Введите пароль для доступа к управлению материалами
           </p>
 
           <div className={shake ? "quran-shake" : ""}>
             <input
-              className="quran-fade-up font-body"
+              className={cn(
+                "quran-fade-up font-body mb-4 w-full rounded-xl px-4 py-3.5 text-[#E8E0D0] outline-none caret-[#C9A84C] bg-[#0F0F0F]",
+                qText(15),
+                status === "error"
+                  ? "border border-[#8B2020]"
+                  : "border border-[#1E1E1E]",
+              )}
               type="password"
               value={password}
               onChange={(e) => handlePasswordChange(e.target.value)}
               placeholder="Пароль"
               autoComplete="current-password"
-              style={{
-                width: "100%",
-                padding: "14px 16px",
-                fontSize: fontPx(15),
-                color: "#E8E0D0",
-                borderRadius: 12,
-                outline: "none",
-                caretColor: "#C9A84C",
-                background: "#0F0F0F",
-                border: `1px solid ${status === "error" ? "#8B2020" : "#1E1E1E"}`,
-                marginBottom: 16,
-              }}
             />
           </div>
 
-          <div
-            style={{
-              height: 20,
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              marginBottom: 20,
-            }}
-          >
+          <div className="mb-5 flex h-5 items-center justify-center">
             {status === "checking" && <span className="quran-spinner" />}
             {status === "error" && (
               <p
-                className="font-body"
-                style={{ fontSize: fontPx(12), color: "#8B2020", letterSpacing: 1 }}
+                className={cn(
+                  "font-body tracking-wide text-[#8B2020]",
+                  qText(12),
+                )}
               >
                 Неверный пароль. Попробуйте снова.
               </p>
@@ -165,22 +111,13 @@ export function AccessCodeLogin() {
           <button
             type="submit"
             disabled={!password.trim() || status === "checking"}
-            className="font-body quran-fade-up"
-            style={{
-              width: "100%",
-              padding: "14px 20px",
-              border: "none",
-              borderRadius: 12,
-              cursor: password.trim() ? "pointer" : "not-allowed",
-              fontSize: fontPx(14),
-              fontWeight: 600,
-              color: "#0D1117",
-              background:
-                password.trim() && status !== "checking"
-                  ? "linear-gradient(135deg, #8B6914, #C9A84C)"
-                  : "#2A2418",
-              opacity: password.trim() && status !== "checking" ? 1 : 0.5,
-            }}
+            className={cn(
+              "font-body quran-fade-up w-full rounded-xl px-5 py-3.5 font-semibold text-[#0D1117]",
+              qText(14),
+              password.trim() && status !== "checking"
+                ? "cursor-pointer bg-[linear-gradient(135deg,#8B6914,#C9A84C)] opacity-100"
+                : "cursor-not-allowed bg-[#2A2418] opacity-50",
+            )}
           >
             {status === "checking" ? "Проверяем..." : "Войти"}
           </button>

@@ -4,9 +4,17 @@ import { Bookmark, Trash2 } from "lucide-react";
 import { useEffect, useState } from "react";
 
 import { useFontSettings } from "@/features/font-settings";
+import {
+  headerIconButtonClass,
+  qColors,
+  qElevatedBtn,
+  qModalOverlay,
+  qModalPanel,
+  qText,
+} from "@/shared/lib/quran-tailwind";
+import { cn } from "@/shared/lib/utils";
 
 import { useStepBookmarks } from "../model/use-step-bookmarks";
-import { headerIconButtonStyle } from "./header-icon-button-styles";
 
 interface BookmarksPanelButtonProps {
   onOpenBookmark: (stepId: number, scrollTop: number) => void;
@@ -40,40 +48,10 @@ export function BookmarksPanelButton({
         onClick={() => setOpen(true)}
         aria-label="Закладки"
         title="Закладки"
-        className="font-body"
-        style={{
-          fontSize: px(12),
-          color: "var(--quran-fg-secondary)",
-          padding: "6px 10px",
-          borderRadius: 8,
-          border: "1px solid var(--quran-panel-border)",
-          background: "var(--quran-elevated)",
-          cursor: "pointer",
-          display: "inline-flex",
-          alignItems: "center",
-          gap: 6,
-        }}
+        className={cn("font-body cursor-pointer", qElevatedBtn, qText(12))}
       >
         <Bookmark size={px(14)} strokeWidth={1.75} />
         Закладки
-        {/* {bookmarks.length > 0 ? (
-          <span
-            style={{
-              fontSize: px(10),
-              minWidth: 18,
-              height: 18,
-              borderRadius: 9,
-              background: "var(--quran-accent)",
-              color: "var(--quran-on-accent)",
-              display: "inline-flex",
-              alignItems: "center",
-              justifyContent: "center",
-              padding: "0 5px",
-            }}
-          >
-            {bookmarks.length}
-          </span>
-        ) : null} */}
       </button>
 
       {open ? (
@@ -81,50 +59,20 @@ export function BookmarksPanelButton({
           role="dialog"
           aria-modal="true"
           aria-label="Список закладок"
-          style={{
-            position: "fixed",
-            inset: 0,
-            zIndex: 60,
-            background: "var(--quran-modal-overlay)",
-            backdropFilter: "blur(8px)",
-            display: "flex",
-            alignItems: "flex-end",
-            justifyContent: "center",
-            padding: 16,
-          }}
+          className={qModalOverlay}
           onClick={() => setOpen(false)}
         >
           <div
-            className="font-body"
-            style={{
-              width: "100%",
-              maxWidth: 480,
-              maxHeight: "min(70vh, 520px)",
-              background: "var(--quran-modal-bg)",
-              border: "1px solid var(--quran-panel-border)",
-              borderRadius: 16,
-              display: "flex",
-              flexDirection: "column",
-              overflow: "hidden",
-            }}
+            className={cn("font-body", qModalPanel)}
             onClick={(e) => e.stopPropagation()}
           >
-            <div
-              style={{
-                padding: "16px 18px 12px",
-                borderBottom: "1px solid var(--quran-border)",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "space-between",
-              }}
-            >
+            <div className="flex items-center justify-between border-b border-[var(--quran-border)] px-[18px] pt-4 pb-3">
               <h2
-                className="font-display"
-                style={{
-                  fontSize: px(18),
-                  fontWeight: 600,
-                  color: "var(--quran-fg)",
-                }}
+                className={cn(
+                  "font-display font-semibold",
+                  qText(18),
+                  qColors.fg,
+                )}
               >
                 Закладки
               </h2>
@@ -132,87 +80,55 @@ export function BookmarksPanelButton({
                 type="button"
                 onClick={() => setOpen(false)}
                 aria-label="Закрыть"
-                style={headerIconButtonStyle(px)}
+                className={headerIconButtonClass()}
               >
                 ×
               </button>
             </div>
 
-            <div style={{ overflowY: "auto", padding: "8px 12px 16px" }}>
+            <div className="overflow-y-auto px-3 pt-2 pb-4">
               {bookmarks.length === 0 ? (
                 <p
-                  style={{
-                    fontSize: px(13),
-                    color: "var(--quran-fg-secondary)",
-                    textAlign: "center",
-                    padding: "24px 12px",
-                    lineHeight: 1.5,
-                  }}
+                  className={cn(
+                    "px-3 py-6 text-center leading-normal",
+                    qText(13),
+                    qColors.fgSecondary,
+                  )}
                 >
                   Пока нет закладок. В уроке нажмите иконку закладки справа от
                   номера шага.
                 </p>
               ) : (
-                <ul
-                  style={{
-                    listStyle: "none",
-                    margin: 0,
-                    padding: 0,
-                    display: "flex",
-                    flexDirection: "column",
-                    gap: 8,
-                  }}
-                >
+                <ul className="m-0 flex list-none flex-col gap-2 p-0">
                   {bookmarks.map((bookmark) => (
                     <li
                       key={bookmark.id}
-                      style={{
-                        display: "flex",
-                        alignItems: "stretch",
-                        gap: 8,
-                        borderRadius: 10,
-                        border: "1px solid var(--quran-border)",
-                        background: "var(--quran-elevated)",
-                        overflow: "hidden",
-                      }}
+                      className="flex items-stretch gap-2 overflow-hidden rounded-[10px] border border-[var(--quran-border)] bg-[var(--quran-elevated)]"
                     >
                       <button
                         type="button"
                         onClick={() =>
                           handleSelect(bookmark.stepId, bookmark.scrollTop)
                         }
-                        style={{
-                          flex: 1,
-                          minWidth: 0,
-                          textAlign: "left",
-                          padding: "12px 14px",
-                          border: "none",
-                          background: "transparent",
-                          cursor: "pointer",
-                          color: "var(--quran-fg)",
-                        }}
+                        className={cn(
+                          "min-w-0 flex-1 cursor-pointer border-none bg-transparent px-3.5 py-3 text-left",
+                          qColors.fg,
+                        )}
                       >
                         <p
-                          style={{
-                            fontSize: px(10),
-                            color: "var(--quran-fg-secondary)",
-                            letterSpacing: 1.5,
-                            textTransform: "uppercase",
-                            marginBottom: 4,
-                          }}
+                          className={cn(
+                            "mb-1 tracking-wide uppercase",
+                            qText(10),
+                            qColors.fgSecondary,
+                          )}
                         >
                           Шаг {bookmark.order}
                         </p>
                         <p
-                          className="font-display"
-                          style={{
-                            fontSize: px(15),
-                            fontWeight: 600,
-                            lineHeight: 1.25,
-                            overflow: "hidden",
-                            textOverflow: "ellipsis",
-                            whiteSpace: "nowrap",
-                          }}
+                          className={cn(
+                            "font-display truncate font-semibold leading-tight",
+                            qText(15),
+                          )}
                         >
                           {bookmark.title}
                         </p>
@@ -221,18 +137,10 @@ export function BookmarksPanelButton({
                         type="button"
                         onClick={() => removeBookmark(bookmark.id)}
                         aria-label="Удалить закладку"
-                        style={{
-                          width: 44,
-                          flexShrink: 0,
-                          border: "none",
-                          borderLeft: "1px solid var(--quran-border)",
-                          background: "transparent",
-                          color: "var(--quran-fg-secondary)",
-                          cursor: "pointer",
-                          display: "flex",
-                          alignItems: "center",
-                          justifyContent: "center",
-                        }}
+                        className={cn(
+                          "flex w-11 shrink-0 cursor-pointer items-center justify-center border-none border-l border-[var(--quran-border)] bg-transparent",
+                          qColors.fgSecondary,
+                        )}
                       >
                         <Trash2 size={px(16)} strokeWidth={1.75} />
                       </button>

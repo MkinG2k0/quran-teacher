@@ -2,7 +2,8 @@
 
 import { useCallback, useEffect, useState } from 'react'
 
-import { fontPx } from '@/features/font-settings/lib/constants'
+import { qColors, qGradientAccent, qText } from '@/shared/lib/quran-tailwind'
+import { cn } from '@/shared/lib/utils'
 import { formatRelativeActivity } from '@/shared/lib/format-relative'
 import { StudentAvatar } from '@/shared/ui/student-avatar'
 
@@ -55,171 +56,95 @@ export function StudentDetailSheet({
 		<div
 			role="presentation"
 			onClick={onClose}
-			style={{
-				position: 'fixed',
-				inset: 0,
-				zIndex: 50,
-				background: 'rgba(0,0,0,0.65)',
-				display: 'flex',
-				alignItems: 'flex-end',
-				justifyContent: 'center',
-			}}
+			className="fixed inset-0 z-50 flex items-end justify-center bg-black/65"
 		>
 			<div
 				role="dialog"
 				aria-modal="true"
 				aria-labelledby="student-detail-title"
-				className="quran-fade-up"
+				className="quran-fade-up max-h-[88vh] w-full max-w-[520px] overflow-y-auto rounded-t-2xl border-t border-[#2A2418] bg-[#0D1117] px-5 pt-5 pb-7"
 				onClick={(e) => e.stopPropagation()}
-				style={{
-					width: '100%',
-					maxWidth: 520,
-					maxHeight: '88vh',
-					overflowY: 'auto',
-					background: '#0D1117',
-					borderTop: '1px solid #2A2418',
-					borderRadius: '16px 16px 0 0',
-					padding: '20px 20px 28px',
-				}}
 			>
-				<div
-					style={{
-						width: 36,
-						height: 4,
-						borderRadius: 2,
-						background: 'var(--quran-surface)',
-						margin: '0 auto 20px',
-					}}
-				/>
+				<div className="mx-auto mb-5 h-1 w-9 rounded-sm bg-[var(--quran-surface)]" />
 
-				<div
-					style={{
-						display: 'flex',
-						alignItems: 'flex-start',
-						gap: 14,
-						marginBottom: 20,
-					}}
-				>
+				<div className="mb-5 flex items-start gap-3.5">
 					<StudentAvatar name={student.name} size={48} />
-					<div style={{ flex: 1, minWidth: 0 }}>
+					<div className="min-w-0 flex-1">
 						<h2
 							id="student-detail-title"
-							className="font-display"
-							style={{
-								fontSize: fontPx(20),
-								fontWeight: 600,
-								color: '#E8E0D0',
-								marginBottom: 6,
-							}}
+							className={cn(
+								'font-display mb-1.5 font-semibold text-[#E8E0D0]',
+								qText(20),
+							)}
 						>
 							{student.name}
 						</h2>
-						<div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+						<div className="flex items-center gap-2">
 							<span
+								className="size-2 rounded-full"
 								style={{
-									width: 8,
-									height: 8,
-									borderRadius: '50%',
 									background: statusColor[student.status],
 									boxShadow: `0 0 8px ${statusColor[student.status]}66`,
 								}}
 							/>
-							<span className="font-body" style={{ fontSize: fontPx(12), color: '#6B6555' }}>
+							<span className={cn('font-body text-[#6B6555]', qText(12))}>
 								{statusLabel[student.status]}
 								{student.age != null && (
-									<span style={{ color: 'var(--quran-fg-subtle)' }}> · {student.age} лет</span>
+									<span className={qColors.fgSubtle}> · {student.age} лет</span>
 								)}
 							</span>
 						</div>
 					</div>
 					<button
 						type="button"
-						className="font-body"
+						className={cn(
+							'font-body size-8 cursor-pointer rounded-lg border border-[#222] bg-[#141414] leading-none text-[#6B6555]',
+							qText(16),
+						)}
 						onClick={onClose}
 						aria-label="Закрыть"
-						style={{
-							background: '#141414',
-							border: '1px solid #222',
-							borderRadius: 8,
-							width: 32,
-							height: 32,
-							color: '#6B6555',
-							cursor: 'pointer',
-							fontSize: fontPx(16),
-							lineHeight: 1,
-						}}
 					>
 						×
 					</button>
 				</div>
 
-				<div
-					style={{
-						background: '#101010',
-						border: '1px solid #2A2418',
-						borderRadius: 12,
-						padding: '16px 18px',
-						textAlign: 'center',
-						marginBottom: 16,
-					}}
-				>
+				<div className="mb-4 rounded-xl border border-[#2A2418] bg-[#101010] px-[18px] py-4 text-center">
 					<p
-						className="font-body"
-						style={{
-							fontSize: fontPx(10),
-							color: 'var(--quran-fg-secondary)',
-							letterSpacing: 2,
-							textTransform: 'uppercase',
-							marginBottom: 8,
-						}}
+						className={cn(
+							'font-body mb-2 tracking-[0.2em] uppercase',
+							qText(10),
+							qColors.fgSecondary,
+						)}
 					>
 						Код доступа
 					</p>
 					<p
-						className="font-display"
-						style={{
-							fontSize: fontPx(36),
-							fontWeight: 600,
-							letterSpacing: '0.25em',
-							color: '#C9A84C',
-							lineHeight: 1,
-						}}
+						className={cn(
+							'font-display font-semibold tracking-[0.25em] text-[#C9A84C] leading-none',
+							qText(36),
+						)}
 					>
 						{student.accessCode}
 					</p>
-					<p className="font-body" style={{ fontSize: fontPx(11), color: 'var(--quran-fg-subtle)', marginTop: 10 }}>
+					<p className={cn('font-body mt-2.5', qText(11), qColors.fgSubtle)}>
 						Передайте код ученику для входа в приложение
 					</p>
 					<button
 						type="button"
-						className="font-body"
+						className={cn(
+							'font-body mt-3.5 w-full cursor-pointer rounded-[10px] border-none px-4 py-2.5 font-semibold text-[#0D1117]',
+							qText(12),
+							copied
+								? 'bg-[linear-gradient(135deg,#4A7A30,#78C040)]'
+								: qGradientAccent,
+						)}
 						onClick={handleCopyCode}
-						style={{
-							marginTop: 14,
-							width: '100%',
-							padding: '10px 16px',
-							borderRadius: 10,
-							border: 'none',
-							cursor: 'pointer',
-							fontSize: fontPx(12),
-							fontWeight: 600,
-							background: copied
-								? 'linear-gradient(135deg, #4A7A30, #78C040)'
-								: 'linear-gradient(135deg, #8B6914, #C9A84C)',
-							color: '#0D1117',
-						}}
 					>
 						{copied ? 'Скопировано' : 'Скопировать код'}
 					</button>
 				</div>
 
-				<div
-					style={{
-						display: 'grid',
-						gridTemplateColumns: '1fr 1fr',
-						gap: 10,
-					}}
-				>
+				<div className="grid grid-cols-2 gap-2.5">
 					{[
 						{
 							label: 'Прогресс',
@@ -244,37 +169,32 @@ export function StudentDetailSheet({
 					].map((item) => (
 						<div
 							key={item.label}
-							style={{
-								background: '#101010',
-								border: '1px solid #181818',
-								borderRadius: 10,
-								padding: '12px 14px',
-							}}
+							className="rounded-[10px] border border-[#181818] bg-[#101010] px-3.5 py-3"
 						>
 							<p
-								className="font-body"
-								style={{
-									fontSize: fontPx(9),
-									color: 'var(--quran-fg-subtle)',
-									letterSpacing: 1,
-									textTransform: 'uppercase',
-									marginBottom: 4,
-								}}
+								className={cn(
+									'font-body mb-1 tracking-wide uppercase',
+									qText(9),
+									qColors.fgSubtle,
+								)}
 							>
 								{item.label}
 							</p>
 							<p
-								className="font-display"
-								style={{
-									fontSize: fontPx(18),
-									fontWeight: 600,
-									color: '#C9A84C',
-									lineHeight: 1.1,
-								}}
+								className={cn(
+									'font-display leading-tight font-semibold text-[#C9A84C]',
+									qText(18),
+								)}
 							>
 								{item.value}
 							</p>
-							<p className="font-body" style={{ fontSize: fontPx(10), color: 'var(--quran-fg-secondary)', marginTop: 3 }}>
+							<p
+								className={cn(
+									'font-body mt-0.5',
+									qText(10),
+									qColors.fgSecondary,
+								)}
+							>
 								{item.sub}
 							</p>
 						</div>

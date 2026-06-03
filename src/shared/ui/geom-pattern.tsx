@@ -2,6 +2,8 @@
 
 import { useId } from 'react'
 
+import { cn } from '@/shared/lib/utils'
+
 interface GeomPatternProps {
 	opacity?: number
 }
@@ -14,13 +16,11 @@ export function GeomPattern({ opacity }: GeomPatternProps) {
 			width="100%"
 			height="100%"
 			xmlns="http://www.w3.org/2000/svg"
-			className={opacity == null ? 'quran-geom-pattern' : undefined}
-			style={{
-				position: 'absolute',
-				inset: 0,
-				...(opacity != null ? { opacity } : {}),
-				pointerEvents: 'none',
-			}}
+			className={cn(
+				'pointer-events-none absolute inset-0',
+				opacity == null && 'quran-geom-pattern',
+			)}
+			style={opacity != null ? { opacity } : undefined}
 			aria-hidden
 		>
 			<defs>

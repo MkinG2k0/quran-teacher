@@ -5,6 +5,8 @@ import { useQueryClient } from '@tanstack/react-query'
 
 import { warmProgramCache } from '@/entities/step'
 import { loadProgramBundle, prefetchOfflineAssets } from '@/shared/lib/offline-program'
+import { qColors, qShell } from '@/shared/lib/quran-tailwind'
+import { cn } from '@/shared/lib/utils'
 
 interface OfflineProgramProviderProps {
 	children: React.ReactNode
@@ -36,16 +38,11 @@ export function OfflineProgramProvider({ children }: OfflineProgramProviderProps
 	if (!ready) {
 		return (
 			<div
-				className="font-body"
-				style={{
-					minHeight: '100vh',
-					display: 'flex',
-					alignItems: 'center',
-					justifyContent: 'center',
-					padding: 24,
-					color: 'var(--quran-fg-secondary)',
-					background: 'var(--quran-bg)',
-				}}
+				className={cn(
+					'font-body flex min-h-screen items-center justify-center p-6',
+					qShell,
+					qColors.fgSecondary,
+				)}
 			>
 				Загрузка программы…
 			</div>

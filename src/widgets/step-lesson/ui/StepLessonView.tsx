@@ -4,6 +4,8 @@ import { useQuery } from '@tanstack/react-query'
 import type { RefObject } from 'react'
 
 import { fetchStepDetail } from '@/entities/step'
+import { qColors, qShell } from '@/shared/lib/quran-tailwind'
+import { cn } from '@/shared/lib/utils'
 import { StepReader } from '@/widgets/step-reader'
 
 interface StepLessonViewProps {
@@ -64,33 +66,20 @@ function StepLoadState({
 }) {
 	return (
 		<div
-			className="font-body"
-			style={{
-				minHeight: '100vh',
-				display: 'flex',
-				flexDirection: 'column',
-				alignItems: 'center',
-				justifyContent: 'center',
-				padding: 24,
-				textAlign: 'center',
-				color: 'var(--quran-fg-secondary)',
-				background: 'var(--quran-bg)',
-				maxWidth: 480,
-				margin: '0 auto',
-			}}
+			className={cn(
+				'font-body mx-auto flex min-h-screen max-w-[480px] flex-col items-center justify-center p-6 text-center',
+				qShell,
+				qColors.fgSecondary,
+			)}
 		>
-			<p style={{ marginBottom: 16 }}>{message}</p>
+			<p className="mb-4">{message}</p>
 			<button
 				type="button"
 				onClick={onClose}
-				style={{
-					padding: '10px 20px',
-					borderRadius: 8,
-					border: '1px solid var(--quran-panel-border)',
-					background: 'var(--quran-elevated)',
-					color: 'var(--quran-fg)',
-					cursor: 'pointer',
-				}}
+				className={cn(
+					'cursor-pointer rounded-lg border border-[var(--quran-panel-border)] bg-[var(--quran-elevated)] px-5 py-2.5',
+					qColors.fg,
+				)}
 			>
 				Назад
 			</button>
