@@ -7,6 +7,7 @@ import {
 	type RefObject,
 } from 'react'
 
+import { consumePendingStepScroll } from './pending-step-scroll'
 import { getHomeScroll, setHomeScroll, setStepScroll } from './student-ui-state-storage'
 
 export function useHomeWindowScroll(page: number, ready: boolean) {
@@ -53,6 +54,14 @@ export function useStepWindowScroll(
 	scrollRef?: RefObject<HTMLElement | null>,
 ) {
 	useLayoutEffect(() => {
+		const restore = consumePendingStepScroll(stepId)
+		if (restore != null && restore > 0) {
+			const el = scrollRef?.current
+			if (el) el.scrollTop = restore
+			else window.scrollTo(0, restore)
+			setStepScroll(stepId, restore)
+			return
+		}
 		scrollToTop(scrollRef)
 		setStepScroll(stepId, 0)
 	}, [stepId, scrollRef])

@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 
 import { useStepNav } from '@/features/step-navigation'
+import { setPendingStepScroll } from '@/shared/lib/pending-step-scroll'
 import { getProgramBundleSync } from '@/shared/lib/offline-program'
 import {
 	getCompletedStepIds,
@@ -15,7 +16,7 @@ import {
 } from '@/shared/lib/student-ui-state-storage'
 import { useHomeWindowScroll } from '@/shared/lib/use-persisted-scroll'
 
-import { STEPS_PER_SECTION } from '../lib/step-sections'
+import { sectionPageForOrder, STEPS_PER_SECTION } from '../lib/step-sections'
 import {
 	useCurrentProgramStep,
 	useProgramStepsPage,
@@ -59,7 +60,7 @@ export function StudentHomeWithProgress() {
 	useEffect(() => {
 		if (!currentStep || initialPageSet.current) return
 		initialPageSet.current = true
-		const stepPage = Math.ceil(currentStep.order / STEPS_PER_SECTION)
+		const stepPage = sectionPageForOrder(currentStep.order, STEPS_PER_SECTION)
 		setPage(stepPage)
 		setSavedHomePage(stepPage)
 	}, [currentStep])
@@ -79,6 +80,14 @@ export function StudentHomeWithProgress() {
 		[openStep],
 	)
 
+	const handleOpenBookmark = useCallback(
+		(stepId: number, scrollTop: number) => {
+			setPendingStepScroll(stepId, scrollTop)
+			openStep(stepId)
+		},
+		[openStep],
+	)
+
 	return (
 		<StudentHome
 			userName="Ученик"
@@ -91,6 +100,7 @@ export function StudentHomeWithProgress() {
 			isLoadingSteps={isLoading}
 			onPageChange={handlePageChange}
 			onOpenStep={(step) => handleOpenStep(step.id)}
+			onOpenBookmark={handleOpenBookmark}
 		/>
 	)
 }

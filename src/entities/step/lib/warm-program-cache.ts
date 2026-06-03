@@ -9,7 +9,7 @@ import {
 
 import { stepKeys } from '../model/step-keys'
 
-/** Должен совпадать с STEPS_PER_SECTION в widgets/student-home */
+/** Должен совпадать с STEPS_PER_SECTION в shared/lib/program-step-sections */
 const STEPS_PER_PAGE = 50
 
 /**

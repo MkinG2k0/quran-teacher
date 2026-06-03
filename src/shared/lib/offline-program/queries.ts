@@ -1,4 +1,8 @@
 import type { StepDetail } from '@/entities/step'
+import {
+	sectionPageBounds,
+	totalSectionPages,
+} from '@/shared/lib/program-step-sections'
 import type { StepMeta } from '@/shared/lib/student-progress-storage'
 
 import type { OfflineProgramBundle } from './types'
@@ -43,15 +47,15 @@ export function getStepsPageFromBundle(
 	limit: number
 	totalPages: number
 } {
-	const skip = (page - 1) * limit
-	const steps = bundle.steps.slice(skip, skip + limit).map((step) => ({
+	const { skip, take } = sectionPageBounds(page, limit, bundle.totalPublished)
+	const steps = bundle.steps.slice(skip, skip + take).map((step) => ({
 		id: step.id,
 		order: step.order,
 		title: step.title,
 		subtitle: step.subtitle,
 	}))
 
-	const totalPages = Math.max(1, Math.ceil(bundle.totalPublished / limit))
+	const totalPages = totalSectionPages(bundle.totalPublished, limit)
 
 	return {
 		steps,

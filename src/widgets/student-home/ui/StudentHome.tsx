@@ -3,6 +3,7 @@
 import Link from "next/link";
 
 import type { StepListItem } from "@/entities/step";
+import { BookmarksPanelButton } from "@/features/step-bookmarks";
 import { useFontSettings } from "@/features/font-settings";
 import { GeomPattern } from "@/shared/ui/geom-pattern";
 
@@ -19,6 +20,7 @@ interface StudentHomeProps {
   isLoadingSteps: boolean;
   onPageChange: (page: number) => void;
   onOpenStep: (step: StepListItem) => void;
+  onOpenBookmark: (stepId: number, scrollTop: number) => void;
 }
 
 export function StudentHome({
@@ -32,6 +34,7 @@ export function StudentHome({
   isLoadingSteps,
   onPageChange,
   onOpenStep,
+  onOpenBookmark,
 }: StudentHomeProps) {
   const { px } = useFontSettings();
   const progressPct =
@@ -56,10 +59,13 @@ export function StudentHome({
           position: "relative",
           zIndex: 2,
           display: "flex",
-          justifyContent: "flex-end",
+          justifyContent: "space-between",
+          alignItems: "center",
+          gap: 8,
           padding: "12px 20px 0",
         }}
       >
+        <BookmarksPanelButton onOpenBookmark={onOpenBookmark} />
         <Link
           href="/profile"
           prefetch
@@ -181,7 +187,11 @@ export function StudentHome({
               </p>
               <p
                 className="font-display"
-                style={{ fontSize: px(36), color: "var(--quran-accent)", lineHeight: 1 }}
+                style={{
+                  fontSize: px(36),
+                  color: "var(--quran-accent)",
+                  lineHeight: 1,
+                }}
               >
                 {completedCount}
                 <span
@@ -318,6 +328,7 @@ export function StudentHome({
             steps={steps}
             page={page}
             totalPages={totalPages}
+            totalPublished={totalPublished}
             isLoading={isLoadingSteps}
             onPageChange={onPageChange}
             onSelectStep={handleStepClick}

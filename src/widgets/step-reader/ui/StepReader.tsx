@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState, type RefObject } from "react";
 
 import type { StepDetail } from "@/entities/step";
+import { AddStepBookmarkButton } from "@/features/step-bookmarks";
 import { useFontSettings } from "@/features/font-settings";
 import { useCompleteStep } from "@/features/step-complete/model/use-complete-step";
 import { isStepCompleted } from "@/shared/lib/student-progress-storage";
@@ -123,18 +124,34 @@ export function StepReader({
           </button>
 
           <div style={{ flex: 1, minWidth: 0 }}>
-            <p
-              className="font-body"
+            <div
               style={{
-                fontSize: px(10),
-                color: "var(--quran-fg-secondary)",
-                letterSpacing: 2,
-                textTransform: "uppercase",
+                display: "flex",
+                alignItems: "center",
+                gap: 8,
                 marginBottom: 2,
               }}
             >
-              Шаг {step.order} из {total}
-            </p>
+              <p
+                className="font-body"
+                style={{
+                  fontSize: px(10),
+                  color: "var(--quran-fg-secondary)",
+                  letterSpacing: 2,
+                  textTransform: "uppercase",
+                  margin: 0,
+                  flex: 1,
+                  minWidth: 0,
+                }}
+              >
+                Шаг {step.order} из {total}
+              </p>
+              <AddStepBookmarkButton
+                stepId={step.id}
+                order={step.order}
+                title={step.title}
+              />
+            </div>
             <h1
               className="font-display"
               style={{
