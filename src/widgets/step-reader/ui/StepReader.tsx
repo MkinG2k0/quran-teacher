@@ -6,20 +6,44 @@ import { useEffect, useRef, useState } from "react";
 
 import type { StepDetail } from "@/entities/step";
 import { useCompleteStep } from "@/features/step-complete/model/use-complete-step";
+import { isStepCompleted } from "@/shared/lib/student-progress-storage";
 import { useStepContentScroll } from "@/shared/lib/use-persisted-scroll";
 import { GeomPattern } from "@/shared/ui/geom-pattern";
 
 interface StepReaderProps {
   step: StepDetail;
   nextStepId: number | null;
+  /** Без Next Router — для офлайн-оверлея на главной */
+  onClose?: () => void;
+  onOpenStep?: (stepId: number) => void;
 }
 
 function blockImageSrc(block: StepDetail["blocks"][number]) {
   return block.imageUrl ?? block.src ?? "";
 }
 
-export function StepReader({ step, nextStepId }: StepReaderProps) {
+export function StepReader({
+  step,
+  nextStepId,
+  onClose,
+  onOpenStep,
+}: StepReaderProps) {
   const router = useRouter();
+
+  const handleClose = () => {
+    if (onClose) onClose();
+    else router.push("/");
+  };
+
+  const handleGoNext = () => {
+    setShowDone(false);
+    if (nextStepId) {
+      if (onOpenStep) onOpenStep(nextStepId);
+      else router.push(`/step/${nextStepId}`);
+    } else {
+      handleClose();
+    }
+  };
   const contentRef = useRef<HTMLDivElement>(null);
   const [scrollPct, setScrollPct] = useState(0);
   const [completed, setCompleted] = useState(false);
@@ -30,6 +54,12 @@ export function StepReader({ step, nextStepId }: StepReaderProps) {
   const total = step.totalPublished ?? step.order;
 
   useStepContentScroll(contentRef, step.id);
+
+  useEffect(() => {
+    setShowDone(false);
+    setCompleted(isStepCompleted(step.id));
+    setCanComplete(false);
+  }, [step.id]);
 
   useEffect(() => {
     const el = contentRef.current;
@@ -115,7 +145,7 @@ export function StepReader({ step, nextStepId }: StepReaderProps) {
         >
           <button
             type="button"
-            onClick={() => router.push("/")}
+            onClick={handleClose}
             style={{
               width: 34,
               height: 34,
@@ -489,10 +519,7 @@ export function StepReader({ step, nextStepId }: StepReaderProps) {
               </button>
               <button
                 type="button"
-                onClick={() => {
-                  if (nextStepId) router.push(`/step/${nextStepId}`);
-                  else router.push("/");
-                }}
+                onClick={handleGoNext}
                 className="font-display"
                 style={{
                   flex: 2,

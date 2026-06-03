@@ -5,7 +5,8 @@
   "scripts": {
     "postinstall": "prisma generate",
     "dev": "next dev",
-    "build": "prisma migrate deploy && next build",
+    "offline:bundle": "tsx scripts/generate-offline-bundle.ts",
+    "build": "prisma migrate deploy && pnpm offline:bundle && next build --webpack",
     "start": "next start",
     "lint": "eslint",
     "db:generate": "prisma generate",

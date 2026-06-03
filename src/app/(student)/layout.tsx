@@ -1,7 +1,9 @@
+import { OfflineProgramProvider } from '@/features/offline-sync'
+
 export default function StudentLayout({
-  children,
+	children,
 }: {
-  children: React.ReactNode;
+	children: React.ReactNode
 }) {
-  return children;
+	return <OfflineProgramProvider>{children}</OfflineProgramProvider>
 }

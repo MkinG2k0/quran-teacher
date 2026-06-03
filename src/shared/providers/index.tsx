@@ -1,8 +1,8 @@
-"use client"
+"use client";
 
-import { AuthProvider } from "./auth-provider"
-import { QueryProvider } from "./query-provider"
-import { ThemeProvider } from "./theme-provider"
+import { AuthProvider } from "./auth-provider";
+import { QueryProvider } from "./query-provider";
+import { ThemeProvider } from "./theme-provider";
 
 export const Providers = ({ children }: { children: React.ReactNode }) => {
   return (
@@ -11,5 +11,5 @@ export const Providers = ({ children }: { children: React.ReactNode }) => {
         <QueryProvider>{children}</QueryProvider>
       </ThemeProvider>
     </AuthProvider>
-  )
-}
+  );
+};

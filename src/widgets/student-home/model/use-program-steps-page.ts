@@ -8,6 +8,14 @@ import { applyProgressToSteps } from '@/shared/lib/student-progress-storage'
 
 import { STEPS_PER_SECTION } from '../lib/step-sections'
 
+const PROGRAM_QUERY_OPTIONS = {
+	staleTime: Infinity,
+	gcTime: Infinity,
+	refetchOnMount: false,
+	refetchOnWindowFocus: false,
+	refetchOnReconnect: false,
+} as const
+
 export function useCurrentProgramStep(completedIds: number[]) {
 	const excludeKey = completedIds.join(',')
 
@@ -16,6 +24,7 @@ export function useCurrentProgramStep(completedIds: number[]) {
 		queryFn: () => fetchCurrentStep(completedIds),
 		select: (data): StepListItem | null =>
 			data.step ? { ...data.step, status: 'current' } : null,
+		...PROGRAM_QUERY_OPTIONS,
 	})
 }
 
@@ -27,6 +36,7 @@ export function useProgramStepsPage(
 	return useQuery({
 		queryKey: stepKeys.page(page, STEPS_PER_SECTION),
 		queryFn: () => fetchStepsPage(page, STEPS_PER_SECTION),
+		...PROGRAM_QUERY_OPTIONS,
 		select: (data) => ({
 			...data,
 			steps: applyProgressToSteps(data.steps, {

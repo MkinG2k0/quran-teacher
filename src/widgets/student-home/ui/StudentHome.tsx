@@ -1,7 +1,5 @@
 "use client";
 
-import { useRouter } from "next/navigation";
-
 import type { StepListItem } from "@/entities/step";
 import { GeomPattern } from "@/shared/ui/geom-pattern";
 
@@ -17,6 +15,7 @@ interface StudentHomeProps {
   totalPages: number;
   isLoadingSteps: boolean;
   onPageChange: (page: number) => void;
+  onOpenStep: (step: StepListItem) => void;
 }
 
 export function StudentHome({
@@ -29,15 +28,15 @@ export function StudentHome({
   totalPages,
   isLoadingSteps,
   onPageChange,
+  onOpenStep,
 }: StudentHomeProps) {
-  const router = useRouter();
   const progressPct =
     totalPublished > 0
       ? Math.round((completedCount / totalPublished) * 100)
       : 0;
 
   const handleStepClick = (step: StepListItem) => {
-    router.push(`/step/${step.id}`);
+    onOpenStep(step);
   };
   return (
     <div

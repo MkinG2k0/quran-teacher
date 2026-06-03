@@ -6,6 +6,8 @@
   "background_color": "#0D1117",
   "theme_color": "#0D1117",
   "orientation": "portrait",
+  "scope": "/",
+  "lang": "ru",
   "icons": [
     {
       "src": "/icons/icon-192.png",

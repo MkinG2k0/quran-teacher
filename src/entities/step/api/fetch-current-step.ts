@@ -1,3 +1,7 @@
+import {
+	fetchFromProgramBundle,
+	getCurrentStepFromBundle,
+} from '@/shared/lib/offline-program'
 import type { StepMeta } from '@/shared/lib/student-progress-storage'
 
 export interface CurrentStepResponse {
@@ -7,12 +11,7 @@ export interface CurrentStepResponse {
 export async function fetchCurrentStep(
 	excludeIds: number[],
 ): Promise<CurrentStepResponse> {
-	const params = new URLSearchParams()
-	if (excludeIds.length > 0) {
-		params.set('exclude', excludeIds.join(','))
-	}
-	const query = params.toString()
-	const res = await fetch(`/api/steps/current${query ? `?${query}` : ''}`)
-	if (!res.ok) throw new Error('Не удалось загрузить текущий шаг')
-	return res.json()
+	return fetchFromProgramBundle((bundle) => ({
+		step: getCurrentStepFromBundle(bundle, excludeIds),
+	}))
 }

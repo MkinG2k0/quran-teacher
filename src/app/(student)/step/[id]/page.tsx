@@ -1,35 +1,25 @@
-import { notFound } from 'next/navigation'
+'use client'
 
-import { prisma } from '@/shared/lib/prisma'
-import { StepReader } from '@/widgets/step-reader'
+import { use, useEffect } from 'react'
+import { useRouter } from 'next/navigation'
 
 interface PageProps {
 	params: Promise<{ id: string }>
 }
 
-export default async function StepPage({ params }: PageProps) {
-	const { id } = await params
-	const stepId = Number(id)
-	if (Number.isNaN(stepId)) notFound()
+/** Старые ссылки /step/[id] → главная с ?step= */
+export default function StepRedirectPage({ params }: PageProps) {
+	const router = useRouter()
+	const { id } = use(params)
 
-	const step = await prisma.step.findUnique({
-		where: { id: stepId, isPublished: true },
-		include: { blocks: { orderBy: { order: 'asc' } } },
-	})
-	if (!step) notFound()
+	useEffect(() => {
+		const stepId = Number(id)
+		if (Number.isInteger(stepId) && stepId > 0) {
+			router.replace(`/?step=${stepId}`)
+			return
+		}
+		router.replace('/')
+	}, [id, router])
 
-	const totalPublished = await prisma.step.count({ where: { isPublished: true } })
-
-	const next = await prisma.step.findFirst({
-		where: { isPublished: true, order: { gt: step.order } },
-		orderBy: { order: 'asc' },
-		select: { id: true },
-	})
-
-	return (
-		<StepReader
-			step={{ ...step, totalPublished }}
-			nextStepId={next?.id ?? null}
-		/>
-	)
+	return null
 }
