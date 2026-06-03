@@ -46,8 +46,6 @@ export function StudentHome({
     <div
       style={{
         minHeight: "100vh",
-        background: "#0D1117",
-        color: "#E8E0D0",
         position: "relative",
         overflow: "hidden",
       }}
@@ -72,8 +70,8 @@ export function StudentHome({
             textDecoration: "none",
             padding: "6px 10px",
             borderRadius: 8,
-            border: "1px solid #2A2418",
-            background: "#141414",
+            border: "1px solid var(--quran-panel-border)",
+            background: "var(--quran-elevated)",
           }}
         >
           Настройки
@@ -152,8 +150,8 @@ export function StudentHome({
       >
         <div
           style={{
-            background: "linear-gradient(135deg, #131A10, #1A1208)",
-            border: "1px solid #2A2418",
+            background: "var(--quran-card-bg)",
+            border: "1px solid var(--quran-card-border)",
             borderRadius: 16,
             padding: 20,
             marginBottom: 16,
@@ -172,7 +170,7 @@ export function StudentHome({
                 className="font-body"
                 style={{
                   fontSize: px(10),
-                  color: "#5A5548",
+                  color: "var(--quran-fg-subtle)",
                   letterSpacing: 2,
                   textTransform: "uppercase",
                   marginBottom: 4,
@@ -182,10 +180,16 @@ export function StudentHome({
               </p>
               <p
                 className="font-display"
-                style={{ fontSize: px(36), color: "#C9A84C", lineHeight: 1 }}
+                style={{ fontSize: px(36), color: "var(--quran-accent)", lineHeight: 1 }}
               >
                 {completedCount}
-                <span style={{ fontSize: px(16), color: "#5A5548", marginLeft: 4 }}>
+                <span
+                  style={{
+                    fontSize: px(16),
+                    color: "var(--quran-fg-subtle)",
+                    marginLeft: 4,
+                  }}
+                >
                   / {totalPublished}
                 </span>
               </p>
@@ -194,7 +198,7 @@ export function StudentHome({
               className="font-display"
               style={{
                 fontSize: px(42),
-                color: "#C9A84C",
+                color: "var(--quran-accent)",
                 fontWeight: 700,
                 lineHeight: 1,
               }}
@@ -204,7 +208,7 @@ export function StudentHome({
           </div>
           <div
             style={{
-              background: "#0D1117",
+              background: "var(--quran-bg)",
               borderRadius: 4,
               height: 6,
               overflow: "hidden",
@@ -243,7 +247,7 @@ export function StudentHome({
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "space-between",
-                background: "linear-gradient(135deg, #8B6914, #C9A84C)",
+                background: "var(--quran-gradient-accent)",
               }}
             >
               <div>
@@ -261,7 +265,11 @@ export function StudentHome({
                 </p>
                 <p
                   className="font-display"
-                  style={{ fontSize: px(17), color: "#0D1117", fontWeight: 700 }}
+                  style={{
+                    fontSize: px(17),
+                    color: "var(--quran-on-accent)",
+                    fontWeight: 700,
+                  }}
                 >
                   Шаг {currentStep.order} — {currentStep.title}
                 </p>
@@ -278,7 +286,13 @@ export function StudentHome({
                   </p>
                 )}
               </div>
-              <span style={{ fontSize: px(20), color: "#0D1117", opacity: 0.6 }}>
+              <span
+                style={{
+                  fontSize: px(20),
+                  color: "var(--quran-on-accent)",
+                  opacity: 0.6,
+                }}
+              >
                 →
               </span>
             </button>

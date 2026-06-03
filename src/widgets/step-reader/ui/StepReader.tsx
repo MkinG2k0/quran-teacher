@@ -73,8 +73,8 @@ export function StepReader({
     <div
       style={{
         minHeight: "100vh",
-        background: "#0D1117",
-        color: "#E8E0D0",
+        background: "var(--quran-bg)",
+        color: "var(--quran-fg)",
         position: "relative",
         maxWidth: 480,
         margin: "0 auto",
@@ -87,8 +87,8 @@ export function StepReader({
           position: "sticky",
           top: 0,
           padding: "20px 20px 14px",
-          borderBottom: "1px solid #181818",
-          background: "rgba(13,17,23,0.95)",
+          borderBottom: "1px solid var(--quran-border)",
+          background: "var(--quran-header-bg)",
           backdropFilter: "blur(8px)",
           zIndex: 20,
         }}
@@ -108,9 +108,9 @@ export function StepReader({
               width: 34,
               height: 34,
               borderRadius: "50%",
-              background: "#141414",
-              border: "1px solid #222",
-              color: "#6B6555",
+              background: "var(--quran-elevated)",
+              border: "1px solid var(--quran-border-strong)",
+              color: "var(--quran-fg-secondary)",
               cursor: "pointer",
               fontSize: px(14),
               display: "flex",
@@ -140,7 +140,7 @@ export function StepReader({
               style={{
                 fontSize: px(18),
                 fontWeight: 600,
-                color: "#E8E0D0",
+                color: "var(--quran-fg)",
                 lineHeight: 1.2,
                 whiteSpace: "nowrap",
                 overflow: "hidden",
@@ -158,7 +158,7 @@ export function StepReader({
           style={{
             height: 3,
             borderRadius: 2,
-            background: "#1A1A1A",
+            background: "var(--quran-progress-track)",
             overflow: "hidden",
           }}
         >
@@ -166,7 +166,7 @@ export function StepReader({
             style={{
               height: "100%",
               width: `${(step.order / total) * 100}%`,
-              background: "linear-gradient(90deg, #4A7A30, #C9A84C)",
+              background: "var(--quran-gradient-progress)",
             }}
           />
         </div>
@@ -206,7 +206,7 @@ export function StepReader({
                   style={{
                     fontSize: px(15),
                     lineHeight: 1.75,
-                    color: "#C0B8A8",
+                    color: "var(--quran-body-text)",
                     fontWeight: 300,
                   }}
                 >
@@ -220,10 +220,10 @@ export function StepReader({
                   style={{
                     fontSize: px(20),
                     fontWeight: 600,
-                    color: "#E8E0D0",
+                    color: "var(--quran-fg)",
                     marginTop: 4,
                     paddingLeft: 12,
-                    borderLeft: "2px solid #C9A84C",
+                    borderLeft: "2px solid var(--quran-accent)",
                   }}
                 >
                   {block.value}
@@ -235,8 +235,8 @@ export function StepReader({
                   style={{
                     borderRadius: 10,
                     overflow: "hidden",
-                    border: "1px solid #1E1E1E",
-                    background: "#F5F0E8",
+                    border: "1px solid var(--quran-border)",
+                    background: "var(--quran-image-frame-bg)",
                   }}
                 >
                   <Image
@@ -261,8 +261,8 @@ export function StepReader({
                         color: "var(--quran-fg-secondary)",
                         textAlign: "center",
                         padding: "8px 16px 12px",
-                        borderTop: "1px solid #1A1A1A",
-                        background: "#0F0F0F",
+                        borderTop: "1px solid var(--quran-border)",
+                        background: "var(--quran-image-caption-bg)",
                       }}
                     >
                       {block.caption}
@@ -274,8 +274,8 @@ export function StepReader({
               {block.type === "ARABIC" && (
                 <div
                   style={{
-                    background: "linear-gradient(135deg, #0F140A, #141A0E)",
-                    border: "1px solid #2A3420",
+                    background: "var(--quran-arabic-bg)",
+                    border: "1px solid var(--quran-arabic-border)",
                     borderRadius: 12,
                     padding: 20,
                     textAlign: "center",
@@ -285,7 +285,7 @@ export function StepReader({
                     className="font-display"
                     style={{
                       fontSize: px(32),
-                      color: "#C9A84C",
+                      color: "var(--quran-accent)",
                       letterSpacing: 12,
                       marginBottom: 10,
                       direction: "rtl",
@@ -300,7 +300,7 @@ export function StepReader({
                         style={{
                           width: 40,
                           height: 1,
-                          background: "#2A3420",
+                          background: "var(--quran-arabic-divider)",
                           margin: "0 auto 10px",
                         }}
                       />
@@ -308,7 +308,7 @@ export function StepReader({
                         className="font-body"
                         style={{
                           fontSize: px(13),
-                          color: "#6A7A58",
+                          color: "var(--quran-arabic-translation)",
                           letterSpacing: 4,
                         }}
                       >
@@ -322,8 +322,8 @@ export function StepReader({
               {block.type === "HIGHLIGHT" && (
                 <div
                   style={{
-                    background: "linear-gradient(135deg, #1A1208, #201808)",
-                    border: "1px solid #3A2E10",
+                    background: "var(--quran-highlight-bg)",
+                    border: "1px solid var(--quran-highlight-border)",
                     borderRadius: 10,
                     padding: "16px 16px 16px 14px",
                     display: "flex",
@@ -336,7 +336,7 @@ export function StepReader({
                       width: 3,
                       borderRadius: 2,
                       flexShrink: 0,
-                      background: "linear-gradient(180deg, #C9A84C, #8B6914)",
+                      background: "var(--quran-gradient-accent)",
                       alignSelf: "stretch",
                       minHeight: 40,
                     }}
@@ -346,7 +346,7 @@ export function StepReader({
                     style={{
                       fontSize: px(13),
                       lineHeight: 1.65,
-                      color: "#A89870",
+                      color: "var(--quran-highlight-text)",
                     }}
                   >
                     {block.value}
@@ -357,7 +357,13 @@ export function StepReader({
           ))}
         </div>
 
-        <div style={{ height: 1, background: "#181818", margin: "28px 0" }} />
+        <div
+          style={{
+            height: 1,
+            background: "var(--quran-border)",
+            margin: "28px 0",
+          }}
+        />
 
         <div style={{ paddingBottom: 32 }}>
           <button
@@ -369,8 +375,8 @@ export function StepReader({
               padding: 16,
               border: "none",
               borderRadius: 12,
-              color: "#0D1117",
-              background: "linear-gradient(135deg, #8B6914, #C9A84C)",
+              color: "var(--quran-on-accent)",
+              background: "var(--quran-gradient-accent)",
               cursor: isPending ? "default" : "pointer",
             }}
           >
@@ -390,7 +396,7 @@ export function StepReader({
             position: "fixed",
             inset: 0,
             zIndex: 40,
-            background: "rgba(13,17,23,0.92)",
+            background: "var(--quran-modal-overlay)",
             backdropFilter: "blur(12px)",
             display: "flex",
             alignItems: "center",
@@ -401,8 +407,8 @@ export function StepReader({
           <div
             className="quran-success-pop"
             style={{
-              background: "linear-gradient(135deg, #131A10, #1A2010)",
-              border: "1px solid rgba(201,168,76,0.3)",
+              background: "var(--quran-modal-bg)",
+              border: "1px solid var(--quran-row-current-border)",
               borderRadius: 20,
               padding: "36px 32px",
               textAlign: "center",
@@ -413,7 +419,11 @@ export function StepReader({
           >
             <div
               className="font-display"
-              style={{ fontSize: px(48), color: "#C9A84C", marginBottom: 4 }}
+              style={{
+                fontSize: px(48),
+                color: "var(--quran-accent)",
+                marginBottom: 4,
+              }}
             >
               ✓
             </div>
@@ -422,7 +432,7 @@ export function StepReader({
               style={{
                 fontSize: px(26),
                 fontWeight: 600,
-                color: "#E8E0D0",
+                color: "var(--quran-fg)",
                 marginBottom: 8,
               }}
             >
@@ -432,7 +442,7 @@ export function StepReader({
               className="font-body"
               style={{
                 fontSize: px(13),
-                color: "#6B6555",
+                color: "var(--quran-fg-secondary)",
                 marginBottom: 24,
                 lineHeight: 1.6,
               }}
@@ -449,10 +459,10 @@ export function StepReader({
                 style={{
                   flex: 1,
                   padding: 11,
-                  background: "#141414",
-                  border: "1px solid #222",
+                  background: "var(--quran-elevated)",
+                  border: "1px solid var(--quran-border-strong)",
                   borderRadius: 10,
-                  color: "#6B6555",
+                  color: "var(--quran-fg-secondary)",
                   cursor: "pointer",
                   fontSize: px(13),
                 }}
@@ -466,10 +476,10 @@ export function StepReader({
                 style={{
                   flex: 2,
                   padding: 11,
-                  background: "linear-gradient(135deg, #8B6914, #C9A84C)",
+                  background: "var(--quran-gradient-accent)",
                   border: "none",
                   borderRadius: 10,
-                  color: "#0D1117",
+                  color: "var(--quran-on-accent)",
                   cursor: "pointer",
                   fontWeight: 700,
                   fontSize: px(14),

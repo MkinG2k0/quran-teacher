@@ -29,7 +29,8 @@ export function StepNavOverlay() {
   return (
     <div
       ref={scrollRef}
-      className="fixed inset-0 z-50 overflow-y-auto overscroll-contain bg-[#0D1117]"
+      className="fixed inset-0 z-50 overflow-y-auto overscroll-contain"
+      style={{ background: "var(--quran-bg)" }}
     >
       <StepLessonView
         stepId={activeStepId}

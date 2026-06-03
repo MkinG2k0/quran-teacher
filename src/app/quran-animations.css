@@ -1,4 +1,9 @@
 :root {
+	--quran-font-scale: 1;
+}
+
+/* Токены темы — на оболочке ученика (.quran-student-shell) */
+.quran-student-shell {
 	--quran-bg: #0d1117;
 	--quran-fg: #e8e0d0;
 	--quran-fg-secondary: #6b6555;
@@ -6,7 +11,146 @@
 	--quran-fg-muted: #4a4540;
 	--quran-surface: #2a2520;
 	--quran-accent: #c9a84c;
-	--quran-font-scale: 1;
+	--quran-on-accent: #0d1117;
+	--quran-border: #181818;
+	--quran-border-strong: #222222;
+	--quran-elevated: #141414;
+	--quran-header-bg: rgba(13, 17, 23, 0.95);
+	--quran-body-text: #c0b8a8;
+	--quran-progress-track: #1a1a1a;
+	--quran-panel-border: #2a2418;
+	--quran-card-bg: linear-gradient(135deg, #131a10, #1a1208);
+	--quran-card-border: #2a2418;
+	--quran-picker-active-bg: linear-gradient(135deg, #1a1208, #201808);
+	--quran-row-bg: #101010;
+	--quran-row-current-bg: linear-gradient(135deg, #131a10, #1a1e10);
+	--quran-row-border: #181818;
+	--quran-row-current-border: rgba(201, 168, 76, 0.35);
+	--quran-pagination-bg: #0a0a0a;
+	--quran-arabic-bg: linear-gradient(135deg, #0f140a, #141a0e);
+	--quran-arabic-border: #2a3420;
+	--quran-arabic-divider: #2a3420;
+	--quran-arabic-translation: #6a7a58;
+	--quran-highlight-bg: linear-gradient(135deg, #1a1208, #201808);
+	--quran-highlight-border: #3a2e10;
+	--quran-highlight-text: #a89870;
+	--quran-image-frame-bg: #f5f0e8;
+	--quran-image-caption-bg: #0f0f0f;
+	--quran-modal-overlay: rgba(13, 17, 23, 0.92);
+	--quran-modal-bg: linear-gradient(135deg, #131a10, #1a2010);
+	--quran-gradient-accent: linear-gradient(135deg, #8b6914, #c9a84c);
+	--quran-gradient-progress: linear-gradient(90deg, #4a7a30, #c9a84c);
+	--quran-geom-opacity: 0.04;
+	--quran-fg-disabled: #3a3530;
+	--quran-pagination-active-bg: #131a10;
+}
+
+.quran-student-shell .quran-geom-pattern {
+	opacity: var(--quran-geom-opacity);
+}
+
+.quran-student-shell[data-quran-theme='light'] {
+	--quran-bg: #f7f3eb;
+	--quran-fg: #1c1814;
+	--quran-fg-secondary: #6a6258;
+	--quran-fg-subtle: #7a7268;
+	--quran-fg-muted: #9a9288;
+	--quran-surface: #ebe5da;
+	--quran-accent: #9a7a28;
+	--quran-on-accent: #1c1814;
+	--quran-border: #ddd6c8;
+	--quran-border-strong: #cfc6b4;
+	--quran-elevated: #ffffff;
+	--quran-header-bg: rgba(247, 243, 235, 0.95);
+	--quran-body-text: #4a443c;
+	--quran-progress-track: #e0d8c8;
+	--quran-panel-border: #d8d0c0;
+	--quran-card-bg: linear-gradient(135deg, #f0ebe0, #e8e2d4);
+	--quran-card-border: #d0c8b8;
+	--quran-picker-active-bg: linear-gradient(135deg, #f5efe0, #ebe4d4);
+	--quran-row-bg: #ffffff;
+	--quran-row-current-bg: linear-gradient(135deg, #f5f0e4, #efe8d8);
+	--quran-row-border: #e5ddd0;
+	--quran-row-current-border: rgba(154, 122, 40, 0.45);
+	--quran-pagination-bg: #f0ebe2;
+	--quran-arabic-bg: linear-gradient(135deg, #f0f4e8, #e8eee0);
+	--quran-arabic-border: #c8d4b8;
+	--quran-arabic-divider: #c0ccb0;
+	--quran-arabic-translation: #5a6848;
+	--quran-highlight-bg: linear-gradient(135deg, #faf4e4, #f5ecd8);
+	--quran-highlight-border: #d8c8a0;
+	--quran-highlight-text: #6a5a38;
+	--quran-image-frame-bg: #faf8f4;
+	--quran-image-caption-bg: #f0ebe2;
+	--quran-modal-overlay: rgba(247, 243, 235, 0.92);
+	--quran-modal-bg: linear-gradient(135deg, #faf6ee, #f0ebe0);
+	--quran-gradient-accent: linear-gradient(135deg, #a08020, #c9a84c);
+	--quran-gradient-progress: linear-gradient(90deg, #6a9a48, #c9a84c);
+	--quran-geom-opacity: 0.02;
+	--quran-fg-disabled: #b8b0a4;
+	--quran-pagination-active-bg: #f0ebe0;
+}
+
+.quran-student-shell[data-quran-theme='sepia'] {
+	--quran-bg: #1e1a14;
+	--quran-fg: #ebe3d0;
+	--quran-fg-secondary: #8a8070;
+	--quran-fg-subtle: #6a6258;
+	--quran-fg-muted: #5a5248;
+	--quran-surface: #322c22;
+	--quran-accent: #d4b060;
+	--quran-on-accent: #1e1a14;
+	--quran-border: #2e2820;
+	--quran-border-strong: #3a3428;
+	--quran-elevated: #262018;
+	--quran-header-bg: rgba(30, 26, 20, 0.95);
+	--quran-body-text: #c8bca8;
+	--quran-progress-track: #2a2418;
+	--quran-panel-border: #3a3228;
+	--quran-card-bg: linear-gradient(135deg, #2a2418, #322818);
+	--quran-card-border: #3a3228;
+	--quran-picker-active-bg: linear-gradient(135deg, #2a2218, #342a1e);
+	--quran-row-bg: #221e18;
+	--quran-row-current-bg: linear-gradient(135deg, #2a2618, #322a1a);
+	--quran-row-border: #2e2820;
+	--quran-row-current-border: rgba(212, 176, 96, 0.4);
+	--quran-pagination-bg: #1a1610;
+	--quran-arabic-bg: linear-gradient(135deg, #242018, #2a2818);
+	--quran-arabic-border: #3a3828;
+	--quran-arabic-divider: #3a3828;
+	--quran-arabic-translation: #7a8868;
+	--quran-highlight-bg: linear-gradient(135deg, #2a2218, #322818);
+	--quran-highlight-border: #4a3e28;
+	--quran-highlight-text: #b8a880;
+	--quran-image-frame-bg: #f0e8d8;
+	--quran-image-caption-bg: #1a1610;
+	--quran-modal-overlay: rgba(30, 26, 20, 0.92);
+	--quran-modal-bg: linear-gradient(135deg, #2a2618, #322a1a);
+	--quran-gradient-accent: linear-gradient(135deg, #a08030, #d4b060);
+	--quran-gradient-progress: linear-gradient(90deg, #5a7a38, #d4b060);
+	--quran-geom-opacity: 0.03;
+	--quran-fg-disabled: #4a4438;
+	--quran-pagination-active-bg: #2a2618;
+}
+
+.quran-theme-swatch {
+	width: 28px;
+	height: 28px;
+	border-radius: 50%;
+	flex-shrink: 0;
+	border: 1px solid var(--quran-panel-border);
+}
+
+.quran-theme-swatch[data-theme-preview='dark'] {
+	background: linear-gradient(135deg, #0d1117 50%, #c9a84c 50%);
+}
+
+.quran-theme-swatch[data-theme-preview='light'] {
+	background: linear-gradient(135deg, #f7f3eb 50%, #9a7a28 50%);
+}
+
+.quran-theme-swatch[data-theme-preview='sepia'] {
+	background: linear-gradient(135deg, #1e1a14 50%, #d4b060 50%);
 }
 
 .text-quran-secondary {

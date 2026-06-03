@@ -3,14 +3,16 @@
 import Link from 'next/link'
 
 import { FontSizePicker } from '@/features/font-settings'
+import { ThemePicker } from '@/features/theme-settings'
 
 export function ProfileView() {
 	return (
-		<div
-			className="font-body mx-auto flex min-h-screen max-w-md flex-col gap-6 p-6"
-			style={{ background: '#0D1117', color: '#E8E0D0' }}
-		>
-			<Link href="/" className="text-sm text-[#6B6555]">
+		<div className="font-body mx-auto flex min-h-screen max-w-md flex-col gap-6 p-6">
+			<Link
+				href="/"
+				className="text-sm"
+				style={{ color: 'var(--quran-fg-secondary)' }}
+			>
 				← На главную
 			</Link>
 			<div>
@@ -33,6 +35,22 @@ export function ProfileView() {
 					style={{ fontSize: 11, color: 'var(--quran-fg-muted)' }}
 				>
 					Применяется к урокам и списку шагов на этом устройстве
+				</p>
+			</section>
+
+			<section>
+				<p
+					className="font-body mb-3 text-xs uppercase tracking-widest"
+					style={{ color: 'var(--quran-fg-secondary)' }}
+				>
+					Тема оформления
+				</p>
+				<ThemePicker />
+				<p
+					className="font-body mt-2"
+					style={{ fontSize: 11, color: 'var(--quran-fg-muted)' }}
+				>
+					Тёмная, светлая или сепия — для комфортного чтения
 				</p>
 			</section>
 		</div>

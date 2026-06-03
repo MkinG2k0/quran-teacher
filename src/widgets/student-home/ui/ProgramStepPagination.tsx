@@ -40,8 +40,8 @@ export function ProgramStepPagination({
 				marginBottom: 12,
 				padding: '10px 12px',
 				borderRadius: 12,
-				border: '1px solid #1A1A1A',
-				background: '#0A0A0A',
+				border: '1px solid var(--quran-border)',
+				background: 'var(--quran-pagination-bg)',
 			}}
 		>
 			<button
@@ -50,9 +50,11 @@ export function ProgramStepPagination({
 				disabled={!canGoPrev}
 				aria-label="Предыдущий блок"
 				style={{
-					border: '1px solid #2A2418',
-					background: canGoPrev ? '#131A10' : 'transparent',
-					color: canGoPrev ? '#C9A84C' : '#3A3530',
+					border: '1px solid var(--quran-panel-border)',
+					background: canGoPrev
+						? 'var(--quran-pagination-active-bg)'
+						: 'transparent',
+					color: canGoPrev ? 'var(--quran-accent)' : 'var(--quran-fg-disabled)',
 					borderRadius: 8,
 					width: 36,
 					height: 36,
@@ -66,7 +68,11 @@ export function ProgramStepPagination({
 			<div style={{ textAlign: 'center', minWidth: 0 }}>
 				<p
 					className="font-body"
-					style={{ fontSize: px(12), fontWeight: 600, color: '#E8E0D0' }}
+					style={{
+						fontSize: px(12),
+						fontWeight: 600,
+						color: 'var(--quran-fg)',
+					}}
 				>
 					{rangeLabel}
 				</p>
@@ -88,9 +94,11 @@ export function ProgramStepPagination({
 				disabled={!canGoNext}
 				aria-label="Следующий блок"
 				style={{
-					border: '1px solid #2A2418',
-					background: canGoNext ? '#131A10' : 'transparent',
-					color: canGoNext ? '#C9A84C' : '#3A3530',
+					border: '1px solid var(--quran-panel-border)',
+					background: canGoNext
+						? 'var(--quran-pagination-active-bg)'
+						: 'transparent',
+					color: canGoNext ? 'var(--quran-accent)' : 'var(--quran-fg-disabled)',
 					borderRadius: 8,
 					width: 36,
 					height: 36,

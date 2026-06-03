@@ -73,8 +73,8 @@ function StepLoadState({
 				justifyContent: 'center',
 				padding: 24,
 				textAlign: 'center',
-				color: '#8A8070',
-				background: '#0D1117',
+				color: 'var(--quran-fg-secondary)',
+				background: 'var(--quran-bg)',
 				maxWidth: 480,
 				margin: '0 auto',
 			}}
@@ -86,9 +86,9 @@ function StepLoadState({
 				style={{
 					padding: '10px 20px',
 					borderRadius: 8,
-					border: '1px solid #2A2418',
-					background: '#141414',
-					color: '#E8E0D0',
+					border: '1px solid var(--quran-panel-border)',
+					background: 'var(--quran-elevated)',
+					color: 'var(--quran-fg)',
 					cursor: 'pointer',
 				}}
 			>

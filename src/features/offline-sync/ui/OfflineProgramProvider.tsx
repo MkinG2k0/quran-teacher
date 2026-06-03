@@ -43,8 +43,8 @@ export function OfflineProgramProvider({ children }: OfflineProgramProviderProps
 					alignItems: 'center',
 					justifyContent: 'center',
 					padding: 24,
-					color: '#8A8070',
-					background: '#0D1117',
+					color: 'var(--quran-fg-secondary)',
+					background: 'var(--quran-bg)',
 				}}
 			>
 				Загрузка программы…

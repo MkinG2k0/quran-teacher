@@ -19,8 +19,8 @@ export function FontSizePicker({ variant = 'default' }: FontSizePickerProps) {
 					display: 'flex',
 					gap: 2,
 					flexShrink: 0,
-					background: '#141414',
-					border: '1px solid #222',
+					background: 'var(--quran-elevated)',
+					border: '1px solid var(--quran-border-strong)',
 					borderRadius: 8,
 					padding: 2,
 				}}
@@ -41,10 +41,13 @@ export function FontSizePicker({ variant = 'default' }: FontSizePickerProps) {
 							cursor: 'pointer',
 							fontSize: scale === opt.id ? 13 : 11,
 							fontWeight: scale === opt.id ? 700 : 400,
-							color: scale === opt.id ? '#0D1117' : '#6B6555',
+							color:
+								scale === opt.id
+									? 'var(--quran-on-accent)'
+									: 'var(--quran-fg-secondary)',
 							background:
 								scale === opt.id
-									? 'linear-gradient(135deg, #8B6914, #C9A84C)'
+									? 'var(--quran-gradient-accent)'
 									: 'transparent',
 						}}
 					>
@@ -68,12 +71,18 @@ export function FontSizePicker({ variant = 'default' }: FontSizePickerProps) {
 						flex: 1,
 						padding: '12px 8px',
 						borderRadius: 10,
-						border: scale === opt.id ? '1px solid #C9A84C' : '1px solid #2A2418',
+						border:
+							scale === opt.id
+								? '1px solid var(--quran-accent)'
+								: '1px solid var(--quran-panel-border)',
 						background:
 							scale === opt.id
-								? 'linear-gradient(135deg, #1A1208, #201808)'
-								: '#141414',
-						color: scale === opt.id ? '#C9A84C' : '#6B6555',
+								? 'var(--quran-picker-active-bg)'
+								: 'var(--quran-elevated)',
+						color:
+							scale === opt.id
+								? 'var(--quran-accent)'
+								: 'var(--quran-fg-secondary)',
 						cursor: 'pointer',
 						fontSize: 13,
 						fontWeight: scale === opt.id ? 600 : 400,
