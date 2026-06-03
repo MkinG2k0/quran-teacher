@@ -1,3 +1,4 @@
+import { FontSettingsProvider } from '@/features/font-settings'
 import { OfflineProgramProvider } from '@/features/offline-sync'
 import { StepNavOverlay, StepNavProvider } from '@/features/step-navigation'
 
@@ -7,11 +8,13 @@ export default function StudentLayout({
 	children: React.ReactNode
 }) {
 	return (
-		<OfflineProgramProvider>
-			<StepNavProvider>
-				{children}
-				<StepNavOverlay />
-			</StepNavProvider>
-		</OfflineProgramProvider>
+		<FontSettingsProvider>
+			<OfflineProgramProvider>
+				<StepNavProvider>
+					{children}
+					<StepNavOverlay />
+				</StepNavProvider>
+			</OfflineProgramProvider>
+		</FontSettingsProvider>
 	)
 }

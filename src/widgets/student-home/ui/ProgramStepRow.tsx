@@ -1,4 +1,7 @@
+'use client'
+
 import type { StepListItem } from '@/entities/step'
+import { useFontSettings } from '@/features/font-settings'
 
 interface ProgramStepRowProps {
 	step: StepListItem
@@ -6,6 +9,7 @@ interface ProgramStepRowProps {
 }
 
 export function ProgramStepRow({ step, onSelect }: ProgramStepRowProps) {
+	const { px } = useFontSettings()
 	const isCurrent = step.status === 'current'
 	const isCompleted = step.status === 'completed'
 
@@ -57,7 +61,7 @@ export function ProgramStepRow({ step, onSelect }: ProgramStepRowProps) {
 						: isCurrent
 							? '1px solid #C9A84C'
 							: '1px solid #282828',
-					fontSize: 11,
+					fontSize: px(11),
 					color: isCompleted
 						? '#6ABB40'
 						: isCurrent
@@ -72,7 +76,7 @@ export function ProgramStepRow({ step, onSelect }: ProgramStepRowProps) {
 				<p
 					className="font-body"
 					style={{
-						fontSize: 13,
+						fontSize: px(13),
 						fontWeight: 600,
 						color: isCompleted
 							? '#7A7060'
@@ -90,7 +94,7 @@ export function ProgramStepRow({ step, onSelect }: ProgramStepRowProps) {
 					<p
 						className="font-body"
 						style={{
-							fontSize: 11,
+							fontSize: px(11),
 							color: isCompleted
 								? 'var(--quran-fg-subtle)'
 								: isCurrent
@@ -107,7 +111,7 @@ export function ProgramStepRow({ step, onSelect }: ProgramStepRowProps) {
 			<span
 				className="font-body"
 				style={{
-					fontSize: 10,
+					fontSize: px(10),
 					color: 'var(--quran-fg-muted)',
 					flexShrink: 0,
 				}}

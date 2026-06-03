@@ -1,6 +1,9 @@
 "use client";
 
+import Link from "next/link";
+
 import type { StepListItem } from "@/entities/step";
+import { useFontSettings } from "@/features/font-settings";
 import { GeomPattern } from "@/shared/ui/geom-pattern";
 
 import { ProgramStepList } from "./ProgramStepList";
@@ -30,6 +33,7 @@ export function StudentHome({
   onPageChange,
   onOpenStep,
 }: StudentHomeProps) {
+  const { px } = useFontSettings();
   const progressPct =
     totalPublished > 0
       ? Math.round((completedCount / totalPublished) * 100)
@@ -49,6 +53,32 @@ export function StudentHome({
       }}
     >
       <GeomPattern />
+      <div
+        style={{
+          position: "relative",
+          zIndex: 2,
+          display: "flex",
+          justifyContent: "flex-end",
+          padding: "12px 20px 0",
+        }}
+      >
+        <Link
+          href="/profile"
+          className="font-body"
+          aria-label="Профиль и настройки"
+          style={{
+            fontSize: px(12),
+            color: "var(--quran-fg-secondary)",
+            textDecoration: "none",
+            padding: "6px 10px",
+            borderRadius: 8,
+            border: "1px solid #2A2418",
+            background: "#141414",
+          }}
+        >
+          Настройки
+        </Link>
+      </div>
       <div
         style={{
           position: "absolute",
@@ -141,7 +171,7 @@ export function StudentHome({
               <p
                 className="font-body"
                 style={{
-                  fontSize: 10,
+                  fontSize: px(10),
                   color: "#5A5548",
                   letterSpacing: 2,
                   textTransform: "uppercase",
@@ -152,10 +182,10 @@ export function StudentHome({
               </p>
               <p
                 className="font-display"
-                style={{ fontSize: 36, color: "#C9A84C", lineHeight: 1 }}
+                style={{ fontSize: px(36), color: "#C9A84C", lineHeight: 1 }}
               >
                 {completedCount}
-                <span style={{ fontSize: 16, color: "#5A5548", marginLeft: 4 }}>
+                <span style={{ fontSize: px(16), color: "#5A5548", marginLeft: 4 }}>
                   / {totalPublished}
                 </span>
               </p>
@@ -163,7 +193,7 @@ export function StudentHome({
             <p
               className="font-display"
               style={{
-                fontSize: 42,
+                fontSize: px(42),
                 color: "#C9A84C",
                 fontWeight: 700,
                 lineHeight: 1,
@@ -188,7 +218,7 @@ export function StudentHome({
           <p
             className="font-body"
             style={{
-              fontSize: 11,
+              fontSize: px(11),
               color: "var(--quran-fg-subtle)",
               marginTop: 8,
             }}
@@ -220,7 +250,7 @@ export function StudentHome({
                 <p
                   className="font-body"
                   style={{
-                    fontSize: 10,
+                    fontSize: px(10),
                     letterSpacing: 2,
                     textTransform: "uppercase",
                     color: "rgba(0,0,0,0.5)",
@@ -231,7 +261,7 @@ export function StudentHome({
                 </p>
                 <p
                   className="font-display"
-                  style={{ fontSize: 17, color: "#0D1117", fontWeight: 700 }}
+                  style={{ fontSize: px(17), color: "#0D1117", fontWeight: 700 }}
                 >
                   Шаг {currentStep.order} — {currentStep.title}
                 </p>
@@ -239,7 +269,7 @@ export function StudentHome({
                   <p
                     className="font-body"
                     style={{
-                      fontSize: 12,
+                      fontSize: px(12),
                       color: "rgba(0,0,0,0.45)",
                       marginTop: 2,
                     }}
@@ -248,7 +278,7 @@ export function StudentHome({
                   </p>
                 )}
               </div>
-              <span style={{ fontSize: 20, color: "#0D1117", opacity: 0.6 }}>
+              <span style={{ fontSize: px(20), color: "#0D1117", opacity: 0.6 }}>
                 →
               </span>
             </button>
@@ -259,7 +289,7 @@ export function StudentHome({
           <p
             className="font-body"
             style={{
-              fontSize: 10,
+              fontSize: px(10),
               color: "var(--quran-fg-secondary)",
               letterSpacing: 2,
               textTransform: "uppercase",

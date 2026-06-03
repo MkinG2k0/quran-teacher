@@ -1,6 +1,7 @@
 'use client'
 
 import type { StepListItem } from '@/entities/step'
+import { useFontSettings } from '@/features/font-settings'
 
 import { ProgramStepPagination } from './ProgramStepPagination'
 import { ProgramStepRow } from './ProgramStepRow'
@@ -22,6 +23,8 @@ export function ProgramStepList({
 	onPageChange,
 	onSelectStep,
 }: ProgramStepListProps) {
+	const { px } = useFontSettings()
+
 	if (!isLoading && steps.length === 0 && totalPages <= 1) {
 		return (
 			<p
@@ -30,7 +33,7 @@ export function ProgramStepList({
 					textAlign: 'center',
 					padding: 16,
 					color: 'var(--quran-fg-muted)',
-					fontSize: 12,
+					fontSize: px(12),
 				}}
 			>
 				Шаги программы пока не опубликованы
@@ -58,7 +61,7 @@ export function ProgramStepList({
 						textAlign: 'center',
 						padding: 24,
 						color: 'var(--quran-fg-muted)',
-						fontSize: 12,
+						fontSize: px(12),
 					}}
 				>
 					Загрузка шагов...
@@ -69,7 +72,7 @@ export function ProgramStepList({
 						<p
 							className="font-body"
 							style={{
-								fontSize: 10,
+								fontSize: px(10),
 								color: 'var(--quran-fg-muted)',
 								marginBottom: 4,
 							}}

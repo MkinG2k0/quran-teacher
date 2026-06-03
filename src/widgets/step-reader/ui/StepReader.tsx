@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { useEffect, useState, type RefObject } from "react";
 
 import type { StepDetail } from "@/entities/step";
+import { FontSizePicker, useFontSettings } from "@/features/font-settings";
 import { useCompleteStep } from "@/features/step-complete/model/use-complete-step";
 import { isStepCompleted } from "@/shared/lib/student-progress-storage";
 import { useStepWindowScroll } from "@/shared/lib/use-persisted-scroll";
@@ -30,6 +31,7 @@ export function StepReader({
   onOpenStep,
 }: StepReaderProps) {
   const router = useRouter();
+  const { px } = useFontSettings();
 
   const handleClose = () => {
     if (onClose) onClose();
@@ -110,7 +112,7 @@ export function StepReader({
               border: "1px solid #222",
               color: "#6B6555",
               cursor: "pointer",
-              fontSize: 14,
+              fontSize: px(14),
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
@@ -124,7 +126,7 @@ export function StepReader({
             <p
               className="font-body"
               style={{
-                fontSize: 10,
+                fontSize: px(10),
                 color: "var(--quran-fg-secondary)",
                 letterSpacing: 2,
                 textTransform: "uppercase",
@@ -136,7 +138,7 @@ export function StepReader({
             <h1
               className="font-display"
               style={{
-                fontSize: 18,
+                fontSize: px(18),
                 fontWeight: 600,
                 color: "#E8E0D0",
                 lineHeight: 1.2,
@@ -148,6 +150,8 @@ export function StepReader({
               {step.title}
             </h1>
           </div>
+
+          <FontSizePicker variant="compact" />
         </div>
 
         <div
@@ -200,7 +204,7 @@ export function StepReader({
                 <p
                   className="font-body"
                   style={{
-                    fontSize: 15,
+                    fontSize: px(15),
                     lineHeight: 1.75,
                     color: "#C0B8A8",
                     fontWeight: 300,
@@ -214,7 +218,7 @@ export function StepReader({
                 <h2
                   className="font-display"
                   style={{
-                    fontSize: 20,
+                    fontSize: px(20),
                     fontWeight: 600,
                     color: "#E8E0D0",
                     marginTop: 4,
@@ -253,7 +257,7 @@ export function StepReader({
                     <p
                       className="font-body"
                       style={{
-                        fontSize: 11,
+                        fontSize: px(11),
                         color: "var(--quran-fg-secondary)",
                         textAlign: "center",
                         padding: "8px 16px 12px",
@@ -280,7 +284,7 @@ export function StepReader({
                   <p
                     className="font-display"
                     style={{
-                      fontSize: 32,
+                      fontSize: px(32),
                       color: "#C9A84C",
                       letterSpacing: 12,
                       marginBottom: 10,
@@ -303,7 +307,7 @@ export function StepReader({
                       <p
                         className="font-body"
                         style={{
-                          fontSize: 13,
+                          fontSize: px(13),
                           color: "#6A7A58",
                           letterSpacing: 4,
                         }}
@@ -340,7 +344,7 @@ export function StepReader({
                   <p
                     className="font-body"
                     style={{
-                      fontSize: 13,
+                      fontSize: px(13),
                       lineHeight: 1.65,
                       color: "#A89870",
                     }}
@@ -372,7 +376,7 @@ export function StepReader({
           >
             <span
               className="font-display"
-              style={{ fontSize: 16, fontWeight: 700 }}
+              style={{ fontSize: px(16), fontWeight: 700 }}
             >
               {completed ? "✓ Шаг завершён" : "Завершить шаг"}
             </span>
@@ -409,14 +413,14 @@ export function StepReader({
           >
             <div
               className="font-display"
-              style={{ fontSize: 48, color: "#C9A84C", marginBottom: 4 }}
+              style={{ fontSize: px(48), color: "#C9A84C", marginBottom: 4 }}
             >
               ✓
             </div>
             <h2
               className="font-display"
               style={{
-                fontSize: 26,
+                fontSize: px(26),
                 fontWeight: 600,
                 color: "#E8E0D0",
                 marginBottom: 8,
@@ -427,7 +431,7 @@ export function StepReader({
             <p
               className="font-body"
               style={{
-                fontSize: 13,
+                fontSize: px(13),
                 color: "#6B6555",
                 marginBottom: 24,
                 lineHeight: 1.6,
@@ -450,7 +454,7 @@ export function StepReader({
                   borderRadius: 10,
                   color: "#6B6555",
                   cursor: "pointer",
-                  fontSize: 13,
+                  fontSize: px(13),
                 }}
               >
                 ← Назад
@@ -468,7 +472,7 @@ export function StepReader({
                   color: "#0D1117",
                   cursor: "pointer",
                   fontWeight: 700,
-                  fontSize: 14,
+                  fontSize: px(14),
                 }}
               >
                 {nextStepId ? "Следующий шаг →" : "На главную →"}
