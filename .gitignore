@@ -49,7 +49,7 @@ next-env.d.ts
 /public/fallback-*.js
 
 # Офлайн-бандл (pnpm offline:bundle перед build)
-/public/offline/program.json
+# /public/offline/program.json
 
 # локальный дамп БД (ПДн) — не коммитить
 /db-export/
