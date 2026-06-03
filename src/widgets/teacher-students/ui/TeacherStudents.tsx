@@ -3,6 +3,7 @@
 import Link from 'next/link'
 import { useMemo, useState } from 'react'
 
+import { fontPx } from '@/features/font-settings/lib/constants'
 import { formatRelativeActivity } from '@/shared/lib/format-relative'
 import { GeomPattern } from '@/shared/ui/geom-pattern'
 import { StudentAvatar } from '@/shared/ui/student-avatar'
@@ -127,7 +128,7 @@ export function TeacherStudents({ students, totalPublished }: TeacherStudentsPro
 						<p
 							className="font-body"
 							style={{
-								fontSize: 10,
+								fontSize: fontPx(10),
 								color: 'var(--quran-fg-secondary)',
 								letterSpacing: 2,
 								textTransform: 'uppercase',
@@ -138,7 +139,7 @@ export function TeacherStudents({ students, totalPublished }: TeacherStudentsPro
 						</p>
 						<h1
 							className="font-display"
-							style={{ fontSize: 24, fontWeight: 600, color: '#E8E0D0' }}
+							style={{ fontSize: fontPx(24), fontWeight: 600, color: '#E8E0D0' }}
 						>
 							Мои ученики
 						</h1>
@@ -152,7 +153,7 @@ export function TeacherStudents({ students, totalPublished }: TeacherStudentsPro
 							borderRadius: 10,
 							padding: '10px 16px',
 							color: '#0D1117',
-							fontSize: 12,
+							fontSize: fontPx(12),
 							fontWeight: 600,
 							textDecoration: 'none',
 							whiteSpace: 'nowrap',
@@ -182,7 +183,7 @@ export function TeacherStudents({ students, totalPublished }: TeacherStudentsPro
 							<p
 								className="font-display"
 								style={{
-									fontSize: 22,
+									fontSize: fontPx(22),
 									fontWeight: 600,
 									color: stat.accent ? '#78C040' : '#C9A84C',
 									lineHeight: 1,
@@ -193,7 +194,7 @@ export function TeacherStudents({ students, totalPublished }: TeacherStudentsPro
 							<p
 								className="font-body"
 								style={{
-									fontSize: 9,
+									fontSize: fontPx(9),
 									color: 'var(--quran-fg-subtle)',
 									marginTop: 3,
 									letterSpacing: 1,
@@ -213,7 +214,7 @@ export function TeacherStudents({ students, totalPublished }: TeacherStudentsPro
 							top: '50%',
 							transform: 'translateY(-50%)',
 							color: 'var(--quran-fg-subtle)',
-							fontSize: 13,
+							fontSize: fontPx(13),
 							pointerEvents: 'none',
 						}}
 					>
@@ -230,7 +231,7 @@ export function TeacherStudents({ students, totalPublished }: TeacherStudentsPro
 							color: '#E8E0D0',
 							borderRadius: 10,
 							padding: '10px 14px 10px 36px',
-							fontSize: 13,
+							fontSize: fontPx(13),
 							width: '100%',
 							outline: 'none',
 						}}
@@ -255,7 +256,7 @@ export function TeacherStudents({ students, totalPublished }: TeacherStudentsPro
 								style={{
 									padding: '5px 12px',
 									borderRadius: 20,
-									fontSize: 11,
+									fontSize: fontPx(11),
 									border: filter === f ? 'none' : '1px solid #222',
 									background:
 										filter === f
@@ -281,7 +282,7 @@ export function TeacherStudents({ students, totalPublished }: TeacherStudentsPro
 							color: '#6B6555',
 							borderRadius: 8,
 							padding: '6px 10px',
-							fontSize: 11,
+							fontSize: fontPx(11),
 							cursor: 'pointer',
 							outline: 'none',
 						}}
@@ -341,7 +342,7 @@ export function TeacherStudents({ students, totalPublished }: TeacherStudentsPro
 												<p
 													className="font-body"
 													style={{
-														fontSize: 13,
+														fontSize: fontPx(13),
 														fontWeight: 600,
 														color: '#D8D0C0',
 														whiteSpace: 'nowrap',
@@ -375,7 +376,7 @@ export function TeacherStudents({ students, totalPublished }: TeacherStudentsPro
 											>
 												<span
 													className="font-body"
-													style={{ fontSize: 11, color: '#C9A84C' }}
+													style={{ fontSize: fontPx(11), color: '#C9A84C' }}
 												>
 													Шаг {s.currentStepOrder}
 													<span style={{ color: 'var(--quran-fg-subtle)' }}>
@@ -386,7 +387,7 @@ export function TeacherStudents({ students, totalPublished }: TeacherStudentsPro
 												<span
 													className="font-body"
 													style={{
-														fontSize: 11,
+														fontSize: fontPx(11),
 														color: 'var(--quran-fg-subtle)',
 														marginLeft: 'auto',
 													}}
@@ -400,7 +401,7 @@ export function TeacherStudents({ students, totalPublished }: TeacherStudentsPro
 											<p
 												className="font-display"
 												style={{
-													fontSize: 20,
+													fontSize: fontPx(20),
 													fontWeight: 600,
 													color:
 														pct > 30
@@ -416,7 +417,7 @@ export function TeacherStudents({ students, totalPublished }: TeacherStudentsPro
 											<p
 												className="font-body"
 												style={{
-													fontSize: 9,
+													fontSize: fontPx(9),
 													color: 'var(--quran-fg-muted)',
 													marginTop: 2,
 												}}
@@ -436,7 +437,7 @@ export function TeacherStudents({ students, totalPublished }: TeacherStudentsPro
 						className="font-body"
 						style={{
 							textAlign: 'center',
-							fontSize: 10,
+							fontSize: fontPx(10),
 							color: '#1E1E1E',
 							marginTop: 20,
 							letterSpacing: 1,

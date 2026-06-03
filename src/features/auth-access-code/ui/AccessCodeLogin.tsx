@@ -1,5 +1,6 @@
 "use client";
 
+import { fontPx } from '@/features/font-settings/lib/constants'
 import { GeomPattern } from "@/shared/ui/geom-pattern";
 
 import { useAdminLogin } from "../model/use-admin-login";
@@ -47,7 +48,7 @@ export function AccessCodeLogin() {
           <div
             className="font-display"
             style={{
-              fontSize: "64px",
+              fontSize: fontPx(64),
               color: "#78C040",
               marginBottom: "8px",
               lineHeight: 1,
@@ -58,7 +59,7 @@ export function AccessCodeLogin() {
           <h2
             className="font-display"
             style={{
-              fontSize: "30px",
+              fontSize: fontPx(30),
               fontWeight: 600,
               color: "#E8E0D0",
               marginBottom: "8px",
@@ -69,7 +70,7 @@ export function AccessCodeLogin() {
           <p
             className="font-body"
             style={{
-              fontSize: "13px",
+              fontSize: fontPx(13),
               color: "var(--quran-fg-secondary)",
               lineHeight: 1.7,
             }}
@@ -85,7 +86,7 @@ export function AccessCodeLogin() {
           <div
             className="font-display quran-fade-up"
             style={{
-              fontSize: "36px",
+              fontSize: fontPx(36),
               color: "#C9A84C",
               opacity: 0.5,
               letterSpacing: "8px",
@@ -98,7 +99,7 @@ export function AccessCodeLogin() {
           <h1
             className="font-display quran-fade-up"
             style={{
-              fontSize: "32px",
+              fontSize: fontPx(32),
               fontWeight: 600,
               color: "#E8E0D0",
               marginBottom: "8px",
@@ -109,7 +110,7 @@ export function AccessCodeLogin() {
           <p
             className="font-body quran-fade-up"
             style={{
-              fontSize: "13px",
+              fontSize: fontPx(13),
               color: "var(--quran-fg-secondary)",
               lineHeight: 1.6,
               marginBottom: "36px",
@@ -129,7 +130,7 @@ export function AccessCodeLogin() {
               style={{
                 width: "100%",
                 padding: "14px 16px",
-                fontSize: 15,
+                fontSize: fontPx(15),
                 color: "#E8E0D0",
                 borderRadius: 12,
                 outline: "none",
@@ -154,7 +155,7 @@ export function AccessCodeLogin() {
             {status === "error" && (
               <p
                 className="font-body"
-                style={{ fontSize: 12, color: "#8B2020", letterSpacing: 1 }}
+                style={{ fontSize: fontPx(12), color: "#8B2020", letterSpacing: 1 }}
               >
                 Неверный пароль. Попробуйте снова.
               </p>
@@ -171,7 +172,7 @@ export function AccessCodeLogin() {
               border: "none",
               borderRadius: 12,
               cursor: password.trim() ? "pointer" : "not-allowed",
-              fontSize: 14,
+              fontSize: fontPx(14),
               fontWeight: 600,
               color: "#0D1117",
               background:

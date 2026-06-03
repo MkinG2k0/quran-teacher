@@ -1,3 +1,5 @@
+import { FONT_BASE_OFFSET } from '@/features/font-settings/lib/constants'
+
 interface StudentAvatarProps {
 	name: string
 	size?: number
@@ -23,7 +25,7 @@ export function StudentAvatar({ name, size = 38 }: StudentAvatarProps) {
 				display: 'flex',
 				alignItems: 'center',
 				justifyContent: 'center',
-				fontSize: size * 0.35,
+				fontSize: size * 0.35 + FONT_BASE_OFFSET,
 				color: `hsl(${hue}, 50%, 65%)`,
 				fontFamily: 'var(--font-display), Georgia, serif',
 				fontWeight: 600,

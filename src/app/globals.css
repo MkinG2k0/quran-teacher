@@ -10,6 +10,16 @@
   --font-sans: var(--font-body), system-ui, sans-serif;
   --font-mono: var(--font-geist-mono);
 
+  --text-xs: 14px;
+  --text-sm: 16px;
+  --text-base: 18px;
+  --text-lg: 20px;
+  --text-xl: 22px;
+  --text-2xl: 26px;
+  --text-3xl: 32px;
+  --text-4xl: 38px;
+  --text-5xl: 50px;
+
   --color-brand-50: #fff8f0;
   --color-brand-100: #ffecd6;
   --color-brand-200: #ffd5a8;

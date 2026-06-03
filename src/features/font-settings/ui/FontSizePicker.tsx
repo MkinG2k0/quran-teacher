@@ -8,7 +8,7 @@ interface FontSizePickerProps {
 }
 
 export function FontSizePicker({ variant = 'default' }: FontSizePickerProps) {
-	const { scale, setScale } = useFontSettings()
+	const { scale, setScale, px } = useFontSettings()
 
 	if (variant === 'compact') {
 		return (
@@ -39,7 +39,7 @@ export function FontSizePicker({ variant = 'default' }: FontSizePickerProps) {
 							border: 'none',
 							borderRadius: 6,
 							cursor: 'pointer',
-							fontSize: scale === opt.id ? 13 : 11,
+							fontSize: scale === opt.id ? px(13) : px(11),
 							fontWeight: scale === opt.id ? 700 : 400,
 							color:
 								scale === opt.id
@@ -84,7 +84,7 @@ export function FontSizePicker({ variant = 'default' }: FontSizePickerProps) {
 								? 'var(--quran-accent)'
 								: 'var(--quran-fg-secondary)',
 						cursor: 'pointer',
-						fontSize: 13,
+						fontSize: px(13),
 						fontWeight: scale === opt.id ? 600 : 400,
 					}}
 				>

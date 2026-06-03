@@ -10,10 +10,7 @@ import {
 	type ReactNode,
 } from 'react'
 
-import {
-	FONT_SCALE_MULTIPLIER,
-	type FontScale,
-} from '../lib/constants'
+import { FONT_SCALE_MULTIPLIER, fontPx, type FontScale } from '../lib/constants'
 import {
 	getSavedFontScale,
 	setSavedFontScale,
@@ -57,7 +54,7 @@ export function FontSettingsProvider({ children }: { children: ReactNode }) {
 		() => ({
 			scale,
 			setScale,
-			px: (base) => Math.round(base * FONT_SCALE_MULTIPLIER[scale]),
+			px: (base) => fontPx(base, scale),
 		}),
 		[scale, setScale],
 	)

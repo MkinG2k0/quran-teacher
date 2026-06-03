@@ -1,5 +1,7 @@
 'use client'
 
+import { fontPx } from '@/features/font-settings/lib/constants'
+
 import { QURAN_THEME_OPTIONS } from '../lib/constants'
 import { useThemeSettings } from '../model/theme-settings-context'
 
@@ -36,7 +38,7 @@ export function ThemePicker() {
 								: 'var(--quran-elevated)',
 							color: selected ? 'var(--quran-accent)' : 'var(--quran-fg-secondary)',
 							cursor: 'pointer',
-							fontSize: 13,
+							fontSize: fontPx(13),
 							fontWeight: selected ? 600 : 400,
 							textAlign: 'left',
 						}}

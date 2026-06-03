@@ -10,7 +10,7 @@ import {
 	type ReactNode,
 } from 'react'
 
-import type { QuranTheme } from '../lib/constants'
+import { DEFAULT_QURAN_THEME, type QuranTheme } from '../lib/constants'
 import {
 	getSavedQuranTheme,
 	setSavedQuranTheme,
@@ -24,7 +24,7 @@ interface ThemeSettingsContextValue {
 const ThemeSettingsContext = createContext<ThemeSettingsContextValue | null>(null)
 
 export function ThemeSettingsProvider({ children }: { children: ReactNode }) {
-	const [theme, setThemeState] = useState<QuranTheme>('dark')
+	const [theme, setThemeState] = useState<QuranTheme>(DEFAULT_QURAN_THEME)
 
 	useEffect(() => {
 		setThemeState(getSavedQuranTheme())

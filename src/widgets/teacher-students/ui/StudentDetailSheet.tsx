@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useState } from 'react'
 
+import { fontPx } from '@/features/font-settings/lib/constants'
 import { formatRelativeActivity } from '@/shared/lib/format-relative'
 import { StudentAvatar } from '@/shared/ui/student-avatar'
 
@@ -105,7 +106,7 @@ export function StudentDetailSheet({
 							id="student-detail-title"
 							className="font-display"
 							style={{
-								fontSize: 20,
+								fontSize: fontPx(20),
 								fontWeight: 600,
 								color: '#E8E0D0',
 								marginBottom: 6,
@@ -123,7 +124,7 @@ export function StudentDetailSheet({
 									boxShadow: `0 0 8px ${statusColor[student.status]}66`,
 								}}
 							/>
-							<span className="font-body" style={{ fontSize: 12, color: '#6B6555' }}>
+							<span className="font-body" style={{ fontSize: fontPx(12), color: '#6B6555' }}>
 								{statusLabel[student.status]}
 								{student.age != null && (
 									<span style={{ color: 'var(--quran-fg-subtle)' }}> · {student.age} лет</span>
@@ -144,7 +145,7 @@ export function StudentDetailSheet({
 							height: 32,
 							color: '#6B6555',
 							cursor: 'pointer',
-							fontSize: 16,
+							fontSize: fontPx(16),
 							lineHeight: 1,
 						}}
 					>
@@ -165,7 +166,7 @@ export function StudentDetailSheet({
 					<p
 						className="font-body"
 						style={{
-							fontSize: 10,
+							fontSize: fontPx(10),
 							color: 'var(--quran-fg-secondary)',
 							letterSpacing: 2,
 							textTransform: 'uppercase',
@@ -177,7 +178,7 @@ export function StudentDetailSheet({
 					<p
 						className="font-display"
 						style={{
-							fontSize: 36,
+							fontSize: fontPx(36),
 							fontWeight: 600,
 							letterSpacing: '0.25em',
 							color: '#C9A84C',
@@ -186,7 +187,7 @@ export function StudentDetailSheet({
 					>
 						{student.accessCode}
 					</p>
-					<p className="font-body" style={{ fontSize: 11, color: 'var(--quran-fg-subtle)', marginTop: 10 }}>
+					<p className="font-body" style={{ fontSize: fontPx(11), color: 'var(--quran-fg-subtle)', marginTop: 10 }}>
 						Передайте код ученику для входа в приложение
 					</p>
 					<button
@@ -200,7 +201,7 @@ export function StudentDetailSheet({
 							borderRadius: 10,
 							border: 'none',
 							cursor: 'pointer',
-							fontSize: 12,
+							fontSize: fontPx(12),
 							fontWeight: 600,
 							background: copied
 								? 'linear-gradient(135deg, #4A7A30, #78C040)'
@@ -253,7 +254,7 @@ export function StudentDetailSheet({
 							<p
 								className="font-body"
 								style={{
-									fontSize: 9,
+									fontSize: fontPx(9),
 									color: 'var(--quran-fg-subtle)',
 									letterSpacing: 1,
 									textTransform: 'uppercase',
@@ -265,7 +266,7 @@ export function StudentDetailSheet({
 							<p
 								className="font-display"
 								style={{
-									fontSize: 18,
+									fontSize: fontPx(18),
 									fontWeight: 600,
 									color: '#C9A84C',
 									lineHeight: 1.1,
@@ -273,7 +274,7 @@ export function StudentDetailSheet({
 							>
 								{item.value}
 							</p>
-							<p className="font-body" style={{ fontSize: 10, color: 'var(--quran-fg-secondary)', marginTop: 3 }}>
+							<p className="font-body" style={{ fontSize: fontPx(10), color: 'var(--quran-fg-secondary)', marginTop: 3 }}>
 								{item.sub}
 							</p>
 						</div>

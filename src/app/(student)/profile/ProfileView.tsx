@@ -2,10 +2,11 @@
 
 import Link from 'next/link'
 
-import { FontSizePicker } from '@/features/font-settings'
+import { FontSizePicker, useFontSettings } from '@/features/font-settings'
 import { ThemePicker } from '@/features/theme-settings'
 
 export function ProfileView() {
+	const { px } = useFontSettings()
 	return (
 		<div className="font-body mx-auto flex min-h-screen max-w-md flex-col gap-6 p-6">
 			<Link
@@ -32,7 +33,7 @@ export function ProfileView() {
 				<FontSizePicker />
 				<p
 					className="font-body mt-2"
-					style={{ fontSize: 11, color: 'var(--quran-fg-muted)' }}
+					style={{ fontSize: px(11), color: 'var(--quran-fg-muted)' }}
 				>
 					Применяется к урокам и списку шагов на этом устройстве
 				</p>
@@ -48,7 +49,7 @@ export function ProfileView() {
 				<ThemePicker />
 				<p
 					className="font-body mt-2"
-					style={{ fontSize: 11, color: 'var(--quran-fg-muted)' }}
+					style={{ fontSize: px(11), color: 'var(--quran-fg-muted)' }}
 				>
 					Тёмная, светлая или сепия — для комфортного чтения
 				</p>
